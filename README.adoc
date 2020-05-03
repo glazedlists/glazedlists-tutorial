@@ -1,0 +1,11 @@
+= Glazed Lists Tutorial
+
+This tutorial shows you step by step how to create a simple application for browsing issues of a bug database.
+You'll learn the basics of sorting, filtering and transforming lists of data with the help of 
+https://github.com/glazedlists/glazedlists[Glazed Lists].
+
+To follow along, you can fork and clone this repository to have a closer look at the accompanying source code for the examples.
+For each chapter of the tutorial you'll find a corresponding Java package `com.publicobject.glazedlists.tutorial.chapter<n>`
+(with 0 < n < 8) containing the developed app in this step.
+
+Enjoy!

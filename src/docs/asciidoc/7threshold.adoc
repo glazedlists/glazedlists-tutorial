@@ -1,0 +1,82 @@
+:imagesdir: images
+:sourcedir: ../../main/java
+
+== Filter with ThresholdList
+
+The issues are assigned one of five priorities: P1 through P5. You can use a `JSlider` to filter the `EventList` using `ThresholdList`.
+
+=== ThresholdList
+
+`ThresholdList` requires you to provide an integer for each element in your EventList.
+Then, it filters all elements whose integers fall outside the provided range.
+The endpoints of the range can be controlled with a `JSlider`, `JSpinner` or even a `JComboBox`.
+
+To provide the mapping from your list elements to integers, you must implement the simple `ThresholdList.Evaluator` interface.
+
+=== Implementing ThresholdList.Evaluator
+
+To get an integer from an Issue, extract the priority.
+
+TIP: The issue priorities are P1 (most important) to P5 (least important), but this is the opposite of what works best for `JSlider`. It uses low values on the left and high values on the right, but we want P1 to be furthest to the right. Therefore we flip the priority value by subtracting it from six.
+
+[source,java]
+.IssuePriorityThresholdEvaluator
+----
+include::{sourcedir}/com/publicobject/glazedlists/tutorial/chapter7/IssuePriorityThresholdEvaluator.java[indent=0]
+----
+
+Create a `ThresholdList` with the new `IssuePriorityThresholdEvaluator`, and embed it in the pipeline of list transformations:
+
+[source,java]
+.IssuesBrowser setup with priority filter
+----
+/**
+ * Display a frame for browsing issues. This should only be run on the Swing
+ * event dispatch thread.
+ */
+public void display() {
+    ...
+    UsersSelect usersSelect = new UsersSelect(issuesEventList);
+    FilterList<Issue> userFilteredIssues = new FilterList<Issue>(issuesEventList, usersSelect);
+    MatcherEditor<Issue> textMatcherEditor = new TextComponentMatcherEditor<Issue>(
+filterEdit, new IssueTextFilterator());
+    FilterList<Issue> textFilteredIssues = new FilterList<Issue>(userFilteredIssues, textMatcherEditor);
+    ThresholdList<Issue> priorityFilteredIssues = new ThresholdList<Issue>(
+textFilteredIssues, new IssuePriorityThresholdEvaluator());
+    SortedList<Issue> sortedIssues = new SortedList<Issue>(
+priorityFilteredIssues, new IssueComparator());
+    ...
+}
+----
+
+WARNING: A side effect of `ThresholdList` is that it sorts your elements by their integer evaluation.
+This makes `ThresholdList` particularly performant when adjusting the range values, but it may override your preferred ordering.
+You can overcome this issue by applying the `SortedList` transformation after the `ThresholdList` transformation.
+
+=== A BoundedRangeModel
+
+You can create a model for your `JSlider` to adjust either the upper or lower bound of your `ThresholdList`.
+Two factory methods are provided by the `GlazedListsSwing` factory class:
+
+* `GlazedListsSwing.lowerRangeModel()` adjusts the lower bound of your `ThresholdList`.
+
+* `GlazedListsSwing.upperRangeModel()` adjusts the upper bound of your `ThresholdList`.
+
+The Issue Browser priority range is between 1 and 5. The slider can adjust the minimum priority displayed in the table. This is the ThresholdList's lower bound.
+
+[source,java]
+.IssuesBrowser with priority filter
+----
+include::{sourcedir}/com/publicobject/glazedlists/tutorial/chapter7/IssuesBrowser7.java[indent=0, tags=ThresholdSlider]
+----
+
+=== Other Models
+
+In addition to the `JSlider`, the `ThresholdList` can be paired with a `JComboBox`, `JTextField` and `JSpinner`.
+
+=== So What?
+
+image::image07.png[]
+
+You've made it possible to filter the table simply by dragging a slider.
+

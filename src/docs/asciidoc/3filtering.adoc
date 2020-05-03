@@ -1,0 +1,64 @@
+:imagesdir: images
+:sourcedir: ../../main/java
+
+== Text Filtering
+
+With all issues on screen it's already time to remove some of them!
+Your users can filter the table simply by entering words into a `JTextField`, just like in _Apple iTunes_.
+Text filtering is a fast and easy way to find a needle in a haystack!
+
+=== TextFilterator
+
+You need to tell Glazed Lists which Strings to filter against for each element in your `EventList`.
+
+Implement the `TextFilterator` interface by adding all the relevant Strings from an `Issue` to the List provided.
+
+[source,java]
+.IssueTextFilterator
+----
+include::{sourcedir}/com/publicobject/glazedlists/tutorial/chapter3/IssueTextFilterator.java[indent=0]
+----
+
+NOTE: The `getFilterStrings()` method is awkward because the List of Strings is a parameter rather than the return type.
+This approach allows Glazed Lists to skip creating an `ArrayList` each time the method is invoked.
+We're generally averse to this kind of micro-optimization.
+In this case this performance improvement is worthwhile because the method is used heavily while filtering.
+
+=== FilterList, Matcher, and MatcherEditor
+
+To do filtering you'll need:
+
+. A `FilterList`, a `TransformedList` that filters elements from a source `EventList`. As the source changes, `FilterList` observes the change and updates itself automatically.
+
+. An implementation of the `Matcher` interface, which instructs `FilterList` whether to include or exclude a given element from the source EventList.
+
+This is all you'll need to do _static_ filtering - the filtering criteria doesn't ever change.
+
+When you need to do _dynamic_ filtering you'll need a `MatcherEditor`.
+This interface allows you to fire events each time the filtering criteria changes.
+The `FilterList` responds to that change and notifies its listeners in turn.
+
+TIP: The main difference between Matchers and MatcherEditors is that Matchers should be immutable whereas MatcherEditors can be dynamic.
+The motivation for the distinction lies in thread safety.
+If Matchers were mutable, filtering threads and Matcher editing threads could interfere with one another.
+
+=== Adding the FilterList and a TextComponentMatcherEditor
+
+The `FilterList` works with any `Matcher` or `MatcherEditor`.
+
+In this case, we'll use a `TextComponentMatcherEditor`.
+It accepts any `JTextComponent` for editing the filter text - in most cases you'll use a `JTextField`.
+
+Creating the `FilterList` and getting your `DefaultEventTableModel` to use it takes only a few lines of new code:
+
+[source,java]
+.Display sortable and *filterable* table
+----
+include::{sourcedir}/com/publicobject/glazedlists/tutorial/chapter3/IssuesBrowser3.java[indent=0,tags=Display]
+----
+
+=== So What?
+
+image::image03.png[]
+
+You've added filtering that's independent of sorting, display and changes in your data.
