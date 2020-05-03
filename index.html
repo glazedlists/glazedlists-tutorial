@@ -1,0 +1,2199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<title>Glazed Lists Tutorial</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment @import statement to use as custom stylesheet */
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section{display:block}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+abbr[title]{border-bottom:1px dotted}
+b,strong{font-weight:bold}
+dfn{font-style:italic}
+hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,*::before,*::after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0;direction:ltr}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{font-family:inherit;font-weight:400;font-size:1em;line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em;height:0}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{font-size:1em;line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0;font-size:1em}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+abbr,acronym{text-transform:uppercase;font-size:90%;color:rgba(0,0,0,.8);border-bottom:1px dotted #ddd;cursor:help}
+abbr{text-transform:none}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote cite{display:block;font-size:.9375em;color:rgba(0,0,0,.6)}
+blockquote cite::before{content:"\2014 \0020"}
+blockquote cite a,blockquote cite a:visited{color:rgba(0,0,0,.6)}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
+:not(pre)>code.nobreak{word-wrap:normal}
+:not(pre)>code.nowrap{white-space:nowrap}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:-ms-flexbox;display:-webkit-flex;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:100%;background:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:rgba(255,255,255,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details>summary:first-of-type{cursor:pointer;display:list-item;outline:none;margin-bottom:.75em}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+table.tableblock #preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:inherit}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6)}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border-style:solid;border-width:1px;border-color:#e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;-webkit-border-radius:4px;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border-style:solid;border-width:1px;border-color:#dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;-webkit-border-radius:4px;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{-webkit-border-radius:4px;border-radius:4px;word-wrap:break-word;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class="highlight"],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;-webkit-border-radius:4px;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos{border-right:1px solid currentColor;opacity:.35;padding-right:.5em}
+pre.pygments .lineno{border-right:1px solid currentColor;opacity:.35;display:inline-block;margin-right:.75em}
+pre.pygments .lineno::before{content:"";margin-right:-.125em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;text-align:left;margin-right:0}
+table.tableblock{max-width:100%;border-collapse:separate}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+td.tableblock>.content>:last-child.sidebarblock{margin-bottom:0}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>thead>tr>.tableblock,table.grid-all>tbody>tr>.tableblock{border-width:0 1px 1px 0}
+table.grid-all>tfoot>tr>.tableblock{border-width:1px 1px 0 0}
+table.grid-cols>*>tr>.tableblock{border-width:0 1px 0 0}
+table.grid-rows>thead>tr>.tableblock,table.grid-rows>tbody>tr>.tableblock{border-width:0 0 1px}
+table.grid-rows>tfoot>tr>.tableblock{border-width:1px 0 0}
+table.grid-all>*>tr>.tableblock:last-child,table.grid-cols>*>tr>.tableblock:last-child{border-right-width:0}
+table.grid-all>tbody>tr:last-child>.tableblock,table.grid-all>thead:last-child>tr>.tableblock,table.grid-rows>tbody>tr:last-child>.tableblock,table.grid-rows>thead:last-child>tr>.tableblock{border-bottom-width:0}
+table.frame-all{border-width:1px}
+table.frame-sides{border-width:0 1px}
+table.frame-topbot,table.frame-ends{border-width:1px 0}
+table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd),table.stripes-even tr:nth-of-type(even),table.stripes-hover tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{display:table-cell;line-height:1.6;background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+ul.checklist{margin-left:.625em}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
+ul.inline{display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:solid 4px #fff;-webkit-box-shadow:0 0 0 1px #ddd;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+.gist .file-data>table{border:0;background:#fff;width:100%;margin-bottom:0}
+.gist .file-data>table td.line-data{width:99%}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);-webkit-border-radius:100px;border-radius:100px;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;-webkit-box-shadow:0 1px 4px #e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media print,amzn-kf8{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Glazed Lists Tutorial</h1>
+<div class="details">
+<span id="revnumber">version 1.9.0</span>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#hello-world">1. Hello World</a>
+<ul class="sectlevel2">
+<li><a href="#eventlist-like-arraylist">1.1. EventList, like ArrayList</a></li>
+<li><a href="#jlist-jcombobox-and-jtable-components-with-models">1.2. JList, JComboBox and JTable: Components with models</a></li>
+<li><a href="#a-simple-issue-browser">1.3. A simple issue browser</a></li>
+<li><a href="#so-what">1.4. So What?</a></li>
+</ul>
+</li>
+<li><a href="#sorting-tables-sorting-tables">2. Sorting, Tables &amp; Sorting Tables</a>
+<ul class="sectlevel2">
+<li><a href="#sortedlist-a-list-transformation">2.1. SortedList, a list transformation</a></li>
+<li><a href="#comparators-comparable-and-sortedlist">2.2. Comparators, Comparable and SortedList</a></li>
+<li><a href="#using-tableformat-to-specify-columns">2.3. Using TableFormat to specify columns</a></li>
+<li><a href="#the-defaulteventtablemodel-and-tablecomparatorchooser">2.4. The DefaultEventTableModel and TableComparatorChooser</a></li>
+<li><a href="#so-what-2">2.5. So What?</a></li>
+</ul>
+</li>
+<li><a href="#text-filtering">3. Text Filtering</a>
+<ul class="sectlevel2">
+<li><a href="#textfilterator">3.1. TextFilterator</a></li>
+<li><a href="#filterlist-matcher-and-matchereditor">3.2. FilterList, Matcher, and MatcherEditor</a></li>
+<li><a href="#adding-the-filterlist-and-a-textcomponentmatchereditor">3.3. Adding the FilterList and a TextComponentMatcherEditor</a></li>
+<li><a href="#so-what-3">3.4. So What?</a></li>
+</ul>
+</li>
+<li><a href="#transformedlist-and-uniquelist">4. TransformedList and UniqueList</a>
+<ul class="sectlevel2">
+<li><a href="#transformedlist-and-listeventassembler">4.1. TransformedList and ListEventAssembler</a></li>
+<li><a href="#transformedlist-and-listevents">4.2. TransformedList and ListEvents</a></li>
+<li><a href="#eliminating-duplicates-with-uniquelist">4.3. Eliminating duplicates with UniqueList</a></li>
+<li><a href="#so-what-4">4.4. So What?</a></li>
+</ul>
+</li>
+<li><a href="#defaulteventselectionmodel-and-custom-filter-lists">5. DefaultEventSelectionModel and Custom Filter Lists</a>
+<ul class="sectlevel2">
+<li><a href="#defaulteventselectionmodel">5.1. DefaultEventSelectionModel</a></li>
+<li><a href="#custom-filtering-using-matchers">5.2. Custom filtering using Matchers</a></li>
+<li><a href="#dynamic-filtering-using-matchereditors">5.3. Dynamic filtering using MatcherEditors</a></li>
+<li><a href="#so-what-5">5.4. So What?</a></li>
+</ul>
+</li>
+<li><a href="#concurrency">6. Concurrency</a>
+<ul class="sectlevel2">
+<li><a href="#readwrite-locks">6.1. Read/Write Locks</a></li>
+<li><a href="#glazedlists-threadsafelist">6.2. GlazedLists.threadSafeList</a></li>
+<li><a href="#the-swing-event-dispatch-thread">6.3. The Swing Event Dispatch Thread</a></li>
+<li><a href="#multithreading-our-issuesbrowser">6.4. Multithreading our IssuesBrowser</a></li>
+<li><a href="#so-what-6">6.5. So What?</a></li>
+</ul>
+</li>
+<li><a href="#filter-with-thresholdlist">7. Filter with ThresholdList</a>
+<ul class="sectlevel2">
+<li><a href="#thresholdlist">7.1. ThresholdList</a></li>
+<li><a href="#implementing-thresholdlist-evaluator">7.2. Implementing ThresholdList.Evaluator</a></li>
+<li><a href="#a-boundedrangemodel">7.3. A BoundedRangeModel</a></li>
+<li><a href="#other-models">7.4. Other Models</a></li>
+<li><a href="#so-what-7">7.5. So What?</a></li>
+</ul>
+</li>
+<li><a href="#conclusion">8. Conclusion</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Copyright &#169; 2003-2020<br>
+Jesse Wilson - Holger Brands</p>
+</div>
+<div class="paragraph">
+<p>Welcome to the <strong><em>Glazed Lists</em></strong> tutorial.</p>
+</div>
+<div class="paragraph">
+<p>This guide shows you step by step how to create a simple application for browsing issues of a bug database.
+It&#8217;ll show you the basics of sorting, filtering and transforming lists of data with the help of <a href="https://github.com/glazedlists/glazedlists"><strong><em>Glazed Lists</em></strong></a>.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s get started!</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="hello-world">1. Hello World</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You&#8217;re going to create a simple app for browsing an Issuezilla bug database.</p>
+</div>
+<div class="paragraph">
+<p>The annoying work like loading the issues data into Java has been taken care of by the included <code>issuezilla.jar</code> file.
+It&#8217;ll parse an XML file (or stream!) into simple Issue objects.
+If you&#8217;d prefer, substitute Issuezilla with another data source.</p>
+</div>
+<div class="paragraph">
+<p>Regardless of what the data looks like, we&#8217;re going to sort, filter and transform it using Glazed Lists.</p>
+</div>
+<div class="paragraph">
+<p>First off, you&#8217;ll write "Hello World" with Glazed Lists by displaying issues data within a <code>JList</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="eventlist-like-arraylist">1.1. EventList, like ArrayList</h3>
+<div class="paragraph">
+<p>The <code>EventList</code> interface extends the familiar <code>java.util.List</code> interface.
+This means it has the same methods found in ArrayList like add(), set() and remove().</p>
+</div>
+<div class="paragraph">
+<p>But there are some extra features in EventList:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Event listeners</strong>: An EventList fires events when it&#8217;s modified to keep your GUI models (Swing, SWT, JavaFX) up-to-date. The <code>EventList</code> interface contains methods to add and remove event listeners.</p>
+</li>
+<li>
+<p><strong>Concurrency</strong>: <code>EventList</code> has locks so you can share it between threads. You can worry about this later on.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In this tutorial we&#8217;ll conventrate on building a Swing-based application.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="jlist-jcombobox-and-jtable-components-with-models">1.2. JList, JComboBox and JTable: Components with models</h3>
+<div class="paragraph">
+<p>The Swing UI toolkit uses the Model-View-Controller pattern throughout.
+This means you get to separate code for the data from code for the display.</p>
+</div>
+<div class="paragraph">
+<p><code>DefaultEventListModel</code> is Glazed Lists' implementation of <code>ListModel</code>, which provides the data for a <code>JList</code>.
+The DefaultEventListModel gets all of its data from an EventList, which you supply as a constructor argument.</p>
+</div>
+<div class="paragraph">
+<p>As you add and/or remove elements to/from your EventList, the DefaultEventListModel updates automatically, and in turn your <code>JList</code> updates automatically!</p>
+</div>
+<div class="paragraph">
+<p>Similarly, <code>DefaultEventTableModel</code> will update your <code>JTable</code> and <code>DefaultEventComboBoxModel</code> takes care of <code>JComboBox</code>.</p>
+</div>
+<div class="paragraph">
+<p>The following diagram gives on overview of the available Swing models.
+The class <code>GlazedListsSwing</code> provides convenient factory methods for creating these models.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/image00.png" alt="image00">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="a-simple-issue-browser">1.3. A simple issue browser</h3>
+<div class="paragraph">
+<p>Now it&#8217;s time to write some code.
+You&#8217;ll create a <code>BasicEventList</code> and populate it with issues.</p>
+</div>
+<div class="paragraph">
+<p>Next, create a <code>DefaultEventListModel</code> and a corresponding <code>JList</code>.</p>
+</div>
+<div class="paragraph">
+<p>Finally you can place it all in a <code>JFrame</code> and show that on screen.</p>
+</div>
+<div class="listingblock">
+<div class="title">IssueBrowser</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.publicobject.glazedlists.tutorial.chapter1</span>;
+
+<span class="keyword">import</span> <span class="include">java.awt.GridBagConstraints</span>;
+<span class="keyword">import</span> <span class="include">java.awt.GridBagLayout</span>;
+<span class="keyword">import</span> <span class="include">java.awt.Insets</span>;
+<span class="keyword">import</span> <span class="include">java.io.FileInputStream</span>;
+<span class="keyword">import</span> <span class="include">java.io.IOException</span>;
+<span class="keyword">import</span> <span class="include">java.io.InputStream</span>;
+<span class="keyword">import</span> <span class="include">java.util.Collection</span>;
+
+<span class="keyword">import</span> <span class="include">javax.swing.JFrame</span>;
+<span class="keyword">import</span> <span class="include">javax.swing.JList</span>;
+<span class="keyword">import</span> <span class="include">javax.swing.JPanel</span>;
+<span class="keyword">import</span> <span class="include">javax.swing.JScrollPane</span>;
+<span class="keyword">import</span> <span class="include">javax.swing.SwingUtilities</span>;
+<span class="keyword">import</span> <span class="include">javax.swing.WindowConstants</span>;
+
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.BasicEventList</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.EventList</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.swing.DefaultEventListModel</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.swing.GlazedListsSwing</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.issuezilla.Issue</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.issuezilla.IssuezillaXMLParser</span>;
+
+<span class="comment">/**
+ * An IssueBrowser is a program for finding and viewing issues.
+ *
+ * @author &lt;a href=&quot;mailto:jesse@swank.ca&quot;&gt;Jesse Wilson&lt;/a&gt;
+ */</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">IssuesBrowser1</span> {
+
+    <span class="comment">/** event list that hosts the issues */</span>
+    <span class="directive">private</span> EventList&lt;Issue&gt; issuesEventList = <span class="keyword">new</span> BasicEventList&lt;Issue&gt;();
+
+    <span class="comment">/**
+     * Create an IssueBrowser for the specified issues.
+     */</span>
+    <span class="directive">public</span> IssuesBrowser1(<span class="predefined-type">Collection</span>&lt;Issue&gt; issues) {
+        issuesEventList.addAll(issues);
+    }
+
+    <span class="comment">/**
+     * Display a frame for browsing issues.
+     */</span>
+    <span class="directive">public</span> <span class="type">void</span> display() {
+        <span class="comment">// create a panel with a table</span>
+        <span class="predefined-type">JPanel</span> panel = <span class="keyword">new</span> <span class="predefined-type">JPanel</span>();
+        panel.setLayout(<span class="keyword">new</span> <span class="predefined-type">GridBagLayout</span>());
+        DefaultEventListModel&lt;Issue&gt; issuesListModel = GlazedListsSwing.eventListModelWithThreadProxyList(issuesEventList);
+        <span class="predefined-type">JList</span> issuesJList = <span class="keyword">new</span> <span class="predefined-type">JList</span>(issuesListModel);
+        <span class="predefined-type">JScrollPane</span> issuesListScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJList);
+        panel.add(issuesListScrollPane, <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">1.0</span>, <span class="float">1.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+
+        <span class="comment">// create a frame with that panel</span>
+        <span class="predefined-type">JFrame</span> frame = <span class="keyword">new</span> <span class="predefined-type">JFrame</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Issues</span><span class="delimiter">&quot;</span></span>);
+        frame.setDefaultCloseOperation(<span class="predefined-type">WindowConstants</span>.EXIT_ON_CLOSE);
+        frame.setSize(<span class="integer">540</span>, <span class="integer">380</span>);
+        frame.getContentPane().add(panel);
+        frame.setVisible(<span class="predefined-constant">true</span>);
+    }
+
+    <span class="comment">/**
+     * Launch the IssuesBrowser from the commandline.
+     */</span>
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
+        <span class="keyword">if</span>(args.length != <span class="integer">1</span>) {
+            <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Usage: IssuesBrowser &lt;file&gt;</span><span class="delimiter">&quot;</span></span>);
+            <span class="keyword">return</span>;
+        }
+
+        <span class="comment">// load some issues</span>
+        <span class="directive">final</span> <span class="predefined-type">Collection</span>&lt;Issue&gt; issues;
+        <span class="keyword">try</span> {
+            IssuezillaXMLParser parser = <span class="keyword">new</span> IssuezillaXMLParser();
+            <span class="predefined-type">InputStream</span> issuesInStream = <span class="keyword">new</span> <span class="predefined-type">FileInputStream</span>(args[<span class="integer">0</span>]);
+            issues = parser.loadIssues(issuesInStream, <span class="predefined-constant">null</span>);
+            issuesInStream.close();
+        } <span class="keyword">catch</span>(<span class="exception">IOException</span> e) {
+            e.printStackTrace();
+            <span class="keyword">return</span>;
+        }
+
+        <span class="comment">// Schedule a job for the event-dispatching thread:</span>
+        <span class="comment">// creating and showing this application's GUI.</span>
+        <span class="predefined-type">SwingUtilities</span>.invokeLater(<span class="keyword">new</span> <span class="predefined-type">Runnable</span>() {
+            <span class="directive">public</span> <span class="type">void</span> run() {
+                <span class="comment">// create the browser</span>
+                IssuesBrowser1 browser = <span class="keyword">new</span> IssuesBrowser1(issues);
+                browser.display();
+            }
+        });
+    }
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Glazed Lists provides different variants of factory methods for creating the Swing model classes.
+The examples in this tutorial use those factories which internally wrap the source list with a SwingThreadProxyList and use that one as source list for the models.
+Those factory methods have WithThreadProxyList in their name.
+This way, list events are delivered on the Swing event dispatch thread.
+The <a href="#concurrency">Concurrency chapter</a> provides some more information.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="so-what">1.4. So What?</h3>
+<div class="imageblock">
+<div class="content">
+<img src="images/image01.png" alt="image01">
+</div>
+</div>
+<div class="paragraph">
+<p>So far you haven&#8217;t seen the real benefits of Glazed Lists.
+But filtering and sorting are now easy to add.
+You can now swap the JList for a JTable without touching your data layer.
+Without Glazed Lists, such a change would have you throw out your ListModel code and implement TableModel instead.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sorting-tables-sorting-tables">2. Sorting, Tables &amp; Sorting Tables</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now that you&#8217;ve got "Hello World" out of the way, it&#8217;s time to see Glazed Lists shine.
+You&#8217;ll upgrade the <code>JList</code> to a <code>JTable</code> and let your users sort by clicking on the column headers.</p>
+</div>
+<div class="sect2">
+<h3 id="sortedlist-a-list-transformation">2.1. SortedList, a list transformation</h3>
+<div class="paragraph">
+<p><code>SortedList</code> is a decorator that shows a source <code>EventList</code> in sorted order.</p>
+</div>
+<div class="paragraph">
+<p>Every <code>TransformedList</code> including <code>SortedList</code> listens for change events from a source <code>EventList</code>.
+When that source is changed, the <code>TransformedList</code> changes itself in response.</p>
+</div>
+<div class="paragraph">
+<p>By layering TransformedLists like <code>SortedList</code> and <code>FilterList</code> you can create flexible and powerful programs with ease.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="comparators-comparable-and-sortedlist">2.2. Comparators, Comparable and SortedList</h3>
+<div class="paragraph">
+<p>To sort in Java, you must compare elements that are <code>Comparable</code> or create an external <code>Comparator</code>.
+By creating a Comparator or implementing Comparable, we gain full control of the sort order of our elements.</p>
+</div>
+<div class="paragraph">
+<p>For the <code>Issue</code> class, you can sort using the <code>priority</code> property:</p>
+</div>
+<div class="listingblock">
+<div class="title">IssueComparator that compares by priority</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.publicobject.glazedlists.tutorial.chapter2</span>;
+
+<span class="keyword">import</span> <span class="include">java.util.Comparator</span>;
+
+<span class="keyword">import</span> <span class="include">ca.odell.issuezilla.Issue</span>;
+
+<span class="comment">/**
+ * Compare issues by priority.
+ *
+ * @author &lt;a href=&quot;mailto:jesse@swank.ca&quot;&gt;Jesse Wilson&lt;/a&gt;
+ */</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">IssueComparator</span> <span class="directive">implements</span> <span class="predefined-type">Comparator</span>&lt;Issue&gt; {
+    <span class="directive">public</span> <span class="type">int</span> compare(Issue issueA, Issue issueB) {
+
+        <span class="comment">// rating is between 1 and 5, lower is more important</span>
+        <span class="type">int</span> issueAValue = issueA.getPriority().getValue();
+        <span class="type">int</span> issueBValue = issueB.getPriority().getValue();
+
+        <span class="keyword">return</span> issueAValue - issueBValue;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now that you can compare elements, create a <code>SortedList</code> using the issues <code>EventList</code> and the <code>IssueComparator</code>.
+The <code>SortedList</code> will provide a sorted view of the issues list.
+It keeps the issues sorted dynamically as the source EventList changes.</p>
+</div>
+<div class="listingblock">
+<div class="title">Create SortedList with comparator</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="using-tableformat-to-specify-columns">2.3. Using TableFormat to specify columns</h3>
+<div class="paragraph">
+<p>Although the <code>DefaultEventTableModel</code> takes care of the table&#8217;s rows, you must specify columns.
+This includes how many columns, their names, and how to get the column value from an <code>Issue</code> object.</p>
+</div>
+<div class="paragraph">
+<p>To specify columns, implement the <code>TableFormat</code> interface. The <code>IssueTableFormat</code> shows how to do this for <code>Issue</code> elements:</p>
+</div>
+<div class="listingblock">
+<div class="title">IssueTableFormat</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.publicobject.glazedlists.tutorial.chapter2</span>;
+
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.gui.TableFormat</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.issuezilla.Issue</span>;
+
+<span class="comment">/**
+ * Display issues in a tabular form.
+ *
+ * @author &lt;a href=&quot;mailto:jesse@swank.ca&quot;&gt;Jesse Wilson&lt;/a&gt;
+ */</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">IssueTableFormat</span> <span class="directive">implements</span> TableFormat&lt;Issue&gt; {
+
+    <span class="directive">public</span> <span class="type">int</span> getColumnCount() {
+        <span class="keyword">return</span> <span class="integer">6</span>;
+    }
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> getColumnName(<span class="type">int</span> column) {
+        <span class="keyword">if</span>(column == <span class="integer">0</span>)      <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">ID</span><span class="delimiter">&quot;</span></span>;
+        <span class="keyword">else</span> <span class="keyword">if</span>(column == <span class="integer">1</span>) <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">Type</span><span class="delimiter">&quot;</span></span>;
+        <span class="keyword">else</span> <span class="keyword">if</span>(column == <span class="integer">2</span>) <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">Priority</span><span class="delimiter">&quot;</span></span>;
+        <span class="keyword">else</span> <span class="keyword">if</span>(column == <span class="integer">3</span>) <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">State</span><span class="delimiter">&quot;</span></span>;
+        <span class="keyword">else</span> <span class="keyword">if</span>(column == <span class="integer">4</span>) <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">Result</span><span class="delimiter">&quot;</span></span>;
+        <span class="keyword">else</span> <span class="keyword">if</span>(column == <span class="integer">5</span>) <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">Summary</span><span class="delimiter">&quot;</span></span>;
+
+        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">IllegalStateException</span>();
+    }
+
+    <span class="directive">public</span> <span class="predefined-type">Object</span> getColumnValue(Issue issue, <span class="type">int</span> column) {
+
+        <span class="keyword">if</span>(column == <span class="integer">0</span>)      <span class="keyword">return</span> issue.getId();
+        <span class="keyword">else</span> <span class="keyword">if</span>(column == <span class="integer">1</span>) <span class="keyword">return</span> issue.getIssueType();
+        <span class="keyword">else</span> <span class="keyword">if</span>(column == <span class="integer">2</span>) <span class="keyword">return</span> issue.getPriority();
+        <span class="keyword">else</span> <span class="keyword">if</span>(column == <span class="integer">3</span>) <span class="keyword">return</span> issue.getStatus();
+        <span class="keyword">else</span> <span class="keyword">if</span>(column == <span class="integer">4</span>) <span class="keyword">return</span> issue.getResolution();
+        <span class="keyword">else</span> <span class="keyword">if</span>(column == <span class="integer">5</span>) <span class="keyword">return</span> issue.getShortDescription();
+
+        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">IllegalStateException</span>();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+There are a few mixin interfaces that allow you to do more with your table:
+<code>WritableTableFormat</code> allows you to make your <code>JTable</code> editable.
+<code>AdvancedTableFormat</code> allows you to specify the class and a <code>Comparator</code> for each column, for use with specialized renderers and <code>TableComparatorChooser</code>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="the-defaulteventtablemodel-and-tablecomparatorchooser">2.4. The DefaultEventTableModel and TableComparatorChooser</h3>
+<div class="paragraph">
+<p>With your columns prepared, replace the <code>JList</code> with a <code>JTable</code>.
+This means exchanging the <code>DefaultEventListModel</code> with a <code>DefaultEventTableModel</code>, which requires your <code>IssueTableFormat</code> for its constructor.</p>
+</div>
+<div class="paragraph">
+<p>The <code>SortedList</code> is the data source for the <code>DefaultEventTableModel</code>.
+Although it&#8217;s initially sorted by priority, your users will want to reorder the table by clicking on the column headers.
+For example, clicking on the "Type" header shall sort the issues by type.
+For this, Glazed Lists provides <code>TableComparatorChooser</code>, which adds sorting to a <code>JTable</code> using your <code>SortedList</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">Display a sortable table</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">/**
+ * Display a frame for browsing issues.
+ */</span>
+<span class="directive">public</span> <span class="type">void</span> display() {
+    SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
+
+    <span class="comment">// create a panel with a table</span>
+    <span class="predefined-type">JPanel</span> panel = <span class="keyword">new</span> <span class="predefined-type">JPanel</span>();
+    panel.setLayout(<span class="keyword">new</span> <span class="predefined-type">GridBagLayout</span>());
+    AdvancedTableModel&lt;Issue&gt; issuesTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(sortedIssues, <span class="keyword">new</span> IssueTableFormat());
+    <span class="predefined-type">JTable</span> issuesJTable = <span class="keyword">new</span> <span class="predefined-type">JTable</span>(issuesTableModel);
+    TableComparatorChooser&lt;Issue&gt; tableSorter = TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
+    <span class="predefined-type">JScrollPane</span> issuesTableScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJTable);
+    panel.add(issuesTableScrollPane, <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">1.0</span>, <span class="float">1.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+
+    <span class="comment">// create a frame with that panel</span>
+    <span class="predefined-type">JFrame</span> frame = <span class="keyword">new</span> <span class="predefined-type">JFrame</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Issues</span><span class="delimiter">&quot;</span></span>);
+    frame.setDefaultCloseOperation(<span class="predefined-type">WindowConstants</span>.EXIT_ON_CLOSE);
+    frame.setSize(<span class="integer">540</span>, <span class="integer">380</span>);
+    frame.getContentPane().add(panel);
+    frame.setVisible(<span class="predefined-constant">true</span>);
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+While the <code>eventTableModel</code> factory method creates an instance of <code>DefaultEventTableModel</code>, its return type is the interface <code>AdvancedTableModel</code>.
+It’s an extension of the standard <code>TableModel</code> and is implemented by <code>DefaultEventTableModel</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>TableComparatorChooser</code> supports both single column sorting (simpler) and multiple column sorting (more powerful).
+This is configured by the third argument in the constructor.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+By default, <code>TableComparatorChooser</code> sorts by casting column values to <code>Comparable</code>.
+If your column&#8217;s values are not <code>Comparable</code>, you&#8217;ll have to manually remove the default Comparator using <code>tableSorter.getComparatorsForColumn(column).clear()</code>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="so-what-2">2.5. So What?</h3>
+<div class="imageblock">
+<div class="content">
+<img src="images/image02.png" alt="image02">
+</div>
+</div>
+<div class="paragraph">
+<p>Now you have built an issue table, that is sortable by clicking on the desired column headers. Next, we&#8217;ll add filtering!</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="text-filtering">3. Text Filtering</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>With all issues on screen it&#8217;s already time to remove some of them!
+Your users can filter the table simply by entering words into a <code>JTextField</code>, just like in <em>Apple iTunes</em>.
+Text filtering is a fast and easy way to find a needle in a haystack!</p>
+</div>
+<div class="sect2">
+<h3 id="textfilterator">3.1. TextFilterator</h3>
+<div class="paragraph">
+<p>You need to tell Glazed Lists which Strings to filter against for each element in your <code>EventList</code>.</p>
+</div>
+<div class="paragraph">
+<p>Implement the <code>TextFilterator</code> interface by adding all the relevant Strings from an <code>Issue</code> to the List provided.</p>
+</div>
+<div class="listingblock">
+<div class="title">IssueTextFilterator</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.publicobject.glazedlists.tutorial.chapter3</span>;
+
+<span class="keyword">import</span> <span class="include">java.util.List</span>;
+
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.TextFilterator</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.issuezilla.Issue</span>;
+
+<span class="comment">/**
+ * Get the Strings to filter against for a given Issue.
+ *
+ * @author &lt;a href=&quot;mailto:jesse@swank.ca&quot;&gt;Jesse Wilson&lt;/a&gt;
+ */</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">IssueTextFilterator</span> <span class="directive">implements</span> TextFilterator&lt;Issue&gt; {
+    <span class="directive">public</span> <span class="type">void</span> getFilterStrings(<span class="predefined-type">List</span>&lt;<span class="predefined-type">String</span>&gt; baseList, Issue issue) {
+
+        baseList.add(issue.getComponent());
+        baseList.add(issue.getIssueType());
+        baseList.add(issue.getOperatingSystem());
+        baseList.add(issue.getResolution());
+        baseList.add(issue.getShortDescription());
+        baseList.add(issue.getStatus());
+        baseList.add(issue.getSubcomponent());
+        baseList.add(issue.getVersion());
+    }
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The <code>getFilterStrings()</code> method is awkward because the List of Strings is a parameter rather than the return type.
+This approach allows Glazed Lists to skip creating an <code>ArrayList</code> each time the method is invoked.
+We&#8217;re generally averse to this kind of micro-optimization.
+In this case this performance improvement is worthwhile because the method is used heavily while filtering.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="filterlist-matcher-and-matchereditor">3.2. FilterList, Matcher, and MatcherEditor</h3>
+<div class="paragraph">
+<p>To do filtering you&#8217;ll need:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>A <code>FilterList</code>, a <code>TransformedList</code> that filters elements from a source <code>EventList</code>. As the source changes, <code>FilterList</code> observes the change and updates itself automatically.</p>
+</li>
+<li>
+<p>An implementation of the <code>Matcher</code> interface, which instructs <code>FilterList</code> whether to include or exclude a given element from the source EventList.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>This is all you&#8217;ll need to do <em>static</em> filtering - the filtering criteria doesn&#8217;t ever change.</p>
+</div>
+<div class="paragraph">
+<p>When you need to do <em>dynamic</em> filtering you&#8217;ll need a <code>MatcherEditor</code>.
+This interface allows you to fire events each time the filtering criteria changes.
+The <code>FilterList</code> responds to that change and notifies its listeners in turn.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The main difference between Matchers and MatcherEditors is that Matchers should be immutable whereas MatcherEditors can be dynamic.
+The motivation for the distinction lies in thread safety.
+If Matchers were mutable, filtering threads and Matcher editing threads could interfere with one another.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="adding-the-filterlist-and-a-textcomponentmatchereditor">3.3. Adding the FilterList and a TextComponentMatcherEditor</h3>
+<div class="paragraph">
+<p>The <code>FilterList</code> works with any <code>Matcher</code> or <code>MatcherEditor</code>.</p>
+</div>
+<div class="paragraph">
+<p>In this case, we&#8217;ll use a <code>TextComponentMatcherEditor</code>.
+It accepts any <code>JTextComponent</code> for editing the filter text - in most cases you&#8217;ll use a <code>JTextField</code>.</p>
+</div>
+<div class="paragraph">
+<p>Creating the <code>FilterList</code> and getting your <code>DefaultEventTableModel</code> to use it takes only a few lines of new code:</p>
+</div>
+<div class="listingblock">
+<div class="title">Display sortable and <strong>filterable</strong> table</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">/**
+ * Display a frame for browsing issues.
+ */</span>
+<span class="directive">public</span> <span class="type">void</span> display() {
+    SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
+    <span class="predefined-type">JTextField</span> filterEdit = <span class="keyword">new</span> <span class="predefined-type">JTextField</span>(<span class="integer">10</span>);
+    FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(sortedIssues, <span class="keyword">new</span> TextComponentMatcherEditor&lt;Issue&gt;(filterEdit, <span class="keyword">new</span> IssueTextFilterator()));
+
+    <span class="comment">// create a panel with a table</span>
+    <span class="predefined-type">JPanel</span> panel = <span class="keyword">new</span> <span class="predefined-type">JPanel</span>();
+    panel.setLayout(<span class="keyword">new</span> <span class="predefined-type">GridBagLayout</span>());
+    AdvancedTableModel&lt;Issue&gt; issuesTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(textFilteredIssues, <span class="keyword">new</span> IssueTableFormat());
+    <span class="predefined-type">JTable</span> issuesJTable = <span class="keyword">new</span> <span class="predefined-type">JTable</span>(issuesTableModel);
+    TableComparatorChooser&lt;Issue&gt; tableSorter = TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
+    <span class="predefined-type">JScrollPane</span> issuesTableScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJTable);
+    panel.add(<span class="keyword">new</span> <span class="predefined-type">JLabel</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Filter: </span><span class="delimiter">&quot;</span></span>), <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">0.0</span>, <span class="float">0.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+    panel.add(filterEdit,             <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">1.0</span>, <span class="float">0.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+    panel.add(issuesTableScrollPane,  <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">1</span>, <span class="float">1.0</span>, <span class="float">1.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+
+    <span class="comment">// create a frame with that panel</span>
+    <span class="predefined-type">JFrame</span> frame = <span class="keyword">new</span> <span class="predefined-type">JFrame</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Issues</span><span class="delimiter">&quot;</span></span>);
+    frame.setDefaultCloseOperation(<span class="predefined-type">WindowConstants</span>.EXIT_ON_CLOSE);
+    frame.setSize(<span class="integer">540</span>, <span class="integer">380</span>);
+    frame.getContentPane().add(panel);
+    frame.setVisible(<span class="predefined-constant">true</span>);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="so-what-3">3.4. So What?</h3>
+<div class="imageblock">
+<div class="content">
+<img src="images/image03.png" alt="image03">
+</div>
+</div>
+<div class="paragraph">
+<p>You&#8217;ve added filtering that&#8217;s independent of sorting, display and changes in your data.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="transformedlist-and-uniquelist">4. TransformedList and UniqueList</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In part four of this tutorial, you will derive a list of users from your issues <code>EventList</code>. Once you have a list of users, you can use that to filter the main issues list.</p>
+</div>
+<div class="sect2">
+<h3 id="transformedlist-and-listeventassembler">4.1. TransformedList and ListEventAssembler</h3>
+<div class="paragraph">
+<p>ListEvents are sophisticated objects, providing fine-grained details on each insert, update and delete to your <code>EventList</code>.
+To simplify the process, <code>ListEventAssembler</code> manages ListEvents and ListEventListeners for you:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>It provides natural methods like <code>addInsert(index)</code>, <code>addUpdate(index)</code> and <code>addDelete(index)</code> which map to <code>List.add()</code>, <code>set()</code> and <code>remove()</code>.</p>
+</li>
+<li>
+<p>To group multiple changes into a single <code>ListEvent</code>, there&#8217;s <code>beginEvent()</code> and <code>commitEvent()</code>.</p>
+</li>
+<li>
+<p>For your convenience, you can fire an event identical to that which was received using <code>forwardEvent()</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="transformedlist-and-listevents">4.2. TransformedList and ListEvents</h3>
+<div class="paragraph">
+<p>Each of the issues contains a 'reported by' user.
+With the appropriate transformation, you can create an <code>EventList</code> of users from that <code>EventList</code> of issues.
+As issues list is changed, the users list changes automatically.
+If your first issue&#8217;s user is "jessewilson", then the first element in the derived users list will be "jessewilson".
+There will be a simple one-to-one relationship between the issues list and the users list.</p>
+</div>
+<div class="paragraph">
+<p>For this kind of arbitrary list transformation, extend the abstract <code>TransformedList</code>.
+By overriding the <code>get()</code> method to return an issue&#8217;s user rather than the issue itself, you make the issues list look like a users list!</p>
+</div>
+<div class="paragraph">
+<p>We&#8217;re required to write some boilerplate code to complete our users list transformation.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>First, we must observe the source issues list by registering a listener: <code>source.addListEventListener(this)</code>.</p>
+</li>
+<li>
+<p>Second, when the source <code>EventList</code> changes, we forward an equivalent event to our listeners as well.
+This is taken care of by calling <code>updates.forwardEvent()</code> within the <code>listChanged()</code> method.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">IssueToUserList</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.publicobject.glazedlists.tutorial.chapter4</span>;
+
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.EventList</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.TransformedList</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.event.ListEvent</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.issuezilla.Issue</span>;
+
+<span class="comment">/**
+ * An IssuesToUserList is a list of users that is obtained by getting
+ * the users from an issues list.
+ *
+ * @author &lt;a href=&quot;mailto:jesse@swank.ca&quot;&gt;Jesse Wilson&lt;/a&gt;
+ */</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">IssueToUserList</span> <span class="directive">extends</span> TransformedList&lt;Issue, <span class="predefined-type">String</span>&gt; {
+
+    <span class="comment">/**
+     * Construct an IssuesToUserList from an EventList that contains only
+     * Issue objects.
+     */</span>
+    <span class="directive">public</span> IssueToUserList(EventList&lt;Issue&gt; source) {
+        <span class="local-variable">super</span>(source);
+        source.addListEventListener(<span class="local-variable">this</span>);
+    }
+
+    <span class="comment">/**
+     * Gets the user at the specified index.
+     */</span>
+    <span class="directive">public</span> <span class="predefined-type">String</span> get(<span class="type">int</span> index) {
+        Issue issue = source.get(index);
+        <span class="keyword">return</span> issue.getReporter();
+    }
+
+    <span class="comment">/**
+     * When the source issues list changes, propogate the exact same changes
+     * for the users list.
+     */</span>
+    <span class="directive">public</span> <span class="type">void</span> listChanged(ListEvent&lt;Issue&gt; listChanges) {
+        updates.forwardEvent(listChanges);
+    }
+
+    <span class="comment">/** {@inheritDoc} */</span>
+    <span class="directive">protected</span> <span class="type">boolean</span> isWritable() {
+        <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="eliminating-duplicates-with-uniquelist">4.3. Eliminating duplicates with UniqueList</h3>
+<div class="paragraph">
+<p>Although the issues list contains over 100 issues, there&#8217;s only a few unique users.
+Our users list has many duplicates - one for each occurrence of a user in the issues list.
+Duplicate removal is solved quickly and easily by <code>UniqueList</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">Eliminate duplicate users</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// derive the users list from the issues list</span>
+EventList&lt;<span class="predefined-type">String</span>&gt; usersNonUnique = <span class="keyword">new</span> IssueToUserList(issuesEventList);
+UniqueList&lt;<span class="predefined-type">String</span>&gt; usersEventList = <span class="keyword">new</span> UniqueList&lt;<span class="predefined-type">String</span>&gt;(usersNonUnique);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Finally, you can display the users list in a <code>JList</code>.
+In the next chapter, we&#8217;ll use that <code>JList</code> in a filter for our issues list.</p>
+</div>
+<div class="listingblock">
+<div class="title">Display list with unique users</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">/**
+ * Display a frame for browsing issues.
+ */</span>
+<span class="directive">public</span> <span class="type">void</span> display() {
+    SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
+    <span class="predefined-type">JTextField</span> filterEdit = <span class="keyword">new</span> <span class="predefined-type">JTextField</span>(<span class="integer">10</span>);
+    FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(sortedIssues, <span class="keyword">new</span> TextComponentMatcherEditor&lt;Issue&gt;(filterEdit, <span class="keyword">new</span> IssueTextFilterator()));
+
+    <span class="comment">// derive the users list from the issues list</span>
+    EventList&lt;<span class="predefined-type">String</span>&gt; usersNonUnique = <span class="keyword">new</span> IssueToUserList(issuesEventList);
+    UniqueList&lt;<span class="predefined-type">String</span>&gt; usersEventList = <span class="keyword">new</span> UniqueList&lt;<span class="predefined-type">String</span>&gt;(usersNonUnique);
+
+    <span class="comment">// create the issues table</span>
+    AdvancedTableModel&lt;Issue&gt; issuesTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(textFilteredIssues, <span class="keyword">new</span> IssueTableFormat());
+    <span class="predefined-type">JTable</span> issuesJTable = <span class="keyword">new</span> <span class="predefined-type">JTable</span>(issuesTableModel);
+    TableComparatorChooser&lt;Issue&gt; tableSorter = TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
+    <span class="predefined-type">JScrollPane</span> issuesTableScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJTable);
+
+    <span class="comment">// create the users list</span>
+    DefaultEventListModel&lt;<span class="predefined-type">String</span>&gt; usersListModel = GlazedListsSwing.eventListModelWithThreadProxyList(usersEventList);
+    <span class="predefined-type">JList</span> usersJList = <span class="keyword">new</span> <span class="predefined-type">JList</span>(usersListModel);
+    <span class="predefined-type">JScrollPane</span> usersListScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(usersJList);
+
+    <span class="comment">// create the panel</span>
+    <span class="predefined-type">JPanel</span> panel = <span class="keyword">new</span> <span class="predefined-type">JPanel</span>();
+    panel.setLayout(<span class="keyword">new</span> <span class="predefined-type">GridBagLayout</span>());
+    panel.add(<span class="keyword">new</span> <span class="predefined-type">JLabel</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Filter: </span><span class="delimiter">&quot;</span></span>), <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">0.0</span>, <span class="float">0.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+    panel.add(filterEdit, <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">0.15</span>, <span class="float">0.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+    panel.add(<span class="keyword">new</span> <span class="predefined-type">JLabel</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Reported By: </span><span class="delimiter">&quot;</span></span>), <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">2</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">0.0</span>, <span class="float">0.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+    panel.add(usersListScrollPane, <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">3</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">0.15</span>, <span class="float">1.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+    panel.add(issuesTableScrollPane, <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">4</span>, <span class="float">0.85</span>, <span class="float">1.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+
+    <span class="comment">// create a frame with that panel</span>
+    <span class="predefined-type">JFrame</span> frame = <span class="keyword">new</span> <span class="predefined-type">JFrame</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Issues</span><span class="delimiter">&quot;</span></span>);
+    frame.setDefaultCloseOperation(<span class="predefined-type">WindowConstants</span>.EXIT_ON_CLOSE);
+    frame.setSize(<span class="integer">540</span>, <span class="integer">380</span>);
+    frame.getContentPane().add(panel);
+    frame.setVisible(<span class="predefined-constant">true</span>);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="so-what-4">4.4. So What?</h3>
+<div class="imageblock">
+<div class="content">
+<img src="images/image04.png" alt="image04">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="defaulteventselectionmodel-and-custom-filter-lists">5. DefaultEventSelectionModel and Custom Filter Lists</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now that you&#8217;ve got the <code>JList</code> displaying issue users, it&#8217;s just a few steps to make that filter the main issues table.</p>
+</div>
+<div class="sect2">
+<h3 id="defaulteventselectionmodel">5.1. DefaultEventSelectionModel</h3>
+<div class="paragraph">
+<p>Along with <code>ListModel</code> and <code>TableModel</code>, Glazed Lists provides a <code>ListSelectionModel</code> that eliminates all of the index manipulation related to selection handling.
+<code>DefaultEventSelectionModel</code> brings you three advantages over Swing&#8217;s standard <code>DefaultListSelectionModel</code>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>It publishes an <code>EventList</code> containing a live view of the current selection. Access the selected elements like they&#8217;re in an <code>ArrayList</code>.</p>
+</li>
+<li>
+<p>It fixes a problem with the standard ListSelectionModel&#8217;s <code>MULTIPLE_INTERVAL_SELECTION</code> mode.
+In that mode, rows inserted within the selected range become selected.
+This is quite annoying when removing a filter because restored elements become selected.
+The fix is in DefaultEventSelectionModel&#8217;s default selection mode, <code>MULTIPLE_INTERVAL_SELECTION_DEFENSIVE</code>.
+In this mode, rows must be explicitly selected by your user.</p>
+</li>
+<li>
+<p>It provides another improvement in the user experience related to table sorting.
+When row selections exist and a table is resorted, <code>DefaultListSelectionModel</code> responds by clearing the selections, which is an undesirable reaction.
+The reason is that insufficient information exists in a <code>TableModelEvent</code> to do anything more intelligent.
+But that limitation does not exist with <code>DefaultEventSelectionModel</code> because it receives a fine-grained <code>ListEvent</code> detailing the reordering.
+Consequently, <code>DefaultEventSelectionModel</code> is able to preserve row selections after sorts.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>You&#8217;ll enjoy accessing selection from an <code>EventList</code>.
+For example, you can use the familiar methods <code>List.isEmpty()</code> and <code>List.contains()</code> in new ways:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">if</span> (usersSelectedList.isEmpty()) <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+...
+String user = issue.getReporter();
+<span class="keyword">return</span> usersSelectedList.contains(user);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="custom-filtering-using-matchers">5.2. Custom filtering using Matchers</h3>
+<div class="paragraph">
+<p>Just as you&#8217;ve seen <code>TextComponentMatcherEditor</code> filter issues with a <code>JTextField</code>, you can create a custom <code>MatcherEditor</code> to filter with the users <code>JList</code>.</p>
+</div>
+<div class="paragraph">
+<p>The first step is to create a simple <code>Matcher</code> for static filtering.
+Then we&#8217;ll create <code>MatcherEditor</code> to implement dynamic filtering using our static <code>Matcher</code>.</p>
+</div>
+<div class="paragraph">
+<p>Implementing the <code>Matcher</code> will require you to write a single method, <code>matches()</code> to test whether a given element should be filtered out.
+You&#8217;ll need to create a <code>Matcher</code> that accepts issues for a list of users</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+It&#8217;s unfortunate that Glazed Lists' Matcher uses the same class name as <code>java.util.regex.Matcher</code>.
+If you find yourself implementing a Glazed Lists Matcher that requires regular expressions, you&#8217;ll need to fully qualify classnames throughout your code, and we apologize.
+We considered 'Predicate' for the interface name but decided it was too presumptuous.
+Naming is very important to us at Glazed Lists!
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">IssuesForUsersMatcher</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.publicobject.glazedlists.tutorial.chapter5</span>;
+
+<span class="keyword">import</span> <span class="include">java.util.Collection</span>;
+<span class="keyword">import</span> <span class="include">java.util.HashSet</span>;
+<span class="keyword">import</span> <span class="include">java.util.Set</span>;
+
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.matchers.Matcher</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.issuezilla.Issue</span>;
+
+<span class="comment">/**
+ * This {@link Matcher} only matches users in a predefined set.
+ *
+ * @author &lt;a href=&quot;mailto:jesse@swank.ca&quot;&gt;Jesse Wilson&lt;/a&gt;
+ */</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">IssuesForUsersMatcher</span> <span class="directive">implements</span> <span class="predefined-type">Matcher</span>&lt;Issue&gt; {
+
+    <span class="comment">/** the users to match */</span>
+    <span class="directive">private</span> <span class="predefined-type">Set</span>&lt;<span class="predefined-type">String</span>&gt; users = <span class="keyword">new</span> <span class="predefined-type">HashSet</span>&lt;<span class="predefined-type">String</span>&gt;();
+
+    <span class="comment">/**
+     * Create a new {@link IssuesForUsersMatcher} that matches only {@link Issue}s
+     * that have one or more user in the specified list.
+     */</span>
+    <span class="directive">public</span> IssuesForUsersMatcher(<span class="predefined-type">Collection</span>&lt;<span class="predefined-type">String</span>&gt; users) {
+        <span class="comment">// defensive copy all the users</span>
+        <span class="local-variable">this</span>.users.addAll(users);
+    }
+
+    <span class="comment">/**
+     * Test whether to include or not include the specified issue based
+     * on whether or not their user is selected.
+     */</span>
+    <span class="directive">public</span> <span class="type">boolean</span> matches(Issue issue) {
+        <span class="keyword">if</span>(issue == <span class="predefined-constant">null</span>) <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+        <span class="keyword">if</span>(users.isEmpty()) <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+
+        <span class="predefined-type">String</span> user = issue.getReporter();
+        <span class="keyword">return</span> users.contains(user);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With this <code>IssuesForUsersMatcher</code> in place, create an <code>EventList</code> that contains the issues that match only the specified users:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">List</span>&lt;<span class="predefined-type">String</span>&gt; users = <span class="predefined-type">Arrays</span>.asList(<span class="string"><span class="delimiter">&quot;</span><span class="content">jessewilson</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">kevinmaltby</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">tmao</span><span class="delimiter">&quot;</span></span>);
+<span class="predefined-type">Matcher</span>&lt;Issue&gt; usersMatcher = <span class="keyword">new</span> IssuesForUsersMatcher(users);
+
+EventList&lt;Issue&gt; issues = ...
+FilterList&lt;Issue&gt; issuesForUsers = <span class="keyword">new</span> FilterList&lt;Issue&gt;(issues, usersMatcher);</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+To avoid concurrency problems, make your Matchers immutable.
+This enables your <code>matches()</code> method to be used from multiple threads without synchronization.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="dynamic-filtering-using-matchereditors">5.3. Dynamic filtering using MatcherEditors</h3>
+<div class="paragraph">
+<p>Static filtering with just Matchers means that the filtering logic is fixed.
+We need the filtering logic to change as the selection in the users list changes.
+For this, there&#8217;s <code>MatcherEditor</code>.</p>
+</div>
+<div class="paragraph">
+<p>It provides the mechanics for FilterLists to observe changes to the filtering logic.
+In your <code>MatcherEditor</code> implementation, you change the filtering logic by creating a new Matcher that implements the new logic.
+Then fire an event to all listening MatcherEditorListeners.
+You can implement this quickly by extending our <code>AbstractMatcherEditor</code>.
+To implement the users filter, create an <code>IssuesForUsersMatcher</code> each time the selection changes.
+Then notify all your MatcherEditor&#8217;s listeners using the method <code>fireChanged()</code> inherited from <code>AbstractMatcherEditor</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">UsersSelect</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.publicobject.glazedlists.tutorial.chapter5</span>;
+
+<span class="keyword">import</span> <span class="include">javax.swing.JList</span>;
+<span class="keyword">import</span> <span class="include">javax.swing.event.ListSelectionEvent</span>;
+<span class="keyword">import</span> <span class="include">javax.swing.event.ListSelectionListener</span>;
+
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.EventList</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.UniqueList</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.matchers.AbstractMatcherEditor</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.matchers.Matcher</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.matchers.MatcherEditor</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.swing.AdvancedListSelectionModel</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.swing.DefaultEventListModel</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.swing.GlazedListsSwing</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.issuezilla.Issue</span>;
+
+<span class="comment">/**
+ * This {@link MatcherEditor} matches issues if their user is selected.
+ *
+ * @author &lt;a href=&quot;mailto:jesse@swank.ca&quot;&gt;Jesse Wilson&lt;/a&gt;
+ */</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">UsersSelect</span> <span class="directive">extends</span> AbstractMatcherEditor&lt;Issue&gt; <span class="directive">implements</span> <span class="predefined-type">ListSelectionListener</span> {
+
+    <span class="comment">/** a list of users */</span>
+    EventList&lt;<span class="predefined-type">String</span>&gt; usersEventList;
+    EventList&lt;<span class="predefined-type">String</span>&gt; usersSelectedList;
+
+    <span class="comment">/** a widget for selecting users */</span>
+    <span class="predefined-type">JList</span> usersJList;
+
+    <span class="comment">/**
+     * Create a {@link IssuesForUsersMatcherEditor} that matches users from the
+     * specified {@link EventList} of {@link Issue}s.
+     */</span>
+    <span class="directive">public</span> UsersSelect(EventList&lt;Issue&gt; source) {
+        <span class="comment">// derive the users list from the issues list</span>
+        EventList&lt;<span class="predefined-type">String</span>&gt; usersNonUnique = <span class="keyword">new</span> IssueToUserList(source);
+        usersEventList = <span class="keyword">new</span> UniqueList&lt;<span class="predefined-type">String</span>&gt;(usersNonUnique);
+
+        <span class="comment">// create a JList that contains users</span>
+        DefaultEventListModel&lt;<span class="predefined-type">String</span>&gt; usersListModel = GlazedListsSwing.eventListModelWithThreadProxyList(usersEventList);
+        usersJList = <span class="keyword">new</span> <span class="predefined-type">JList</span>(usersListModel);
+
+        <span class="comment">// create an EventList containing the JList's selection</span>
+        AdvancedListSelectionModel&lt;<span class="predefined-type">String</span>&gt; userSelectionModel = GlazedListsSwing.eventSelectionModelWithThreadProxyList(usersEventList);
+        usersJList.setSelectionModel(userSelectionModel);
+        usersSelectedList = userSelectionModel.getSelected();
+
+        <span class="comment">// handle changes to the list's selection</span>
+        usersJList.addListSelectionListener(<span class="local-variable">this</span>);
+    }
+
+    <span class="comment">/**
+     * Get the widget for selecting users.
+     */</span>
+    <span class="directive">public</span> <span class="predefined-type">JList</span> getJList() {
+        <span class="keyword">return</span> usersJList;
+    }
+
+    <span class="comment">/**
+     * When the JList selection changes, create a new Matcher and fire
+     * an event.
+     */</span>
+    <span class="directive">public</span> <span class="type">void</span> valueChanged(<span class="predefined-type">ListSelectionEvent</span> e) {
+        <span class="predefined-type">Matcher</span>&lt;Issue&gt; newMatcher = <span class="keyword">new</span> IssuesForUsersMatcher(usersSelectedList);
+        fireChanged(newMatcher);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Configure the new <code>MatcherEditor</code> to be used by your <code>FilterList</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">EventList&lt;Issue&gt; issues = ...
+UsersSelect usersSelect = <span class="keyword">new</span> UsersSelect(issues);
+FilterList&lt;Issue&gt; userFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(issues, usersSelect);</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+While the <code>eventSelectionModel</code> factory method creates an instance of <code>DefaultEventSelectionModel</code>, its return type is the interface <code>AdvancedListSelectionModel</code>.
+It’s an extension of the standard <code>ListSelectionModel</code> and is implemented by <code>DefaultEventSelectionModel</code>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="so-what-5">5.4. So What?</h3>
+<div class="imageblock">
+<div class="content">
+<img src="images/image05.png" alt="image05">
+</div>
+</div>
+<div class="paragraph">
+<p>You&#8217;ve exploited advanced Glazed Lists functionality to build a user filter.
+First with <em>static filtering</em> using a <code>Matcher</code>, then <em>dynamic filtering</em> by creating instances of that <code>Matcher</code> from a <code>MatcherEditor</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="concurrency">6. Concurrency</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Concurrency support is built right into the central interface of Glazed Lists, <code>EventList</code>.
+This may seem like mixing unrelated concerns, but the advantages are worth it:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Populate your user interface components from a background thread without having to use <code>SwingUtilities.invokeLater()</code></p>
+</li>
+<li>
+<p>You can rely on explicit locking policies - you have to worry that you&#8217;re calling synchronize on the wrong object!</p>
+</li>
+<li>
+<p>Glazed Lists provides means to queue updates to the Swing event dispatch thread when the source of the change is a different thread.</p>
+</li>
+<li>
+<p>Filtering and sorting can be performed in the background</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If your EventLists are used by only one thread, you don&#8217;t need to worry about locking.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="readwrite-locks">6.1. Read/Write Locks</h3>
+<div class="paragraph">
+<p>Every <code>EventList</code> has a method <code>getReadWriteLock()</code> that should be used for threadsafe access.
+Read/Write locks are designed to allow access by multiple readers or a single writer.
+The locks in Glazed Lists are reentrant which allows you to lock multiple times before you unlock.
+To read from an <code>EventList</code> that is shared with another thread:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">EventList myList = ...
+myList.getReadWriteLock().readLock().lock();
+<span class="keyword">try</span> {
+    <span class="comment">// perform read operations like myList.size() and myList.get()</span>
+} <span class="keyword">finally</span> {
+    myList.getReadWriteLock().readLock().unlock();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To write to a shared <code>EventList</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">EventList myList = ...
+myList.getReadWriteLock().writeLock().lock();
+<span class="keyword">try</span> {
+    <span class="comment">// perform write operations like myList.set() and myList.clear()</span>
+} <span class="keyword">finally</span> {
+    myList.getReadWriteLock().writeLock().unlock();
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="glazedlists-threadsafelist">6.2. GlazedLists.threadSafeList</h3>
+<div class="paragraph">
+<p>Glazed Lists provides a thread safe <code>EventList</code> that you can use without calling <code>lock()</code> and <code>unlock()</code> for each access.
+Wrap your <code>EventList</code> using the factory method <code>GlazedLists.threadSafeList()</code>.
+Unfortunately, this method has its drawbacks:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Performing a <code>lock()</code> and <code>unlock()</code> for every method call can hurt performance.</p>
+</li>
+<li>
+<p>Your <code>EventList</code> may change between adjacent calls to the thread safe decorator.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="the-swing-event-dispatch-thread">6.3. The Swing Event Dispatch Thread</h3>
+<div class="paragraph">
+<p>Swing requires that all user interface access be performed by the event dispatch thread.
+You won&#8217;t have to worry when you&#8217;re using Glazed Lists, however.</p>
+</div>
+<div class="paragraph">
+<p>By using the appropriate factory methods as shown in this tutorial, the model adapter classes automatically use a special EventList that copies your list changes to the Swing event dispatch thread.
+If you need, you can create instances of this proxy list yourself by using the factory method <code>GlazedListsSwing.swingThreadProxyList(EventList)</code>.</p>
+</div>
+<div class="paragraph">
+<p>Here are the two possibilities side by side:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// option 1: call the appropriate factory method to let GLazed Lists create the proxy list</span>
+EventList&lt;Issue&gt; sourceIssues = ...
+AnvancedTableModel&lt;Issue&gt; issuesTableModel =
+GlazedListsSwing.eventTableModelWithThreadProxyList(sourceIssues, <span class="keyword">new</span> IssueTableFormat());
+
+<span class="comment">// option 2: create the proxy list yorself</span>
+EventList&lt;Issue&gt; sourceIssues = ...
+EventList&lt;Issue&gt; threadProxyList = GlazedListsSwing.swingThreadProxyList(sourceIssues);
+AnvancedTableModel&lt;Issue&gt; issuesTableModel =
+GlazedListsSwing.eventTableModel(threadProxyList, <span class="keyword">new</span> IssueTableFormat());</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>While <em>option 1</em> is more convenient, <em>option 2</em> is more flexible.
+For example, you could use your own implementation of a <code>ThreadProxyList</code> for special needs.</p>
+</div>
+<div class="paragraph">
+<p>When your code accesses <code>DefaultEventTableModel</code> and other Swing classes it must do so only from the Swing event dispatch thread.
+For this you can use the <code>SwingUtilities.invokeLater()</code> method.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="multithreading-our-issuesbrowser">6.4. Multithreading our IssuesBrowser</h3>
+<div class="paragraph">
+<p>Adding background loading support to our <code>IssuesBrowser</code> isn&#8217;t too tough.
+Create a <code>Thread</code> that loads the issues XML from a file or web service and populates the issues <code>EventList</code> with the result.
+The provided issue XML parser provides a callback <code>issueLoaded()</code> which allows you to show each issue as it arrives.</p>
+</div>
+<div class="listingblock">
+<div class="title">IssuesLoader</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.publicobject.glazedlists.tutorial.chapter6</span>;
+
+<span class="keyword">import</span> <span class="include">java.io.FileInputStream</span>;
+<span class="keyword">import</span> <span class="include">java.io.IOException</span>;
+<span class="keyword">import</span> <span class="include">java.io.InputStream</span>;
+
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.BasicEventList</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.EventList</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.issuezilla.Issue</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.issuezilla.IssuezillaXMLParser</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.issuezilla.IssuezillaXMLParserHandler</span>;
+
+<span class="comment">/**
+ * Loads issues on a background thread.
+ *
+ * @author &lt;a href=&quot;mailto:jesse@swank.ca&quot;&gt;Jesse Wilson&lt;/a&gt;
+ */</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">IssuesLoader</span> <span class="directive">implements</span> <span class="predefined-type">Runnable</span>, IssuezillaXMLParserHandler {
+
+    <span class="comment">/** the issues list */</span>
+    <span class="directive">private</span> EventList&lt;Issue&gt; issues = <span class="keyword">new</span> BasicEventList&lt;Issue&gt;();
+
+    <span class="comment">/** where issues shall be found */</span>
+    <span class="directive">private</span> <span class="predefined-type">String</span> file;
+
+    <span class="comment">/**
+     * Get the list that issues are being loaded into.
+     */</span>
+    <span class="directive">public</span> EventList&lt;Issue&gt; getIssues() {
+        <span class="keyword">return</span> issues;
+    }
+
+    <span class="comment">/**
+     * Load the issues from the specified file.
+     */</span>
+    <span class="directive">public</span> <span class="type">void</span> load(<span class="predefined-type">String</span> file) {
+        <span class="local-variable">this</span>.file = file;
+
+        <span class="comment">// start a background thread</span>
+        <span class="predefined-type">Thread</span> backgroundThread = <span class="keyword">new</span> <span class="predefined-type">Thread</span>(<span class="local-variable">this</span>);
+        backgroundThread.setName(<span class="string"><span class="delimiter">&quot;</span><span class="content">Issues from </span><span class="delimiter">&quot;</span></span> + file);
+        backgroundThread.setDaemon(<span class="predefined-constant">true</span>);
+        backgroundThread.start();
+    }
+
+    <span class="comment">/**
+     * When run, this fetches the issues from the issues URL and refreshes
+     * the issues list.
+     */</span>
+    <span class="directive">public</span> <span class="type">void</span> run() {
+        <span class="comment">// load some issues</span>
+        <span class="keyword">try</span> {
+            IssuezillaXMLParser parser = <span class="keyword">new</span> IssuezillaXMLParser();
+            <span class="predefined-type">InputStream</span> issuesInStream = <span class="keyword">new</span> <span class="predefined-type">FileInputStream</span>(file);
+            parser.loadIssues(issuesInStream, <span class="local-variable">this</span>);
+            issuesInStream.close();
+        } <span class="keyword">catch</span>(<span class="exception">IOException</span> e) {
+            e.printStackTrace();
+            <span class="keyword">return</span>;
+        }
+    }
+
+    <span class="comment">/**
+     * Handles a loaded issue.
+     */</span>
+    <span class="directive">public</span> <span class="type">void</span> issueLoaded(Issue issue) {
+        issues.getReadWriteLock().writeLock().lock();
+        <span class="keyword">try</span> {
+            issues.add(issue);
+        } <span class="keyword">finally</span> {
+            issues.getReadWriteLock().writeLock().unlock();
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You&#8217;ll also need to make <code>IssuesBrowser</code> threadsafe:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The Swing components should be constructed on the event dispatch thread.
+Using <code>SwingUtilities.invokeLater()</code> can accomplish this.</p>
+</li>
+<li>
+<p>The constructors for <code>SortedList</code> and our FilterLists require that we have acquired the source EventList&#8217;s read lock.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">IssuesBrowser</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.publicobject.glazedlists.tutorial.chapter6</span>;
+
+<span class="keyword">import</span> <span class="include">java.awt.GridBagConstraints</span>;
+<span class="keyword">import</span> <span class="include">java.awt.GridBagLayout</span>;
+<span class="keyword">import</span> <span class="include">java.awt.Insets</span>;
+
+<span class="keyword">import</span> <span class="include">javax.swing.JFrame</span>;
+<span class="keyword">import</span> <span class="include">javax.swing.JLabel</span>;
+<span class="keyword">import</span> <span class="include">javax.swing.JPanel</span>;
+<span class="keyword">import</span> <span class="include">javax.swing.JScrollPane</span>;
+<span class="keyword">import</span> <span class="include">javax.swing.JTable</span>;
+<span class="keyword">import</span> <span class="include">javax.swing.JTextField</span>;
+<span class="keyword">import</span> <span class="include">javax.swing.SwingUtilities</span>;
+<span class="keyword">import</span> <span class="include">javax.swing.WindowConstants</span>;
+
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.EventList</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.FilterList</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.SortedList</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.swing.AdvancedTableModel</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.swing.GlazedListsSwing</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.swing.TableComparatorChooser</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.swing.TextComponentMatcherEditor</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.issuezilla.Issue</span>;
+
+<span class="comment">/**
+ * An IssueBrowser is a program for finding and viewing issues.
+ *
+ * @author &lt;a href=&quot;mailto:jesse@swank.ca&quot;&gt;Jesse Wilson&lt;/a&gt;
+ */</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">IssuesBrowser6</span> {
+
+    <span class="comment">/** reads issues from a stream and populates the issues event list */</span>
+    <span class="directive">private</span> IssuesLoader issueLoader = <span class="keyword">new</span> IssuesLoader();
+
+    <span class="comment">/** event list that hosts the issues */</span>
+    <span class="directive">private</span> EventList&lt;Issue&gt; issuesEventList = issueLoader.getIssues();
+
+    <span class="comment">/**
+     * Create an IssueBrowser for the specified issues.
+     */</span>
+    <span class="directive">public</span> IssuesBrowser6(<span class="predefined-type">String</span> file) {
+        issueLoader.load(file);
+    }
+
+    <span class="comment">/**
+     * Display a frame for browsing issues. This should only be run on the Swing
+     * event dispatch thread.
+     */</span>
+    <span class="directive">public</span> <span class="type">void</span> display() {
+        issuesEventList.getReadWriteLock().readLock().lock();
+        <span class="keyword">try</span> {
+            <span class="comment">// create the transformed models</span>
+            SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
+            UsersSelect usersSelect = <span class="keyword">new</span> UsersSelect(sortedIssues);
+            FilterList&lt;Issue&gt; userFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(sortedIssues, usersSelect);
+            <span class="predefined-type">JTextField</span> filterEdit = <span class="keyword">new</span> <span class="predefined-type">JTextField</span>(<span class="integer">10</span>);
+            FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(userFilteredIssues, <span class="keyword">new</span> TextComponentMatcherEditor&lt;Issue&gt;(filterEdit, <span class="keyword">new</span> IssueTextFilterator()));
+
+            <span class="comment">// create the issues table</span>
+            AdvancedTableModel&lt;Issue&gt; issuesTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(textFilteredIssues, <span class="keyword">new</span> IssueTableFormat());
+            <span class="predefined-type">JTable</span> issuesJTable = <span class="keyword">new</span> <span class="predefined-type">JTable</span>(issuesTableModel);
+            TableComparatorChooser&lt;Issue&gt; tableSorter = TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
+            <span class="predefined-type">JScrollPane</span> issuesTableScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJTable);
+
+            <span class="comment">// create the users list</span>
+            <span class="predefined-type">JScrollPane</span> usersListScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(usersSelect.getJList());
+
+            <span class="comment">// create the panel</span>
+            <span class="predefined-type">JPanel</span> panel = <span class="keyword">new</span> <span class="predefined-type">JPanel</span>();
+            panel.setLayout(<span class="keyword">new</span> <span class="predefined-type">GridBagLayout</span>());
+            panel.add(<span class="keyword">new</span> <span class="predefined-type">JLabel</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Filter: </span><span class="delimiter">&quot;</span></span>), <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">0.0</span>, <span class="float">0.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+            panel.add(filterEdit, <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">0.15</span>, <span class="float">0.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+            panel.add(<span class="keyword">new</span> <span class="predefined-type">JLabel</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Reported By: </span><span class="delimiter">&quot;</span></span>), <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">2</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">0.0</span>, <span class="float">0.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+            panel.add(usersListScrollPane, <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">3</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">0.15</span>, <span class="float">1.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+            panel.add(issuesTableScrollPane, <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">4</span>, <span class="float">0.85</span>, <span class="float">1.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+
+            <span class="comment">// create a frame with that panel</span>
+            <span class="predefined-type">JFrame</span> frame = <span class="keyword">new</span> <span class="predefined-type">JFrame</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Issues</span><span class="delimiter">&quot;</span></span>);
+            frame.setDefaultCloseOperation(<span class="predefined-type">WindowConstants</span>.EXIT_ON_CLOSE);
+            frame.setSize(<span class="integer">540</span>, <span class="integer">380</span>);
+            frame.getContentPane().add(panel);
+            frame.setVisible(<span class="predefined-constant">true</span>);
+        } <span class="keyword">finally</span> {
+            issuesEventList.getReadWriteLock().readLock().unlock();
+        }
+    }
+
+    <span class="comment">/**
+     * Launch the IssuesBrowser from the commandline.
+     */</span>
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
+        <span class="keyword">if</span>(args.length != <span class="integer">1</span>) {
+            <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Usage: IssuesBrowser &lt;file&gt;</span><span class="delimiter">&quot;</span></span>);
+            <span class="keyword">return</span>;
+        }
+
+        <span class="comment">// create the browser and start loading issues</span>
+        <span class="directive">final</span> IssuesBrowser6 browser = <span class="keyword">new</span> IssuesBrowser6(args[<span class="integer">0</span>]);
+
+        <span class="comment">// Schedule a job for the event-dispatching thread:</span>
+        <span class="comment">// creating and showing this application's GUI.</span>
+        <span class="predefined-type">SwingUtilities</span>.invokeLater(<span class="keyword">new</span> <span class="predefined-type">Runnable</span>() {
+            <span class="directive">public</span> <span class="type">void</span> run() {
+                browser.display();
+            }
+        });
+
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="so-what-6">6.5. So What?</h3>
+<div class="imageblock">
+<div class="content">
+<img src="images/image06.png" alt="image06">
+</div>
+</div>
+<div class="paragraph">
+<p>You&#8217;ve exploited concurrency to simultaneously load and display data.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="filter-with-thresholdlist">7. Filter with ThresholdList</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The issues are assigned one of five priorities: P1 through P5. You can use a <code>JSlider</code> to filter the <code>EventList</code> using <code>ThresholdList</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="thresholdlist">7.1. ThresholdList</h3>
+<div class="paragraph">
+<p><code>ThresholdList</code> requires you to provide an integer for each element in your EventList.
+Then, it filters all elements whose integers fall outside the provided range.
+The endpoints of the range can be controlled with a <code>JSlider</code>, <code>JSpinner</code> or even a <code>JComboBox</code>.</p>
+</div>
+<div class="paragraph">
+<p>To provide the mapping from your list elements to integers, you must implement the simple <code>ThresholdList.Evaluator</code> interface.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="implementing-thresholdlist-evaluator">7.2. Implementing ThresholdList.Evaluator</h3>
+<div class="paragraph">
+<p>To get an integer from an Issue, extract the priority.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The issue priorities are P1 (most important) to P5 (least important), but this is the opposite of what works best for <code>JSlider</code>. It uses low values on the left and high values on the right, but we want P1 to be furthest to the right. Therefore we flip the priority value by subtracting it from six.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">IssuePriorityThresholdEvaluator</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.publicobject.glazedlists.tutorial.chapter7</span>;
+
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.ThresholdList</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.issuezilla.Issue</span>;
+
+<span class="comment">/**
+ * Evaluates an issue by returning its threshold value.
+ *
+ * @author &lt;a href=&quot;mailto:jesse@swank.ca&quot;&gt;Jesse Wilson&lt;/a&gt;
+ */</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">IssuePriorityThresholdEvaluator</span> <span class="directive">implements</span> ThresholdList.Evaluator&lt;Issue&gt; {
+    <span class="directive">public</span> <span class="type">int</span> evaluate(Issue issue) {
+
+        <span class="comment">// rating is between 1 and 5, lower is more important</span>
+        <span class="type">int</span> issueRating = issue.getPriority().getValue();
+
+        <span class="comment">// flip: now rating is between 1 and 5, higher is more important</span>
+        <span class="type">int</span> inverseRating = <span class="integer">6</span> - issueRating;
+        <span class="keyword">return</span> inverseRating;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Create a <code>ThresholdList</code> with the new <code>IssuePriorityThresholdEvaluator</code>, and embed it in the pipeline of list transformations:</p>
+</div>
+<div class="listingblock">
+<div class="title">IssuesBrowser setup with priority filter</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">/**
+ * Display a frame for browsing issues. This should only be run on the Swing
+ * event dispatch thread.
+ */</span>
+<span class="directive">public</span> <span class="type">void</span> display() {
+    ...
+    UsersSelect usersSelect = <span class="keyword">new</span> UsersSelect(issuesEventList);
+    FilterList&lt;Issue&gt; userFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(issuesEventList, usersSelect);
+    MatcherEditor&lt;Issue&gt; textMatcherEditor = <span class="keyword">new</span> TextComponentMatcherEditor&lt;Issue&gt;(
+filterEdit, <span class="keyword">new</span> IssueTextFilterator());
+    FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(userFilteredIssues, textMatcherEditor);
+    ThresholdList&lt;Issue&gt; priorityFilteredIssues = <span class="keyword">new</span> ThresholdList&lt;Issue&gt;(
+textFilteredIssues, <span class="keyword">new</span> IssuePriorityThresholdEvaluator());
+    SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(
+priorityFilteredIssues, <span class="keyword">new</span> IssueComparator());
+    ...
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+A side effect of <code>ThresholdList</code> is that it sorts your elements by their integer evaluation.
+This makes <code>ThresholdList</code> particularly performant when adjusting the range values, but it may override your preferred ordering.
+You can overcome this issue by applying the <code>SortedList</code> transformation after the <code>ThresholdList</code> transformation.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="a-boundedrangemodel">7.3. A BoundedRangeModel</h3>
+<div class="paragraph">
+<p>You can create a model for your <code>JSlider</code> to adjust either the upper or lower bound of your <code>ThresholdList</code>.
+Two factory methods are provided by the <code>GlazedListsSwing</code> factory class:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>GlazedListsSwing.lowerRangeModel()</code> adjusts the lower bound of your <code>ThresholdList</code>.</p>
+</li>
+<li>
+<p><code>GlazedListsSwing.upperRangeModel()</code> adjusts the upper bound of your <code>ThresholdList</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The Issue Browser priority range is between 1 and 5. The slider can adjust the minimum priority displayed in the table. This is the ThresholdList&#8217;s lower bound.</p>
+</div>
+<div class="listingblock">
+<div class="title">IssuesBrowser with priority filter</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// create the threshold slider</span>
+<span class="comment">// range model handles locking itself</span>
+<span class="predefined-type">BoundedRangeModel</span> priorityFilterRangeModel = GlazedListsSwing.lowerRangeModel(priorityFilteredIssues);
+priorityFilterRangeModel.setRangeProperties(<span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">5</span>, <span class="predefined-constant">false</span>);
+<span class="predefined-type">JSlider</span> priorityFilterSlider = <span class="keyword">new</span> <span class="predefined-type">JSlider</span>(priorityFilterRangeModel);
+<span class="predefined-type">Hashtable</span>&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">JLabel</span>&gt; priorityFilterSliderLabels = <span class="keyword">new</span> <span class="predefined-type">Hashtable</span>&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">JLabel</span>&gt;();
+priorityFilterSliderLabels.put(<span class="keyword">new</span> <span class="predefined-type">Integer</span>(<span class="integer">1</span>), <span class="keyword">new</span> <span class="predefined-type">JLabel</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Low</span><span class="delimiter">&quot;</span></span>));
+priorityFilterSliderLabels.put(<span class="keyword">new</span> <span class="predefined-type">Integer</span>(<span class="integer">5</span>), <span class="keyword">new</span> <span class="predefined-type">JLabel</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">High</span><span class="delimiter">&quot;</span></span>));
+priorityFilterSlider.setLabelTable(priorityFilterSliderLabels);
+priorityFilterSlider.setMajorTickSpacing(<span class="integer">1</span>);
+priorityFilterSlider.setSnapToTicks(<span class="predefined-constant">true</span>);
+priorityFilterSlider.setPaintLabels(<span class="predefined-constant">true</span>);
+priorityFilterSlider.setPaintTicks(<span class="predefined-constant">true</span>);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="other-models">7.4. Other Models</h3>
+<div class="paragraph">
+<p>In addition to the <code>JSlider</code>, the <code>ThresholdList</code> can be paired with a <code>JComboBox</code>, <code>JTextField</code> and <code>JSpinner</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="so-what-7">7.5. So What?</h3>
+<div class="imageblock">
+<div class="content">
+<img src="images/image07.png" alt="image07">
+</div>
+</div>
+<div class="paragraph">
+<p>You&#8217;ve made it possible to filter the table simply by dragging a slider.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="conclusion">8. Conclusion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this tutorial you saw how to incrementally build a Swing-based application to present issue data, that can be dynamically sorted and filtered by different criteria.</p>
+</div>
+<div class="paragraph">
+<p>By applying the list transformations and Swing model adapters provided by Glazed Lists, we were able to build a responsive UI with managable effort.</p>
+</div>
+<div class="paragraph">
+<p>Similar tasks can be accomplished for JavaFX- or SWT-based applications as well.</p>
+</div>
+<div class="paragraph">
+<p>We hope you enjoyed this tutorial and got an impression what Glazed Lists can do for you.</p>
+</div>
+<div class="paragraph">
+<p>Stay tuned for more exiting stuff!</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Version 1.9.0<br>
+Last updated 2020-05-03 14:34:14 UTC
+</div>
+</div>
+<style>
+/* Stylesheet for CodeRay to match GitHub theme | MIT License | http://foundation.zurb.com */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid currentColor;opacity:.35;padding:0 .5em 0 0}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff !important;background:#000080 !important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:#000080}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:#008080}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:#008080}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:#008080}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword {color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:#008080}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</body>
+</html>
