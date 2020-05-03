@@ -1,6 +1,6 @@
 = Glazed Lists Tutorial
 
-This tutorial shows you step by step how to create a simple application for browsing issues of a bug database.
+This https://glazedlists.github.io/glazedlists-tutorial/[tutorial] shows you step by step how to create a simple application for browsing issues of a bug database.
 You'll learn the basics of sorting, filtering and transforming lists of data with the help of 
 https://github.com/glazedlists/glazedlists[Glazed Lists].
 
