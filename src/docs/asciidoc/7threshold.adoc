@@ -38,13 +38,12 @@ public void display() {
     ...
     UsersSelect usersSelect = new UsersSelect(issuesEventList);
     FilterList<Issue> userFilteredIssues = new FilterList<Issue>(issuesEventList, usersSelect);
-    MatcherEditor<Issue> textMatcherEditor = new TextComponentMatcherEditor<Issue>(
-filterEdit, new IssueTextFilterator());
+    IssueTextFilterator filterator = new IssueTextFilterator();
+    MatcherEditor<Issue> textMatcherEditor = new TextComponentMatcherEditor<Issue>(filterEdit, filterator);
     FilterList<Issue> textFilteredIssues = new FilterList<Issue>(userFilteredIssues, textMatcherEditor);
-    ThresholdList<Issue> priorityFilteredIssues = new ThresholdList<Issue>(
-textFilteredIssues, new IssuePriorityThresholdEvaluator());
-    SortedList<Issue> sortedIssues = new SortedList<Issue>(
-priorityFilteredIssues, new IssueComparator());
+    IssuePriorityThresholdEvaluator evaluator = new IssuePriorityThresholdEvaluator();
+    priorityFilteredIssues = new ThresholdList<Issue>(textFilteredIssues, evaluator);
+    SortedList<Issue> sortedIssues = new SortedList<Issue>(priorityFilteredIssues, new IssueComparator());
     ...
 }
 ----

@@ -28,6 +28,18 @@ For the `Issue` class, you can sort using the `priority` property:
 include::{sourcedir}/com/publicobject/glazedlists/tutorial/chapter2/IssueComparator.java[indent=0]
 ----
 
+[TIP]
+====
+With _Java 8+_ you can also use helper functions of `Comparator` to define comparators:
+
+[source,java]
+----
+Comparator<Issue> issueComparator = Comparator.comparing(Issue::getPriority);
+----
+
+This works, because `Priority` implements `Comparable` as needed.
+====
+
 Now that you can compare elements, create a `SortedList` using the issues `EventList` and the `IssueComparator`.
 The `SortedList` will provide a sorted view of the issues list.
 It keeps the issues sorted dynamically as the source EventList changes.

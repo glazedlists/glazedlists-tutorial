@@ -1,8 +1,7 @@
 package com.publicobject.glazedlists.tutorial.chapter6;
 
-import javax.swing.JList;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import static ca.odell.glazedlists.swing.GlazedListsSwing.eventListModelWithThreadProxyList;
+import static ca.odell.glazedlists.swing.GlazedListsSwing.eventSelectionModelWithThreadProxyList;
 
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.UniqueList;
@@ -11,7 +10,11 @@ import ca.odell.glazedlists.matchers.Matcher;
 import ca.odell.glazedlists.matchers.MatcherEditor;
 import ca.odell.glazedlists.swing.AdvancedListSelectionModel;
 import ca.odell.glazedlists.swing.DefaultEventListModel;
-import ca.odell.glazedlists.swing.GlazedListsSwing;
+
+import javax.swing.JList;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import ca.odell.issuezilla.Issue;
 
 /**
@@ -21,48 +24,48 @@ import ca.odell.issuezilla.Issue;
  */
 public class UsersSelect extends AbstractMatcherEditor<Issue> implements ListSelectionListener {
 
-    /** a list of users */
-    EventList<String> usersEventList;
-    EventList<String> usersSelectedList;
+  /** a list of users */
+  private EventList<String> usersEventList;
+  private EventList<String> usersSelectedList;
 
-    /** a widget for selecting users */
-    JList usersJList;
+  /** a widget for selecting users */
+  private JList<String> usersJList;
 
-    /**
-     * Create a {@link IssuesForUsersMatcherEditor} that matches users from the
-     * specified {@link EventList} of {@link Issue}s.
-     */
-    public UsersSelect(EventList<Issue> source) {
-        // derive the users list from the issues list
-        EventList<String> usersNonUnique = new IssueToUserList(source);
-        usersEventList = new UniqueList<String>(usersNonUnique);
+  /**
+   * Create a {@link IssuesForUsersMatcherEditor} that matches users from the specified
+   * {@link EventList} of {@link Issue}s.
+   */
+  public UsersSelect(EventList<Issue> source) {
+    // derive the users list from the issues list
+    EventList<String> usersNonUnique = new IssueToUserList(source);
+    usersEventList = new UniqueList<String>(usersNonUnique);
 
-        // create a JList that contains users
-        DefaultEventListModel<String> usersListModel = GlazedListsSwing.eventListModelWithThreadProxyList(usersEventList);
-        usersJList = new JList(usersListModel);
+    // create a JList that contains users
+    DefaultEventListModel<String> usersListModel = eventListModelWithThreadProxyList(usersEventList);
+    usersJList = new JList<>(usersListModel);
 
-        // create an EventList containing the JList's selection
-        AdvancedListSelectionModel<String> userSelectionModel = GlazedListsSwing.eventSelectionModelWithThreadProxyList(usersEventList);
-        usersJList.setSelectionModel(userSelectionModel);
-        usersSelectedList = userSelectionModel.getSelected();
+    // create an EventList containing the JList's selection
+    AdvancedListSelectionModel<String> userSelectionModel = eventSelectionModelWithThreadProxyList(usersEventList);
+    usersJList.setSelectionModel(userSelectionModel);
+    usersSelectedList = userSelectionModel.getSelected();
 
-        // handle changes to the list's selection
-        usersJList.addListSelectionListener(this);
-    }
+    // handle changes to the list's selection
+    usersJList.addListSelectionListener(this);
+  }
 
-    /**
-     * Get the widget for selecting users.
-     */
-    public JList getJList() {
-        return usersJList;
-    }
+  /**
+   * Get the widget for selecting users.
+   */
+  public JList<String> getJList() {
+    return usersJList;
+  }
 
-    /**
-     * When the JList selection changes, create a new Matcher and fire
-     * an event.
-     */
-    public void valueChanged(ListSelectionEvent e) {
-        Matcher<Issue> newMatcher = new IssuesForUsersMatcher(usersSelectedList);
-        fireChanged(newMatcher);
-    }
+  /**
+   * When the JList selection changes, create a new Matcher and fire an event.
+   */
+  @Override
+  public void valueChanged(ListSelectionEvent e) {
+    Matcher<Issue> newMatcher = new IssuesForUsersMatcher(usersSelectedList);
+    fireChanged(newMatcher);
+  }
 }
