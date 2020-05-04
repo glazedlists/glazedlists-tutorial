@@ -538,13 +538,11 @@ You&#8217;ll create a <code>BasicEventList</code> and populate it with issues.</
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.publicobject.glazedlists.tutorial.chapter1</span>;
 
-<span class="keyword">import</span> <span class="include">java.awt.GridBagConstraints</span>;
-<span class="keyword">import</span> <span class="include">java.awt.GridBagLayout</span>;
-<span class="keyword">import</span> <span class="include">java.awt.Insets</span>;
-<span class="keyword">import</span> <span class="include">java.io.FileInputStream</span>;
-<span class="keyword">import</span> <span class="include">java.io.IOException</span>;
-<span class="keyword">import</span> <span class="include">java.io.InputStream</span>;
-<span class="keyword">import</span> <span class="include">java.util.Collection</span>;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">ca.odell.glazedlists.swing.GlazedListsSwing.eventListModelWithThreadProxyList</span>;
+
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.BasicEventList</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.EventList</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.swing.DefaultEventListModel</span>;
 
 <span class="keyword">import</span> <span class="include">javax.swing.JFrame</span>;
 <span class="keyword">import</span> <span class="include">javax.swing.JList</span>;
@@ -553,10 +551,13 @@ You&#8217;ll create a <code>BasicEventList</code> and populate it with issues.</
 <span class="keyword">import</span> <span class="include">javax.swing.SwingUtilities</span>;
 <span class="keyword">import</span> <span class="include">javax.swing.WindowConstants</span>;
 
-<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.BasicEventList</span>;
-<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.EventList</span>;
-<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.swing.DefaultEventListModel</span>;
-<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.swing.GlazedListsSwing</span>;
+<span class="keyword">import</span> <span class="include">java.awt.GridBagConstraints</span>;
+<span class="keyword">import</span> <span class="include">java.awt.GridBagLayout</span>;
+<span class="keyword">import</span> <span class="include">java.awt.Insets</span>;
+<span class="keyword">import</span> <span class="include">java.io.IOException</span>;
+<span class="keyword">import</span> <span class="include">java.io.InputStream</span>;
+<span class="keyword">import</span> <span class="include">java.util.Collection</span>;
+
 <span class="keyword">import</span> <span class="include">ca.odell.issuezilla.Issue</span>;
 <span class="keyword">import</span> <span class="include">ca.odell.issuezilla.IssuezillaXMLParser</span>;
 
@@ -567,67 +568,60 @@ You&#8217;ll create a <code>BasicEventList</code> and populate it with issues.</
  */</span>
 <span class="directive">public</span> <span class="type">class</span> <span class="class">IssuesBrowser1</span> {
 
-    <span class="comment">/** event list that hosts the issues */</span>
-    <span class="directive">private</span> EventList&lt;Issue&gt; issuesEventList = <span class="keyword">new</span> BasicEventList&lt;Issue&gt;();
+  <span class="comment">/** event list that hosts the issues */</span>
+  <span class="directive">private</span> EventList&lt;Issue&gt; issuesEventList = <span class="keyword">new</span> BasicEventList&lt;Issue&gt;();
 
-    <span class="comment">/**
-     * Create an IssueBrowser for the specified issues.
-     */</span>
-    <span class="directive">public</span> IssuesBrowser1(<span class="predefined-type">Collection</span>&lt;Issue&gt; issues) {
-        issuesEventList.addAll(issues);
+  <span class="comment">/**
+   * Create an IssueBrowser for the specified issues.
+   */</span>
+  <span class="directive">public</span> IssuesBrowser1(<span class="predefined-type">Collection</span>&lt;Issue&gt; issues) {
+    issuesEventList.addAll(issues);
+  }
+
+  <span class="comment">/**
+   * Display a frame for browsing issues.
+   */</span>
+  <span class="directive">public</span> <span class="type">void</span> display() {
+    <span class="predefined-type">JPanel</span> panel = <span class="keyword">new</span> <span class="predefined-type">JPanel</span>(<span class="keyword">new</span> <span class="predefined-type">GridBagLayout</span>());
+    DefaultEventListModel&lt;Issue&gt; listModel = eventListModelWithThreadProxyList(issuesEventList);
+    <span class="predefined-type">JList</span>&lt;Issue&gt; issuesJList = <span class="keyword">new</span> <span class="predefined-type">JList</span>&lt;&gt;(listModel);
+    <span class="predefined-type">JScrollPane</span> issuesListScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJList);
+    panel.add(issuesListScrollPane, <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">1.0</span>, <span class="float">1.0</span>,
+        <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+
+    <span class="comment">// create a frame with that panel</span>
+    <span class="predefined-type">JFrame</span> frame = <span class="keyword">new</span> <span class="predefined-type">JFrame</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Issues</span><span class="delimiter">&quot;</span></span>);
+    frame.setDefaultCloseOperation(<span class="predefined-type">WindowConstants</span>.EXIT_ON_CLOSE);
+    frame.setSize(<span class="integer">540</span>, <span class="integer">380</span>);
+    frame.getContentPane().add(panel);
+    frame.setVisible(<span class="predefined-constant">true</span>);
+  }
+
+  <span class="comment">/**
+   * Launch the IssuesBrowser from the commandline.
+   */</span>
+  <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
+    <span class="comment">// load some issues</span>
+    <span class="directive">final</span> <span class="predefined-type">Collection</span>&lt;Issue&gt; issues;
+    IssuezillaXMLParser parser = <span class="keyword">new</span> IssuezillaXMLParser();
+    <span class="keyword">try</span> (<span class="predefined-type">InputStream</span> inputStream = IssuesBrowser1.class.getResourceAsStream(<span class="string"><span class="delimiter">&quot;</span><span class="content">/issues.xml</span><span class="delimiter">&quot;</span></span>)) {
+      issues = parser.loadIssues(inputStream, <span class="predefined-constant">null</span>);
+    } <span class="keyword">catch</span> (<span class="exception">IOException</span> e) {
+      e.printStackTrace();
+      <span class="keyword">return</span>;
     }
 
-    <span class="comment">/**
-     * Display a frame for browsing issues.
-     */</span>
-    <span class="directive">public</span> <span class="type">void</span> display() {
-        <span class="comment">// create a panel with a table</span>
-        <span class="predefined-type">JPanel</span> panel = <span class="keyword">new</span> <span class="predefined-type">JPanel</span>();
-        panel.setLayout(<span class="keyword">new</span> <span class="predefined-type">GridBagLayout</span>());
-        DefaultEventListModel&lt;Issue&gt; issuesListModel = GlazedListsSwing.eventListModelWithThreadProxyList(issuesEventList);
-        <span class="predefined-type">JList</span> issuesJList = <span class="keyword">new</span> <span class="predefined-type">JList</span>(issuesListModel);
-        <span class="predefined-type">JScrollPane</span> issuesListScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJList);
-        panel.add(issuesListScrollPane, <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">1.0</span>, <span class="float">1.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
-
-        <span class="comment">// create a frame with that panel</span>
-        <span class="predefined-type">JFrame</span> frame = <span class="keyword">new</span> <span class="predefined-type">JFrame</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Issues</span><span class="delimiter">&quot;</span></span>);
-        frame.setDefaultCloseOperation(<span class="predefined-type">WindowConstants</span>.EXIT_ON_CLOSE);
-        frame.setSize(<span class="integer">540</span>, <span class="integer">380</span>);
-        frame.getContentPane().add(panel);
-        frame.setVisible(<span class="predefined-constant">true</span>);
-    }
-
-    <span class="comment">/**
-     * Launch the IssuesBrowser from the commandline.
-     */</span>
-    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
-        <span class="keyword">if</span>(args.length != <span class="integer">1</span>) {
-            <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Usage: IssuesBrowser &lt;file&gt;</span><span class="delimiter">&quot;</span></span>);
-            <span class="keyword">return</span>;
-        }
-
-        <span class="comment">// load some issues</span>
-        <span class="directive">final</span> <span class="predefined-type">Collection</span>&lt;Issue&gt; issues;
-        <span class="keyword">try</span> {
-            IssuezillaXMLParser parser = <span class="keyword">new</span> IssuezillaXMLParser();
-            <span class="predefined-type">InputStream</span> issuesInStream = <span class="keyword">new</span> <span class="predefined-type">FileInputStream</span>(args[<span class="integer">0</span>]);
-            issues = parser.loadIssues(issuesInStream, <span class="predefined-constant">null</span>);
-            issuesInStream.close();
-        } <span class="keyword">catch</span>(<span class="exception">IOException</span> e) {
-            e.printStackTrace();
-            <span class="keyword">return</span>;
-        }
-
-        <span class="comment">// Schedule a job for the event-dispatching thread:</span>
-        <span class="comment">// creating and showing this application's GUI.</span>
-        <span class="predefined-type">SwingUtilities</span>.invokeLater(<span class="keyword">new</span> <span class="predefined-type">Runnable</span>() {
-            <span class="directive">public</span> <span class="type">void</span> run() {
-                <span class="comment">// create the browser</span>
-                IssuesBrowser1 browser = <span class="keyword">new</span> IssuesBrowser1(issues);
-                browser.display();
-            }
-        });
-    }
+    <span class="comment">// Schedule a job for the event-dispatching thread:</span>
+    <span class="comment">// creating and showing this application's GUI.</span>
+    <span class="predefined-type">SwingUtilities</span>.invokeLater(<span class="keyword">new</span> <span class="predefined-type">Runnable</span>() {
+      <span class="annotation">@Override</span>
+      <span class="directive">public</span> <span class="type">void</span> run() {
+        <span class="comment">// create the browser</span>
+        IssuesBrowser1 browser = <span class="keyword">new</span> IssuesBrowser1(issues);
+        browser.display();
+      }
+    });
+  }
 }</code></pre>
 </div>
 </div>
@@ -667,8 +661,8 @@ Without Glazed Lists, such a change would have you throw out your ListModel code
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.9.0<br>
-Last updated 2020-05-03 14:58:25 UTC
+Version 1.11.0<br>
+Last updated 2020-05-04 20:40:02 UTC
 </div>
 </div>
 <style>

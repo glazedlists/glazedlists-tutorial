@@ -500,16 +500,39 @@ By creating a Comparator or implementing Comparable, we gain full control of the
  * @author &lt;a href=&quot;mailto:jesse@swank.ca&quot;&gt;Jesse Wilson&lt;/a&gt;
  */</span>
 <span class="directive">public</span> <span class="type">class</span> <span class="class">IssueComparator</span> <span class="directive">implements</span> <span class="predefined-type">Comparator</span>&lt;Issue&gt; {
-    <span class="directive">public</span> <span class="type">int</span> compare(Issue issueA, Issue issueB) {
+  <span class="annotation">@Override</span>
+  <span class="directive">public</span> <span class="type">int</span> compare(Issue issueA, Issue issueB) {
 
-        <span class="comment">// rating is between 1 and 5, lower is more important</span>
-        <span class="type">int</span> issueAValue = issueA.getPriority().getValue();
-        <span class="type">int</span> issueBValue = issueB.getPriority().getValue();
+    <span class="comment">// rating is between 1 and 5, lower is more important</span>
+    <span class="type">int</span> issueAValue = issueA.getPriority().getValue();
+    <span class="type">int</span> issueBValue = issueB.getPriority().getValue();
 
-        <span class="keyword">return</span> issueAValue - issueBValue;
-    }
+    <span class="keyword">return</span> issueAValue - issueBValue;
+  }
 }</code></pre>
 </div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>With <em>Java 8+</em> you can also use helper functions of <code>Comparator</code> to define comparators:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Comparator</span>&lt;Issue&gt; issueComparator = <span class="predefined-type">Comparator</span>.comparing(Issue::getPriority);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This works, because <code>Priority</code> implements <code>Comparable</code> as needed.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Now that you can compare elements, create a <code>SortedList</code> using the issues <code>EventList</code> and the <code>IssueComparator</code>.
@@ -538,6 +561,7 @@ This includes how many columns, their names, and how to get the column value fro
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.publicobject.glazedlists.tutorial.chapter2</span>;
 
 <span class="keyword">import</span> <span class="include">ca.odell.glazedlists.gui.TableFormat</span>;
+
 <span class="keyword">import</span> <span class="include">ca.odell.issuezilla.Issue</span>;
 
 <span class="comment">/**
@@ -547,32 +571,48 @@ This includes how many columns, their names, and how to get the column value fro
  */</span>
 <span class="directive">public</span> <span class="type">class</span> <span class="class">IssueTableFormat</span> <span class="directive">implements</span> TableFormat&lt;Issue&gt; {
 
-    <span class="directive">public</span> <span class="type">int</span> getColumnCount() {
-        <span class="keyword">return</span> <span class="integer">6</span>;
+  <span class="annotation">@Override</span>
+  <span class="directive">public</span> <span class="type">int</span> getColumnCount() {
+    <span class="keyword">return</span> <span class="integer">6</span>;
+  }
+
+  <span class="annotation">@Override</span>
+  <span class="directive">public</span> <span class="predefined-type">String</span> getColumnName(<span class="type">int</span> column) {
+    <span class="keyword">switch</span> (column) {
+    <span class="keyword">case</span> <span class="integer">0</span>:
+      <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">ID</span><span class="delimiter">&quot;</span></span>;
+    <span class="keyword">case</span> <span class="integer">1</span>:
+      <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">Type</span><span class="delimiter">&quot;</span></span>;
+    <span class="keyword">case</span> <span class="integer">2</span>:
+      <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">Priority</span><span class="delimiter">&quot;</span></span>;
+    <span class="keyword">case</span> <span class="integer">3</span>:
+      <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">State</span><span class="delimiter">&quot;</span></span>;
+    <span class="keyword">case</span> <span class="integer">4</span>:
+      <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">Result</span><span class="delimiter">&quot;</span></span>;
+    <span class="keyword">case</span> <span class="integer">5</span>:
+      <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">Summary</span><span class="delimiter">&quot;</span></span>;
     }
+    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">IllegalStateException</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Unexpected column: </span><span class="delimiter">&quot;</span></span> + column);
+  }
 
-    <span class="directive">public</span> <span class="predefined-type">String</span> getColumnName(<span class="type">int</span> column) {
-        <span class="keyword">if</span>(column == <span class="integer">0</span>)      <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">ID</span><span class="delimiter">&quot;</span></span>;
-        <span class="keyword">else</span> <span class="keyword">if</span>(column == <span class="integer">1</span>) <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">Type</span><span class="delimiter">&quot;</span></span>;
-        <span class="keyword">else</span> <span class="keyword">if</span>(column == <span class="integer">2</span>) <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">Priority</span><span class="delimiter">&quot;</span></span>;
-        <span class="keyword">else</span> <span class="keyword">if</span>(column == <span class="integer">3</span>) <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">State</span><span class="delimiter">&quot;</span></span>;
-        <span class="keyword">else</span> <span class="keyword">if</span>(column == <span class="integer">4</span>) <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">Result</span><span class="delimiter">&quot;</span></span>;
-        <span class="keyword">else</span> <span class="keyword">if</span>(column == <span class="integer">5</span>) <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">Summary</span><span class="delimiter">&quot;</span></span>;
-
-        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">IllegalStateException</span>();
+  <span class="annotation">@Override</span>
+  <span class="directive">public</span> <span class="predefined-type">Object</span> getColumnValue(Issue issue, <span class="type">int</span> column) {
+    <span class="keyword">switch</span> (column) {
+    <span class="keyword">case</span> <span class="integer">0</span>:
+      <span class="keyword">return</span> issue.getId();
+    <span class="keyword">case</span> <span class="integer">1</span>:
+      <span class="keyword">return</span> issue.getIssueType();
+    <span class="keyword">case</span> <span class="integer">2</span>:
+      <span class="keyword">return</span> issue.getPriority();
+    <span class="keyword">case</span> <span class="integer">3</span>:
+      <span class="keyword">return</span> issue.getStatus();
+    <span class="keyword">case</span> <span class="integer">4</span>:
+      <span class="keyword">return</span> issue.getResolution();
+    <span class="keyword">case</span> <span class="integer">5</span>:
+      <span class="keyword">return</span> issue.getShortDescription();
     }
-
-    <span class="directive">public</span> <span class="predefined-type">Object</span> getColumnValue(Issue issue, <span class="type">int</span> column) {
-
-        <span class="keyword">if</span>(column == <span class="integer">0</span>)      <span class="keyword">return</span> issue.getId();
-        <span class="keyword">else</span> <span class="keyword">if</span>(column == <span class="integer">1</span>) <span class="keyword">return</span> issue.getIssueType();
-        <span class="keyword">else</span> <span class="keyword">if</span>(column == <span class="integer">2</span>) <span class="keyword">return</span> issue.getPriority();
-        <span class="keyword">else</span> <span class="keyword">if</span>(column == <span class="integer">3</span>) <span class="keyword">return</span> issue.getStatus();
-        <span class="keyword">else</span> <span class="keyword">if</span>(column == <span class="integer">4</span>) <span class="keyword">return</span> issue.getResolution();
-        <span class="keyword">else</span> <span class="keyword">if</span>(column == <span class="integer">5</span>) <span class="keyword">return</span> issue.getShortDescription();
-
-        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">IllegalStateException</span>();
-    }
+    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">IllegalStateException</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Unexpected column: </span><span class="delimiter">&quot;</span></span> + column);
+  }
 }</code></pre>
 </div>
 </div>
@@ -610,23 +650,23 @@ For this, Glazed Lists provides <code>TableComparatorChooser</code>, which adds 
  * Display a frame for browsing issues.
  */</span>
 <span class="directive">public</span> <span class="type">void</span> display() {
-    SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
+  SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
 
-    <span class="comment">// create a panel with a table</span>
-    <span class="predefined-type">JPanel</span> panel = <span class="keyword">new</span> <span class="predefined-type">JPanel</span>();
-    panel.setLayout(<span class="keyword">new</span> <span class="predefined-type">GridBagLayout</span>());
-    AdvancedTableModel&lt;Issue&gt; issuesTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(sortedIssues, <span class="keyword">new</span> IssueTableFormat());
-    <span class="predefined-type">JTable</span> issuesJTable = <span class="keyword">new</span> <span class="predefined-type">JTable</span>(issuesTableModel);
-    TableComparatorChooser&lt;Issue&gt; tableSorter = TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
-    <span class="predefined-type">JScrollPane</span> issuesTableScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJTable);
-    panel.add(issuesTableScrollPane, <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">1.0</span>, <span class="float">1.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+  <span class="comment">// create a panel with a table</span>
+  <span class="predefined-type">JPanel</span> panel = <span class="keyword">new</span> <span class="predefined-type">JPanel</span>(<span class="keyword">new</span> <span class="predefined-type">GridBagLayout</span>());
+  AdvancedTableModel&lt;Issue&gt; tableModel = eventTableModelWithThreadProxyList(sortedIssues, <span class="keyword">new</span> IssueTableFormat());
+  <span class="predefined-type">JTable</span> issuesJTable = <span class="keyword">new</span> <span class="predefined-type">JTable</span>(tableModel);
+  TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
+  <span class="predefined-type">JScrollPane</span> issuesTableScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJTable);
+  panel.add(issuesTableScrollPane, <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">1.0</span>, <span class="float">1.0</span>,
+      <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
 
-    <span class="comment">// create a frame with that panel</span>
-    <span class="predefined-type">JFrame</span> frame = <span class="keyword">new</span> <span class="predefined-type">JFrame</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Issues</span><span class="delimiter">&quot;</span></span>);
-    frame.setDefaultCloseOperation(<span class="predefined-type">WindowConstants</span>.EXIT_ON_CLOSE);
-    frame.setSize(<span class="integer">540</span>, <span class="integer">380</span>);
-    frame.getContentPane().add(panel);
-    frame.setVisible(<span class="predefined-constant">true</span>);
+  <span class="comment">// create a frame with that panel</span>
+  <span class="predefined-type">JFrame</span> frame = <span class="keyword">new</span> <span class="predefined-type">JFrame</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Issues</span><span class="delimiter">&quot;</span></span>);
+  frame.setDefaultCloseOperation(<span class="predefined-type">WindowConstants</span>.EXIT_ON_CLOSE);
+  frame.setSize(<span class="integer">540</span>, <span class="integer">380</span>);
+  frame.getContentPane().add(panel);
+  frame.setVisible(<span class="predefined-constant">true</span>);
 }</code></pre>
 </div>
 </div>
@@ -686,8 +726,8 @@ If your column&#8217;s values are not <code>Comparable</code>, you&#8217;ll have
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.9.0<br>
-Last updated 2020-05-03 14:58:25 UTC
+Version 1.11.0<br>
+Last updated 2020-05-04 20:40:02 UTC
 </div>
 </div>
 <style>

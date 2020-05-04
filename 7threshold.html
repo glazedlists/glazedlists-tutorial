@@ -504,15 +504,15 @@ The issue priorities are P1 (most important) to P5 (least important), but this i
  * @author &lt;a href=&quot;mailto:jesse@swank.ca&quot;&gt;Jesse Wilson&lt;/a&gt;
  */</span>
 <span class="directive">public</span> <span class="type">class</span> <span class="class">IssuePriorityThresholdEvaluator</span> <span class="directive">implements</span> ThresholdList.Evaluator&lt;Issue&gt; {
-    <span class="directive">public</span> <span class="type">int</span> evaluate(Issue issue) {
+  <span class="directive">public</span> <span class="type">int</span> evaluate(Issue issue) {
 
-        <span class="comment">// rating is between 1 and 5, lower is more important</span>
-        <span class="type">int</span> issueRating = issue.getPriority().getValue();
+    <span class="comment">// rating is between 1 and 5, lower is more important</span>
+    <span class="type">int</span> issueRating = issue.getPriority().getValue();
 
-        <span class="comment">// flip: now rating is between 1 and 5, higher is more important</span>
-        <span class="type">int</span> inverseRating = <span class="integer">6</span> - issueRating;
-        <span class="keyword">return</span> inverseRating;
-    }
+    <span class="comment">// flip: now rating is between 1 and 5, higher is more important</span>
+    <span class="type">int</span> inverseRating = <span class="integer">6</span> - issueRating;
+    <span class="keyword">return</span> inverseRating;
+  }
 }</code></pre>
 </div>
 </div>
@@ -530,13 +530,12 @@ The issue priorities are P1 (most important) to P5 (least important), but this i
     ...
     UsersSelect usersSelect = <span class="keyword">new</span> UsersSelect(issuesEventList);
     FilterList&lt;Issue&gt; userFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(issuesEventList, usersSelect);
-    MatcherEditor&lt;Issue&gt; textMatcherEditor = <span class="keyword">new</span> TextComponentMatcherEditor&lt;Issue&gt;(
-filterEdit, <span class="keyword">new</span> IssueTextFilterator());
+    IssueTextFilterator filterator = <span class="keyword">new</span> IssueTextFilterator();
+    MatcherEditor&lt;Issue&gt; textMatcherEditor = <span class="keyword">new</span> TextComponentMatcherEditor&lt;Issue&gt;(filterEdit, filterator);
     FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(userFilteredIssues, textMatcherEditor);
-    ThresholdList&lt;Issue&gt; priorityFilteredIssues = <span class="keyword">new</span> ThresholdList&lt;Issue&gt;(
-textFilteredIssues, <span class="keyword">new</span> IssuePriorityThresholdEvaluator());
-    SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(
-priorityFilteredIssues, <span class="keyword">new</span> IssueComparator());
+    IssuePriorityThresholdEvaluator evaluator = <span class="keyword">new</span> IssuePriorityThresholdEvaluator();
+    priorityFilteredIssues = <span class="keyword">new</span> ThresholdList&lt;Issue&gt;(textFilteredIssues, evaluator);
+    SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(priorityFilteredIssues, <span class="keyword">new</span> IssueComparator());
     ...
 }</code></pre>
 </div>
@@ -580,10 +579,10 @@ Two factory methods are provided by the <code>GlazedListsSwing</code> factory cl
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// create the threshold slider</span>
 <span class="comment">// range model handles locking itself</span>
-<span class="predefined-type">BoundedRangeModel</span> priorityFilterRangeModel = GlazedListsSwing.lowerRangeModel(priorityFilteredIssues);
+<span class="predefined-type">BoundedRangeModel</span> priorityFilterRangeModel = lowerRangeModel(priorityFilteredIssues);
 priorityFilterRangeModel.setRangeProperties(<span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">5</span>, <span class="predefined-constant">false</span>);
 <span class="predefined-type">JSlider</span> priorityFilterSlider = <span class="keyword">new</span> <span class="predefined-type">JSlider</span>(priorityFilterRangeModel);
-<span class="predefined-type">Hashtable</span>&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">JLabel</span>&gt; priorityFilterSliderLabels = <span class="keyword">new</span> <span class="predefined-type">Hashtable</span>&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">JLabel</span>&gt;();
+<span class="predefined-type">Hashtable</span>&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">JLabel</span>&gt; priorityFilterSliderLabels = <span class="keyword">new</span> <span class="predefined-type">Hashtable</span>&lt;&gt;();
 priorityFilterSliderLabels.put(<span class="keyword">new</span> <span class="predefined-type">Integer</span>(<span class="integer">1</span>), <span class="keyword">new</span> <span class="predefined-type">JLabel</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Low</span><span class="delimiter">&quot;</span></span>));
 priorityFilterSliderLabels.put(<span class="keyword">new</span> <span class="predefined-type">Integer</span>(<span class="integer">5</span>), <span class="keyword">new</span> <span class="predefined-type">JLabel</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">High</span><span class="delimiter">&quot;</span></span>));
 priorityFilterSlider.setLabelTable(priorityFilterSliderLabels);
@@ -616,8 +615,8 @@ priorityFilterSlider.setPaintTicks(<span class="predefined-constant">true</span>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.9.0<br>
-Last updated 2020-05-03 14:58:25 UTC
+Version 1.11.0<br>
+Last updated 2020-05-04 20:40:02 UTC
 </div>
 </div>
 <style>

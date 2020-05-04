@@ -591,12 +591,12 @@ The provided issue XML parser provides a callback <code>issueLoaded()</code> whi
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.publicobject.glazedlists.tutorial.chapter6</span>;
 
-<span class="keyword">import</span> <span class="include">java.io.FileInputStream</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.BasicEventList</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.EventList</span>;
+
 <span class="keyword">import</span> <span class="include">java.io.IOException</span>;
 <span class="keyword">import</span> <span class="include">java.io.InputStream</span>;
 
-<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.BasicEventList</span>;
-<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.EventList</span>;
 <span class="keyword">import</span> <span class="include">ca.odell.issuezilla.Issue</span>;
 <span class="keyword">import</span> <span class="include">ca.odell.issuezilla.IssuezillaXMLParser</span>;
 <span class="keyword">import</span> <span class="include">ca.odell.issuezilla.IssuezillaXMLParserHandler</span>;
@@ -608,60 +608,54 @@ The provided issue XML parser provides a callback <code>issueLoaded()</code> whi
  */</span>
 <span class="directive">public</span> <span class="type">class</span> <span class="class">IssuesLoader</span> <span class="directive">implements</span> <span class="predefined-type">Runnable</span>, IssuezillaXMLParserHandler {
 
-    <span class="comment">/** the issues list */</span>
-    <span class="directive">private</span> EventList&lt;Issue&gt; issues = <span class="keyword">new</span> BasicEventList&lt;Issue&gt;();
+  <span class="comment">/** the issues list */</span>
+  <span class="directive">private</span> EventList&lt;Issue&gt; issues = <span class="keyword">new</span> BasicEventList&lt;Issue&gt;();
 
-    <span class="comment">/** where issues shall be found */</span>
-    <span class="directive">private</span> <span class="predefined-type">String</span> file;
+  <span class="comment">/**
+   * Get the list that issues are being loaded into.
+   */</span>
+  <span class="directive">public</span> EventList&lt;Issue&gt; getIssues() {
+    <span class="keyword">return</span> issues;
+  }
 
-    <span class="comment">/**
-     * Get the list that issues are being loaded into.
-     */</span>
-    <span class="directive">public</span> EventList&lt;Issue&gt; getIssues() {
-        <span class="keyword">return</span> issues;
+  <span class="comment">/**
+   * Load the issues.
+   */</span>
+  <span class="directive">public</span> <span class="type">void</span> load() {
+    <span class="comment">// start a background thread</span>
+    <span class="predefined-type">Thread</span> backgroundThread = <span class="keyword">new</span> <span class="predefined-type">Thread</span>(<span class="local-variable">this</span>);
+    backgroundThread.setName(<span class="string"><span class="delimiter">&quot;</span><span class="content">Issues from resource</span><span class="delimiter">&quot;</span></span>);
+    backgroundThread.setDaemon(<span class="predefined-constant">true</span>);
+    backgroundThread.start();
+  }
+
+  <span class="comment">/**
+   * When run, this fetches the issues from the issues URL and refreshes the issues list.
+   */</span>
+  <span class="annotation">@Override</span>
+  <span class="directive">public</span> <span class="type">void</span> run() {
+    <span class="comment">// load some issues</span>
+    IssuezillaXMLParser parser = <span class="keyword">new</span> IssuezillaXMLParser();
+    <span class="keyword">try</span> (<span class="predefined-type">InputStream</span> inputStream = IssuesLoader.class.getResourceAsStream(<span class="string"><span class="delimiter">&quot;</span><span class="content">/issues.xml</span><span class="delimiter">&quot;</span></span>)) {
+      parser.loadIssues(inputStream, <span class="local-variable">this</span>);
+    } <span class="keyword">catch</span> (<span class="exception">IOException</span> e) {
+      e.printStackTrace();
+      <span class="keyword">return</span>;
     }
+  }
 
-    <span class="comment">/**
-     * Load the issues from the specified file.
-     */</span>
-    <span class="directive">public</span> <span class="type">void</span> load(<span class="predefined-type">String</span> file) {
-        <span class="local-variable">this</span>.file = file;
-
-        <span class="comment">// start a background thread</span>
-        <span class="predefined-type">Thread</span> backgroundThread = <span class="keyword">new</span> <span class="predefined-type">Thread</span>(<span class="local-variable">this</span>);
-        backgroundThread.setName(<span class="string"><span class="delimiter">&quot;</span><span class="content">Issues from </span><span class="delimiter">&quot;</span></span> + file);
-        backgroundThread.setDaemon(<span class="predefined-constant">true</span>);
-        backgroundThread.start();
+  <span class="comment">/**
+   * Handles a loaded issue.
+   */</span>
+  <span class="annotation">@Override</span>
+  <span class="directive">public</span> <span class="type">void</span> issueLoaded(Issue issue) {
+    issues.getReadWriteLock().writeLock().lock();
+    <span class="keyword">try</span> {
+      issues.add(issue);
+    } <span class="keyword">finally</span> {
+      issues.getReadWriteLock().writeLock().unlock();
     }
-
-    <span class="comment">/**
-     * When run, this fetches the issues from the issues URL and refreshes
-     * the issues list.
-     */</span>
-    <span class="directive">public</span> <span class="type">void</span> run() {
-        <span class="comment">// load some issues</span>
-        <span class="keyword">try</span> {
-            IssuezillaXMLParser parser = <span class="keyword">new</span> IssuezillaXMLParser();
-            <span class="predefined-type">InputStream</span> issuesInStream = <span class="keyword">new</span> <span class="predefined-type">FileInputStream</span>(file);
-            parser.loadIssues(issuesInStream, <span class="local-variable">this</span>);
-            issuesInStream.close();
-        } <span class="keyword">catch</span>(<span class="exception">IOException</span> e) {
-            e.printStackTrace();
-            <span class="keyword">return</span>;
-        }
-    }
-
-    <span class="comment">/**
-     * Handles a loaded issue.
-     */</span>
-    <span class="directive">public</span> <span class="type">void</span> issueLoaded(Issue issue) {
-        issues.getReadWriteLock().writeLock().lock();
-        <span class="keyword">try</span> {
-            issues.add(issue);
-        } <span class="keyword">finally</span> {
-            issues.getReadWriteLock().writeLock().unlock();
-        }
-    }
+  }
 }</code></pre>
 </div>
 </div>
@@ -684,9 +678,18 @@ Using <code>SwingUtilities.invokeLater()</code> can accomplish this.</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.publicobject.glazedlists.tutorial.chapter6</span>;
 
-<span class="keyword">import</span> <span class="include">java.awt.GridBagConstraints</span>;
-<span class="keyword">import</span> <span class="include">java.awt.GridBagLayout</span>;
-<span class="keyword">import</span> <span class="include">java.awt.Insets</span>;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">ca.odell.glazedlists.swing.GlazedListsSwing.eventTableModelWithThreadProxyList</span>;
+
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.EventList</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.FilterList</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.SortedList</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.matchers.MatcherEditor</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.swing.AdvancedTableModel</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.swing.TableComparatorChooser</span>;
+<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.swing.TextComponentMatcherEditor</span>;
+
+<span class="keyword">import</span> <span class="include">com.publicobject.glazedlists.tutorial.chapter2.IssueTableFormat</span>;
+<span class="keyword">import</span> <span class="include">com.publicobject.glazedlists.tutorial.chapter7.IssueTextFilterator</span>;
 
 <span class="keyword">import</span> <span class="include">javax.swing.JFrame</span>;
 <span class="keyword">import</span> <span class="include">javax.swing.JLabel</span>;
@@ -697,13 +700,10 @@ Using <code>SwingUtilities.invokeLater()</code> can accomplish this.</p>
 <span class="keyword">import</span> <span class="include">javax.swing.SwingUtilities</span>;
 <span class="keyword">import</span> <span class="include">javax.swing.WindowConstants</span>;
 
-<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.EventList</span>;
-<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.FilterList</span>;
-<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.SortedList</span>;
-<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.swing.AdvancedTableModel</span>;
-<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.swing.GlazedListsSwing</span>;
-<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.swing.TableComparatorChooser</span>;
-<span class="keyword">import</span> <span class="include">ca.odell.glazedlists.swing.TextComponentMatcherEditor</span>;
+<span class="keyword">import</span> <span class="include">java.awt.GridBagConstraints</span>;
+<span class="keyword">import</span> <span class="include">java.awt.GridBagLayout</span>;
+<span class="keyword">import</span> <span class="include">java.awt.Insets</span>;
+
 <span class="keyword">import</span> <span class="include">ca.odell.issuezilla.Issue</span>;
 
 <span class="comment">/**
@@ -713,83 +713,86 @@ Using <code>SwingUtilities.invokeLater()</code> can accomplish this.</p>
  */</span>
 <span class="directive">public</span> <span class="type">class</span> <span class="class">IssuesBrowser6</span> {
 
-    <span class="comment">/** reads issues from a stream and populates the issues event list */</span>
-    <span class="directive">private</span> IssuesLoader issueLoader = <span class="keyword">new</span> IssuesLoader();
+  <span class="comment">/** reads issues from a stream and populates the issues event list */</span>
+  <span class="directive">private</span> IssuesLoader issueLoader = <span class="keyword">new</span> IssuesLoader();
 
-    <span class="comment">/** event list that hosts the issues */</span>
-    <span class="directive">private</span> EventList&lt;Issue&gt; issuesEventList = issueLoader.getIssues();
+  <span class="comment">/** event list that hosts the issues */</span>
+  <span class="directive">private</span> EventList&lt;Issue&gt; issuesEventList = issueLoader.getIssues();
 
-    <span class="comment">/**
-     * Create an IssueBrowser for the specified issues.
-     */</span>
-    <span class="directive">public</span> IssuesBrowser6(<span class="predefined-type">String</span> file) {
-        issueLoader.load(file);
+  <span class="comment">/**
+   * Create an IssueBrowser for the specified issues.
+   */</span>
+  <span class="directive">public</span> IssuesBrowser6() {
+    issueLoader.load();
+  }
+
+  <span class="comment">/**
+   * Display a frame for browsing issues. This should only be run on the Swing event dispatch
+   * thread.
+   */</span>
+  <span class="directive">public</span> <span class="type">void</span> display() {
+    issuesEventList.getReadWriteLock().readLock().lock();
+    <span class="keyword">try</span> {
+      <span class="comment">// create the transformed models</span>
+      SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
+      UsersSelect usersSelect = <span class="keyword">new</span> UsersSelect(sortedIssues);
+      FilterList&lt;Issue&gt; userFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(sortedIssues, usersSelect);
+      <span class="predefined-type">JTextField</span> filterEdit = <span class="keyword">new</span> <span class="predefined-type">JTextField</span>(<span class="integer">10</span>);
+      IssueTextFilterator filterator = <span class="keyword">new</span> IssueTextFilterator();
+      MatcherEditor&lt;Issue&gt; textMatcherEditor = <span class="keyword">new</span> TextComponentMatcherEditor&lt;Issue&gt;(filterEdit, filterator);
+      FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(userFilteredIssues, textMatcherEditor);
+
+      <span class="comment">// create the issues table</span>
+      AdvancedTableModel&lt;Issue&gt; tableModel = eventTableModelWithThreadProxyList(sortedIssues, <span class="keyword">new</span> IssueTableFormat());
+      <span class="predefined-type">JTable</span> issuesJTable = <span class="keyword">new</span> <span class="predefined-type">JTable</span>(tableModel);
+      TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
+      <span class="predefined-type">JScrollPane</span> issuesTableScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJTable);
+
+      <span class="comment">// create the users list</span>
+      <span class="predefined-type">JScrollPane</span> usersListScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(usersSelect.getJList());
+
+      <span class="comment">// create the panel</span>
+      <span class="predefined-type">JPanel</span> panel = <span class="keyword">new</span> <span class="predefined-type">JPanel</span>();
+      panel.setLayout(<span class="keyword">new</span> <span class="predefined-type">GridBagLayout</span>());
+      panel.add(<span class="keyword">new</span> <span class="predefined-type">JLabel</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Filter: </span><span class="delimiter">&quot;</span></span>),      <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">0.0</span>, <span class="float">0.0</span>,
+          <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+      panel.add(filterEdit,                  <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">0.15</span>, <span class="float">0.0</span>,
+          <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+      panel.add(<span class="keyword">new</span> <span class="predefined-type">JLabel</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Reported By: </span><span class="delimiter">&quot;</span></span>), <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">2</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">0.0</span>, <span class="float">0.0</span>,
+          <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+      panel.add(usersListScrollPane,         <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">3</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">0.15</span>, <span class="float">1.0</span>,
+          <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+      panel.add(issuesTableScrollPane,       <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">4</span>, <span class="float">0.85</span>, <span class="float">1.0</span>,
+          <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+
+      <span class="comment">// create a frame with that panel</span>
+      <span class="predefined-type">JFrame</span> frame = <span class="keyword">new</span> <span class="predefined-type">JFrame</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Issues</span><span class="delimiter">&quot;</span></span>);
+      frame.setDefaultCloseOperation(<span class="predefined-type">WindowConstants</span>.EXIT_ON_CLOSE);
+      frame.setSize(<span class="integer">540</span>, <span class="integer">380</span>);
+      frame.getContentPane().add(panel);
+      frame.setVisible(<span class="predefined-constant">true</span>);
+    } <span class="keyword">finally</span> {
+      issuesEventList.getReadWriteLock().readLock().unlock();
     }
+  }
 
-    <span class="comment">/**
-     * Display a frame for browsing issues. This should only be run on the Swing
-     * event dispatch thread.
-     */</span>
-    <span class="directive">public</span> <span class="type">void</span> display() {
-        issuesEventList.getReadWriteLock().readLock().lock();
-        <span class="keyword">try</span> {
-            <span class="comment">// create the transformed models</span>
-            SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
-            UsersSelect usersSelect = <span class="keyword">new</span> UsersSelect(sortedIssues);
-            FilterList&lt;Issue&gt; userFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(sortedIssues, usersSelect);
-            <span class="predefined-type">JTextField</span> filterEdit = <span class="keyword">new</span> <span class="predefined-type">JTextField</span>(<span class="integer">10</span>);
-            FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(userFilteredIssues, <span class="keyword">new</span> TextComponentMatcherEditor&lt;Issue&gt;(filterEdit, <span class="keyword">new</span> IssueTextFilterator()));
+  <span class="comment">/**
+   * Launch the IssuesBrowser from the commandline.
+   */</span>
+  <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
+    <span class="comment">// create the browser and start loading issues</span>
+    <span class="directive">final</span> IssuesBrowser6 browser = <span class="keyword">new</span> IssuesBrowser6();
 
-            <span class="comment">// create the issues table</span>
-            AdvancedTableModel&lt;Issue&gt; issuesTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(textFilteredIssues, <span class="keyword">new</span> IssueTableFormat());
-            <span class="predefined-type">JTable</span> issuesJTable = <span class="keyword">new</span> <span class="predefined-type">JTable</span>(issuesTableModel);
-            TableComparatorChooser&lt;Issue&gt; tableSorter = TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
-            <span class="predefined-type">JScrollPane</span> issuesTableScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJTable);
+    <span class="comment">// Schedule a job for the event-dispatching thread:</span>
+    <span class="comment">// creating and showing this application's GUI.</span>
+    <span class="predefined-type">SwingUtilities</span>.invokeLater(<span class="keyword">new</span> <span class="predefined-type">Runnable</span>() {
+      <span class="annotation">@Override</span>
+      <span class="directive">public</span> <span class="type">void</span> run() {
+        browser.display();
+      }
+    });
 
-            <span class="comment">// create the users list</span>
-            <span class="predefined-type">JScrollPane</span> usersListScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(usersSelect.getJList());
-
-            <span class="comment">// create the panel</span>
-            <span class="predefined-type">JPanel</span> panel = <span class="keyword">new</span> <span class="predefined-type">JPanel</span>();
-            panel.setLayout(<span class="keyword">new</span> <span class="predefined-type">GridBagLayout</span>());
-            panel.add(<span class="keyword">new</span> <span class="predefined-type">JLabel</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Filter: </span><span class="delimiter">&quot;</span></span>), <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">0.0</span>, <span class="float">0.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
-            panel.add(filterEdit, <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">0.15</span>, <span class="float">0.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
-            panel.add(<span class="keyword">new</span> <span class="predefined-type">JLabel</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Reported By: </span><span class="delimiter">&quot;</span></span>), <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">2</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">0.0</span>, <span class="float">0.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
-            panel.add(usersListScrollPane, <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">3</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">0.15</span>, <span class="float">1.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
-            panel.add(issuesTableScrollPane, <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">4</span>, <span class="float">0.85</span>, <span class="float">1.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
-
-            <span class="comment">// create a frame with that panel</span>
-            <span class="predefined-type">JFrame</span> frame = <span class="keyword">new</span> <span class="predefined-type">JFrame</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Issues</span><span class="delimiter">&quot;</span></span>);
-            frame.setDefaultCloseOperation(<span class="predefined-type">WindowConstants</span>.EXIT_ON_CLOSE);
-            frame.setSize(<span class="integer">540</span>, <span class="integer">380</span>);
-            frame.getContentPane().add(panel);
-            frame.setVisible(<span class="predefined-constant">true</span>);
-        } <span class="keyword">finally</span> {
-            issuesEventList.getReadWriteLock().readLock().unlock();
-        }
-    }
-
-    <span class="comment">/**
-     * Launch the IssuesBrowser from the commandline.
-     */</span>
-    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
-        <span class="keyword">if</span>(args.length != <span class="integer">1</span>) {
-            <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Usage: IssuesBrowser &lt;file&gt;</span><span class="delimiter">&quot;</span></span>);
-            <span class="keyword">return</span>;
-        }
-
-        <span class="comment">// create the browser and start loading issues</span>
-        <span class="directive">final</span> IssuesBrowser6 browser = <span class="keyword">new</span> IssuesBrowser6(args[<span class="integer">0</span>]);
-
-        <span class="comment">// Schedule a job for the event-dispatching thread:</span>
-        <span class="comment">// creating and showing this application's GUI.</span>
-        <span class="predefined-type">SwingUtilities</span>.invokeLater(<span class="keyword">new</span> <span class="predefined-type">Runnable</span>() {
-            <span class="directive">public</span> <span class="type">void</span> run() {
-                browser.display();
-            }
-        });
-
-    }
+  }
 }</code></pre>
 </div>
 </div>
@@ -810,8 +813,8 @@ Using <code>SwingUtilities.invokeLater()</code> can accomplish this.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.9.0<br>
-Last updated 2020-05-03 14:58:25 UTC
+Version 1.11.0<br>
+Last updated 2020-05-04 20:40:02 UTC
 </div>
 </div>
 <style>

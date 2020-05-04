@@ -487,17 +487,17 @@ Text filtering is a fast and easy way to find a needle in a haystack!</p>
  * @author &lt;a href=&quot;mailto:jesse@swank.ca&quot;&gt;Jesse Wilson&lt;/a&gt;
  */</span>
 <span class="directive">public</span> <span class="type">class</span> <span class="class">IssueTextFilterator</span> <span class="directive">implements</span> TextFilterator&lt;Issue&gt; {
-    <span class="directive">public</span> <span class="type">void</span> getFilterStrings(<span class="predefined-type">List</span>&lt;<span class="predefined-type">String</span>&gt; baseList, Issue issue) {
+  <span class="directive">public</span> <span class="type">void</span> getFilterStrings(<span class="predefined-type">List</span>&lt;<span class="predefined-type">String</span>&gt; baseList, Issue issue) {
 
-        baseList.add(issue.getComponent());
-        baseList.add(issue.getIssueType());
-        baseList.add(issue.getOperatingSystem());
-        baseList.add(issue.getResolution());
-        baseList.add(issue.getShortDescription());
-        baseList.add(issue.getStatus());
-        baseList.add(issue.getSubcomponent());
-        baseList.add(issue.getVersion());
-    }
+    baseList.add(issue.getComponent());
+    baseList.add(issue.getIssueType());
+    baseList.add(issue.getOperatingSystem());
+    baseList.add(issue.getResolution());
+    baseList.add(issue.getShortDescription());
+    baseList.add(issue.getStatus());
+    baseList.add(issue.getSubcomponent());
+    baseList.add(issue.getVersion());
+  }
 }</code></pre>
 </div>
 </div>
@@ -574,27 +574,33 @@ It accepts any <code>JTextComponent</code> for editing the filter text - in most
  * Display a frame for browsing issues.
  */</span>
 <span class="directive">public</span> <span class="type">void</span> display() {
-    SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
-    <span class="predefined-type">JTextField</span> filterEdit = <span class="keyword">new</span> <span class="predefined-type">JTextField</span>(<span class="integer">10</span>);
-    FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(sortedIssues, <span class="keyword">new</span> TextComponentMatcherEditor&lt;Issue&gt;(filterEdit, <span class="keyword">new</span> IssueTextFilterator()));
+  SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
+  <span class="predefined-type">JTextField</span> filterEdit = <span class="keyword">new</span> <span class="predefined-type">JTextField</span>(<span class="integer">10</span>);
+  IssueTextFilterator filterator = <span class="keyword">new</span> IssueTextFilterator();
+  MatcherEditor&lt;Issue&gt; textMatcherEditor = <span class="keyword">new</span> TextComponentMatcherEditor&lt;Issue&gt;(filterEdit, filterator);
+  FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(sortedIssues, textMatcherEditor);
 
-    <span class="comment">// create a panel with a table</span>
-    <span class="predefined-type">JPanel</span> panel = <span class="keyword">new</span> <span class="predefined-type">JPanel</span>();
-    panel.setLayout(<span class="keyword">new</span> <span class="predefined-type">GridBagLayout</span>());
-    AdvancedTableModel&lt;Issue&gt; issuesTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(textFilteredIssues, <span class="keyword">new</span> IssueTableFormat());
-    <span class="predefined-type">JTable</span> issuesJTable = <span class="keyword">new</span> <span class="predefined-type">JTable</span>(issuesTableModel);
-    TableComparatorChooser&lt;Issue&gt; tableSorter = TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
-    <span class="predefined-type">JScrollPane</span> issuesTableScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJTable);
-    panel.add(<span class="keyword">new</span> <span class="predefined-type">JLabel</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Filter: </span><span class="delimiter">&quot;</span></span>), <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">0.0</span>, <span class="float">0.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
-    panel.add(filterEdit,             <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">1.0</span>, <span class="float">0.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
-    panel.add(issuesTableScrollPane,  <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">1</span>, <span class="float">1.0</span>, <span class="float">1.0</span>, <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+  <span class="comment">// create a panel with a table</span>
+  <span class="predefined-type">JPanel</span> panel = <span class="keyword">new</span> <span class="predefined-type">JPanel</span>(<span class="keyword">new</span> <span class="predefined-type">GridBagLayout</span>());
+  AdvancedTableModel&lt;Issue&gt; tableModel = eventTableModelWithThreadProxyList(sortedIssues, <span class="keyword">new</span> IssueTableFormat());
+  <span class="predefined-type">JTable</span> issuesJTable = <span class="keyword">new</span> <span class="predefined-type">JTable</span>(tableModel);
+  TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
+  <span class="predefined-type">JScrollPane</span> issuesTableScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJTable);
+  panel.add(<span class="keyword">new</span> <span class="predefined-type">JLabel</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Filter: </span><span class="delimiter">&quot;</span></span>), <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">0.0</span>, <span class="float">0.0</span>,
+      <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
 
-    <span class="comment">// create a frame with that panel</span>
-    <span class="predefined-type">JFrame</span> frame = <span class="keyword">new</span> <span class="predefined-type">JFrame</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Issues</span><span class="delimiter">&quot;</span></span>);
-    frame.setDefaultCloseOperation(<span class="predefined-type">WindowConstants</span>.EXIT_ON_CLOSE);
-    frame.setSize(<span class="integer">540</span>, <span class="integer">380</span>);
-    frame.getContentPane().add(panel);
-    frame.setVisible(<span class="predefined-constant">true</span>);
+  panel.add(filterEdit,             <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">1.0</span>, <span class="float">0.0</span>,
+      <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+
+  panel.add(issuesTableScrollPane,  <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">1</span>, <span class="float">1.0</span>, <span class="float">1.0</span>,
+      <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
+
+  <span class="comment">// create a frame with that panel</span>
+  <span class="predefined-type">JFrame</span> frame = <span class="keyword">new</span> <span class="predefined-type">JFrame</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Issues</span><span class="delimiter">&quot;</span></span>);
+  frame.setDefaultCloseOperation(<span class="predefined-type">WindowConstants</span>.EXIT_ON_CLOSE);
+  frame.setSize(<span class="integer">540</span>, <span class="integer">380</span>);
+  frame.getContentPane().add(panel);
+  frame.setVisible(<span class="predefined-constant">true</span>);
 }</code></pre>
 </div>
 </div>
@@ -615,8 +621,8 @@ It accepts any <code>JTextComponent</code> for editing the filter text - in most
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.9.0<br>
-Last updated 2020-05-03 14:58:25 UTC
+Version 1.11.0<br>
+Last updated 2020-05-04 20:40:02 UTC
 </div>
 </div>
 <style>
