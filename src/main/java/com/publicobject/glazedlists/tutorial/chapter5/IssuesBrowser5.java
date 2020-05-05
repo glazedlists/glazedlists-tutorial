@@ -40,7 +40,7 @@ import ca.odell.issuezilla.IssuezillaXMLParser;
 public class IssuesBrowser5 {
 
   /** event list that hosts the issues */
-  private EventList<Issue> issuesEventList = new BasicEventList<Issue>();
+  private EventList<Issue> issuesEventList = new BasicEventList<>();
 
   /**
    * Create an IssueBrowser for the specified issues.
@@ -53,16 +53,17 @@ public class IssuesBrowser5 {
    * Display a frame for browsing issues.
    */
   public void display() {
-    SortedList<Issue> sortedIssues = new SortedList<Issue>(issuesEventList, new IssueComparator());
+    SortedList<Issue> sortedIssues = new SortedList<>(issuesEventList, new IssueComparator());
     UsersSelect usersSelect = new UsersSelect(sortedIssues);
-    FilterList<Issue> userFilteredIssues = new FilterList<Issue>(sortedIssues, usersSelect);
+    FilterList<Issue> userFilteredIssues = new FilterList<>(sortedIssues, usersSelect);
     JTextField filterEdit = new JTextField(10);
     IssueTextFilterator filterator = new IssueTextFilterator();
-    MatcherEditor<Issue> textMatcherEditor = new TextComponentMatcherEditor<Issue>(filterEdit, filterator);
-    FilterList<Issue> textFilteredIssues = new FilterList<Issue>(userFilteredIssues, textMatcherEditor);
+    MatcherEditor<Issue> textMatcherEditor = new TextComponentMatcherEditor<>(filterEdit, filterator);
+    FilterList<Issue> textFilteredIssues = new FilterList<>(userFilteredIssues, textMatcherEditor);
 
     // create the issues table
-    AdvancedTableModel<Issue> tableModel = eventTableModelWithThreadProxyList(sortedIssues, new IssueTableFormat());
+    AdvancedTableModel<Issue> tableModel = eventTableModelWithThreadProxyList(
+        textFilteredIssues, new IssueTableFormat());
     JTable issuesJTable = new JTable(tableModel);
     TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
     JScrollPane issuesTableScrollPane = new JScrollPane(issuesJTable);

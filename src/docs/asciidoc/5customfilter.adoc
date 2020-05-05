@@ -64,7 +64,7 @@ List<String> users = Arrays.asList("jessewilson", "kevinmaltby", "tmao");
 Matcher<Issue> usersMatcher = new IssuesForUsersMatcher(users);
  
 EventList<Issue> issues = ...
-FilterList<Issue> issuesForUsers = new FilterList<Issue>(issues, usersMatcher);
+FilterList<Issue> issuesForUsers = new FilterList<>(issues, usersMatcher);
 ----
 
 TIP: To avoid concurrency problems, make your Matchers immutable.
@@ -89,6 +89,10 @@ Then notify all your MatcherEditor's listeners using the method `fireChanged()` 
 ----
 include::{sourcedir}/com/publicobject/glazedlists/tutorial/chapter5/UsersSelect.java[indent=0]
 ----
+<1> exend `AbstractMatcherEditor` to simplify implementation
+<2> observe changes to the selection in the user list
+<3> on selection change create new `IssuesForUsersMatcher` with the currently selected user names
+<4> fire an change event to all listening MatcherEditorListeners, e.g. the `FilterList`
 
 Configure the new `MatcherEditor` to be used by your `FilterList`:
 
@@ -96,7 +100,7 @@ Configure the new `MatcherEditor` to be used by your `FilterList`:
 ----
 EventList<Issue> issues = ...
 UsersSelect usersSelect = new UsersSelect(issues);
-FilterList<Issue> userFilteredIssues = new FilterList<Issue>(issues, usersSelect);
+FilterList<Issue> userFilteredIssues = new FilterList<>(issues, usersSelect);
 ----
 
 TIP: While the `eventSelectionModel` factory method creates an instance of `DefaultEventSelectionModel`, its return type is the interface `AdvancedListSelectionModel`.

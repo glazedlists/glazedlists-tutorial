@@ -31,13 +31,13 @@ import ca.odell.issuezilla.IssuezillaXMLParser;
 public class IssuesBrowser1 {
 
   /** event list that hosts the issues */
-  private EventList<Issue> issuesEventList = new BasicEventList<Issue>();
+  private EventList<Issue> issuesEventList = new BasicEventList<>(); // <1>
 
   /**
    * Create an IssueBrowser for the specified issues.
    */
   public IssuesBrowser1(Collection<Issue> issues) {
-    issuesEventList.addAll(issues);
+    issuesEventList.addAll(issues); // <2>
   }
 
   /**
@@ -45,8 +45,8 @@ public class IssuesBrowser1 {
    */
   public void display() {
     JPanel panel = new JPanel(new GridBagLayout());
-    DefaultEventListModel<Issue> listModel = eventListModelWithThreadProxyList(issuesEventList);
-    JList<Issue> issuesJList = new JList<>(listModel);
+    DefaultEventListModel<Issue> listModel = eventListModelWithThreadProxyList(issuesEventList);// <3>
+    JList<Issue> issuesJList = new JList<>(listModel); // <4>
     JScrollPane issuesListScrollPane = new JScrollPane(issuesJList);
     panel.add(issuesListScrollPane, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,
         GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));

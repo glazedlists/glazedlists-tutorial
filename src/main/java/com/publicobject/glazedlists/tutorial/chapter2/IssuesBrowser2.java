@@ -33,7 +33,7 @@ import ca.odell.issuezilla.IssuezillaXMLParser;
 public class IssuesBrowser2 {
 
   /** event list that hosts the issues */
-  private EventList<Issue> issuesEventList = new BasicEventList<Issue>();
+  private EventList<Issue> issuesEventList = new BasicEventList<>();
 
   /**
    * Create an IssueBrowser for the specified issues.
@@ -47,15 +47,14 @@ public class IssuesBrowser2 {
    * Display a frame for browsing issues.
    */
   public void display() {
-    // tag::UseSortedList[]
-    SortedList<Issue> sortedIssues = new SortedList<Issue>(issuesEventList, new IssueComparator());
-    // end::UseSortedList[]
+    SortedList<Issue> sortedIssues = new SortedList<>(issuesEventList, new IssueComparator());// <1>
 
     // create a panel with a table
     JPanel panel = new JPanel(new GridBagLayout());
-    AdvancedTableModel<Issue> tableModel = eventTableModelWithThreadProxyList(sortedIssues, new IssueTableFormat());
-    JTable issuesJTable = new JTable(tableModel);
-    TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
+    AdvancedTableModel<Issue> tableModel = eventTableModelWithThreadProxyList(
+        sortedIssues, new IssueTableFormat()); // <2>
+    JTable issuesJTable = new JTable(tableModel); // <3>
+    TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE); // <4>
     JScrollPane issuesTableScrollPane = new JScrollPane(issuesJTable);
     panel.add(issuesTableScrollPane, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,
         GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));

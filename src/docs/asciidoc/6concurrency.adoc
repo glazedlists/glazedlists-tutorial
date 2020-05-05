@@ -98,19 +98,20 @@ The provided issue XML parser provides a callback `issueLoaded()` which allows y
 ----
 include::{sourcedir}/com/publicobject/glazedlists/tutorial/chapter6/IssuesLoader.java[indent=0]
 ----
+<1> when the laoding is triggered a dedicated `Thread` is started 
+<2> the background thread will execute the `run()`-method which delegates to the `IssuezillaXMLParser` for issue loading
+<3> the parser invokes the `issueLoaded`-callback method for each loaded issue
+<4> the issue is added to the issues `EventList` while holding a write lock
 
 You'll also need to make `IssuesBrowser` threadsafe:
-
-* The Swing components should be constructed on the event dispatch thread.
-Using `SwingUtilities.invokeLater()` can accomplish this.
-
-* The constructors for `SortedList` and our FilterLists require that we have acquired the source EventList's read lock.
 
 [source,java]
 .IssuesBrowser
 ----
 include::{sourcedir}/com/publicobject/glazedlists/tutorial/chapter6/IssuesBrowser6.java[indent=0]
 ----
+<1> The constructors for `SortedList` and our FilterLists require that we have acquired the source EventList's read lock
+<2> the Swing components should be constructed on the event dispatch thread
 
 === So What?
 

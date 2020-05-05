@@ -22,7 +22,7 @@ import ca.odell.issuezilla.Issue;
  *
  * @author <a href="mailto:jesse@swank.ca">Jesse Wilson</a>
  */
-public class UsersSelect extends AbstractMatcherEditor<Issue> implements ListSelectionListener {
+public class UsersSelect extends AbstractMatcherEditor<Issue> implements ListSelectionListener { // <1>
 
   /** a list of users */
   private EventList<String> usersEventList;
@@ -38,7 +38,7 @@ public class UsersSelect extends AbstractMatcherEditor<Issue> implements ListSel
   public UsersSelect(EventList<Issue> source) {
     // derive the users list from the issues list
     EventList<String> usersNonUnique = new IssueToUserList(source);
-    usersEventList = new UniqueList<String>(usersNonUnique);
+    usersEventList = new UniqueList<>(usersNonUnique);
 
     // create a JList that contains users
     DefaultEventListModel<String> usersListModel = eventListModelWithThreadProxyList(usersEventList);
@@ -50,7 +50,7 @@ public class UsersSelect extends AbstractMatcherEditor<Issue> implements ListSel
     usersSelectedList = userSelectionModel.getSelected();
 
     // handle changes to the list's selection
-    usersJList.addListSelectionListener(this);
+    usersJList.addListSelectionListener(this); // <2>
   }
 
   /**
@@ -65,7 +65,7 @@ public class UsersSelect extends AbstractMatcherEditor<Issue> implements ListSel
    */
   @Override
   public void valueChanged(ListSelectionEvent e) {
-    Matcher<Issue> newMatcher = new IssuesForUsersMatcher(usersSelectedList);
-    fireChanged(newMatcher);
+    Matcher<Issue> newMatcher = new IssuesForUsersMatcher(usersSelectedList); // <3>
+    fireChanged(newMatcher); // <4>
   }
 }

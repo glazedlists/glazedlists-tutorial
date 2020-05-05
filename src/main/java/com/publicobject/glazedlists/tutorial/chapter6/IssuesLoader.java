@@ -18,7 +18,7 @@ import ca.odell.issuezilla.IssuezillaXMLParserHandler;
 public class IssuesLoader implements Runnable, IssuezillaXMLParserHandler {
 
   /** the issues list */
-  private EventList<Issue> issues = new BasicEventList<Issue>();
+  private EventList<Issue> issues = new BasicEventList<>();
 
   /**
    * Get the list that issues are being loaded into.
@@ -32,7 +32,7 @@ public class IssuesLoader implements Runnable, IssuezillaXMLParserHandler {
    */
   public void load() {
     // start a background thread
-    Thread backgroundThread = new Thread(this);
+    Thread backgroundThread = new Thread(this); // <1>
     backgroundThread.setName("Issues from resource");
     backgroundThread.setDaemon(true);
     backgroundThread.start();
@@ -42,7 +42,7 @@ public class IssuesLoader implements Runnable, IssuezillaXMLParserHandler {
    * When run, this fetches the issues from the issues URL and refreshes the issues list.
    */
   @Override
-  public void run() {
+  public void run() { // <2>
     // load some issues
     IssuezillaXMLParser parser = new IssuezillaXMLParser();
     try (InputStream inputStream = IssuesLoader.class.getResourceAsStream("/issues.xml")) {
@@ -57,10 +57,10 @@ public class IssuesLoader implements Runnable, IssuezillaXMLParserHandler {
    * Handles a loaded issue.
    */
   @Override
-  public void issueLoaded(Issue issue) {
+  public void issueLoaded(Issue issue) { // <3>
     issues.getReadWriteLock().writeLock().lock();
     try {
-      issues.add(issue);
+      issues.add(issue); // <4>
     } finally {
       issues.getReadWriteLock().writeLock().unlock();
     }

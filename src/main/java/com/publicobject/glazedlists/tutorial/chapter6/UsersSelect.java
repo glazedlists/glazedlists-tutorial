@@ -38,7 +38,7 @@ public class UsersSelect extends AbstractMatcherEditor<Issue> implements ListSel
   public UsersSelect(EventList<Issue> source) {
     // derive the users list from the issues list
     EventList<String> usersNonUnique = new IssueToUserList(source);
-    usersEventList = new UniqueList<String>(usersNonUnique);
+    usersEventList = new UniqueList<>(usersNonUnique);
 
     // create a JList that contains users
     DefaultEventListModel<String> usersListModel = eventListModelWithThreadProxyList(usersEventList);

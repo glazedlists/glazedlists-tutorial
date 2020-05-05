@@ -35,15 +35,15 @@ Create a `ThresholdList` with the new `IssuePriorityThresholdEvaluator`, and emb
  * event dispatch thread.
  */
 public void display() {
-    ...
-    UsersSelect usersSelect = new UsersSelect(issuesEventList);
-    FilterList<Issue> userFilteredIssues = new FilterList<Issue>(issuesEventList, usersSelect);
-    IssueTextFilterator filterator = new IssueTextFilterator();
-    MatcherEditor<Issue> textMatcherEditor = new TextComponentMatcherEditor<Issue>(filterEdit, filterator);
-    FilterList<Issue> textFilteredIssues = new FilterList<Issue>(userFilteredIssues, textMatcherEditor);
-    IssuePriorityThresholdEvaluator evaluator = new IssuePriorityThresholdEvaluator();
-    priorityFilteredIssues = new ThresholdList<Issue>(textFilteredIssues, evaluator);
-    SortedList<Issue> sortedIssues = new SortedList<Issue>(priorityFilteredIssues, new IssueComparator());
+  ...
+  UsersSelect usersSelect = new UsersSelect(issuesEventList);
+  FilterList<Issue> userFilteredIssues = new FilterList<>(issuesEventList, usersSelect);
+  IssueTextFilterator filterator = new IssueTextFilterator();
+  MatcherEditor<Issue> matcherEditor = new TextComponentMatcherEditor<>(filterEdit, filterator);
+  FilterList<Issue> textFilteredIssues = new FilterList<>(userFilteredIssues, matcherEditor);
+  IssuePriorityThresholdEvaluator evaluator = new IssuePriorityThresholdEvaluator();
+  priorityFilteredIssues = new ThresholdList<>(textFilteredIssues, evaluator);
+  SortedList<Issue> sortedIssues = new SortedList<>(priorityFilteredIssues, new IssueComparator());
     ...
 }
 ----

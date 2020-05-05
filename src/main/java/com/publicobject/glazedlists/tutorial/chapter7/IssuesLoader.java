@@ -18,7 +18,7 @@ import ca.odell.issuezilla.IssuezillaXMLParserHandler;
 public class IssuesLoader implements Runnable, IssuezillaXMLParserHandler {
 
   /** the issues list */
-  private EventList<Issue> issues = new BasicEventList<Issue>();
+  private EventList<Issue> issues = new BasicEventList<>();
 
   /**
    * Get the list that issues are being loaded into.

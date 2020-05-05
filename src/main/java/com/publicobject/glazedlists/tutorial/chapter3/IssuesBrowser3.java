@@ -40,7 +40,7 @@ import ca.odell.issuezilla.IssuezillaXMLParser;
 public class IssuesBrowser3 {
 
   /** event list that hosts the issues */
-  private EventList<Issue> issuesEventList = new BasicEventList<Issue>();
+  private EventList<Issue> issuesEventList = new BasicEventList<>();
 
   /**
    * Create an IssueBrowser for the specified issues.
@@ -54,17 +54,18 @@ public class IssuesBrowser3 {
    * Display a frame for browsing issues.
    */
   public void display() {
-    SortedList<Issue> sortedIssues = new SortedList<Issue>(issuesEventList, new IssueComparator());
+    SortedList<Issue> sortedIssues = new SortedList<>(issuesEventList, new IssueComparator());
     JTextField filterEdit = new JTextField(10);
-    IssueTextFilterator filterator = new IssueTextFilterator();
-    MatcherEditor<Issue> textMatcherEditor = new TextComponentMatcherEditor<Issue>(filterEdit, filterator);
-    FilterList<Issue> textFilteredIssues = new FilterList<Issue>(sortedIssues, textMatcherEditor);
+    IssueTextFilterator filterator = new IssueTextFilterator(); // <1>
+    MatcherEditor<Issue> matcherEditor = new TextComponentMatcherEditor<>(filterEdit, filterator); // <2>
+    FilterList<Issue> textFilteredIssues = new FilterList<>(sortedIssues, matcherEditor); // <3>
 
     // create a panel with a table
     JPanel panel = new JPanel(new GridBagLayout());
-    AdvancedTableModel<Issue> tableModel = eventTableModelWithThreadProxyList(sortedIssues, new IssueTableFormat());
+    AdvancedTableModel<Issue> tableModel = eventTableModelWithThreadProxyList(
+        textFilteredIssues, new IssueTableFormat()); // <4>
     JTable issuesJTable = new JTable(tableModel);
-    TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
+    TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE); // <5>
     JScrollPane issuesTableScrollPane = new JScrollPane(issuesJTable);
     panel.add(new JLabel("Filter: "), new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
         GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));

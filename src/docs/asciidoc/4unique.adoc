@@ -28,9 +28,7 @@ There will be a simple one-to-one relationship between the issues list and the u
 For this kind of arbitrary list transformation, extend the abstract `TransformedList`.
 By overriding the `get()` method to return an issue's user rather than the issue itself, you make the issues list look like a users list!
 
-We're required to write some boilerplate code to complete our users list transformation.
-
-* First, we must observe the source issues list by registering a listener: `source.addListEventListener(this)`.
+We're required to write some boilerplate code to complete our users list transformation:
 
 * Second, when the source `EventList` changes, we forward an equivalent event to our listeners as well.
 This is taken care of by calling `updates.forwardEvent()` within the `listChanged()` method.
@@ -40,6 +38,11 @@ This is taken care of by calling `updates.forwardEvent()` within the `listChange
 ----
 include::{sourcedir}/com/publicobject/glazedlists/tutorial/chapter4/IssueToUserList.java[indent=0]
 ----
+<1> extend `TransformedList` to implement a custom list transformation
+<2> observe the source issues list by registering an event listener
+<3> apply the transformation from issue to user
+<4> when the source `EventList` changes, we forward an equivalent event to our listeners as well
+<5> this `TransformedList` is not modifiable
 
 === Eliminating duplicates with UniqueList
 

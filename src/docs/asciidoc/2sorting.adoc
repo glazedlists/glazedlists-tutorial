@@ -47,7 +47,7 @@ It keeps the issues sorted dynamically as the source EventList changes.
 [source,java]
 .Create SortedList with comparator
 ----
-include::{sourcedir}/com/publicobject/glazedlists/tutorial/chapter2/IssuesBrowser2.java[indent=0,tags=UseSortedList]
+SortedList<Issue> sortedIssues = new SortedList<>(issuesEventList, new IssueComparator());
 ----
 
 === Using TableFormat to specify columns
@@ -82,6 +82,10 @@ For this, Glazed Lists provides `TableComparatorChooser`, which adds sorting to 
 ----
 include::{sourcedir}/com/publicobject/glazedlists/tutorial/chapter2/IssuesBrowser2.java[indent=0,tags=Display]
 ----
+<1> decorate the source list with a `SortedList` providing the issue `Comparator` as the sort criteria
+<2> create the `TableModel` with a `GlazedListsSwing`-factory method
+<3> create a `JTable` with the new table model
+<4> install a `TableComparatorChooser` with multi-column sorting 
 
 NOTE: While the `eventTableModel` factory method creates an instance of `DefaultEventTableModel`, its return type is the interface `AdvancedTableModel`.
 It’s an extension of the standard `TableModel` and is implemented by `DefaultEventTableModel`.

@@ -56,6 +56,11 @@ Creating the `FilterList` and getting your `DefaultEventTableModel` to use it ta
 ----
 include::{sourcedir}/com/publicobject/glazedlists/tutorial/chapter3/IssuesBrowser3.java[indent=0,tags=Display]
 ----
+<1> create the `TextFilterator` for the issues
+<2> provide it and the text field to the `MatcherEditor`
+<3> stack the `FilterList` on top of the `SortedList` providing the filter criteria
+<4> use the filterable (and sortable) list as source for the table model
+<5> install the `TableComparatorChooser` with a reference to the SortedList
 
 === So What?
 

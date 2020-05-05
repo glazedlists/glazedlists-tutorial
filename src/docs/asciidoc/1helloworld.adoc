@@ -57,6 +57,10 @@ Finally you can place it all in a `JFrame` and show that on screen.
 ----
 include::{sourcedir}/com/publicobject/glazedlists/tutorial/chapter1/IssuesBrowser1.java[indent=0]
 ----
+<1> use a `BasicEventList` as source for issues
+<2> loaded issues are added to the `BasicEventList`
+<3> create the `DefaultEventListModel` with `GlazedListsSwing`-factory method
+<4> construct `JList` with the new `ListModel`
 
 NOTE: Glazed Lists provides different variants of factory methods for creating the Swing model classes.
 The examples in this tutorial use those factories which internally wrap the source list with a SwingThreadProxyList and use that one as source list for the models.

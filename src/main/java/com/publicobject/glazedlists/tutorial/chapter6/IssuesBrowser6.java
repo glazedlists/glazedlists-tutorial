@@ -53,19 +53,20 @@ public class IssuesBrowser6 {
    * thread.
    */
   public void display() {
-    issuesEventList.getReadWriteLock().readLock().lock();
+    issuesEventList.getReadWriteLock().readLock().lock(); // <1>
     try {
       // create the transformed models
-      SortedList<Issue> sortedIssues = new SortedList<Issue>(issuesEventList, new IssueComparator());
+      SortedList<Issue> sortedIssues = new SortedList<>(issuesEventList, new IssueComparator());
       UsersSelect usersSelect = new UsersSelect(sortedIssues);
-      FilterList<Issue> userFilteredIssues = new FilterList<Issue>(sortedIssues, usersSelect);
+      FilterList<Issue> userFilteredIssues = new FilterList<>(sortedIssues, usersSelect);
       JTextField filterEdit = new JTextField(10);
       IssueTextFilterator filterator = new IssueTextFilterator();
-      MatcherEditor<Issue> textMatcherEditor = new TextComponentMatcherEditor<Issue>(filterEdit, filterator);
-      FilterList<Issue> textFilteredIssues = new FilterList<Issue>(userFilteredIssues, textMatcherEditor);
+      MatcherEditor<Issue> textMatcherEditor = new TextComponentMatcherEditor<>(filterEdit, filterator);
+      FilterList<Issue> textFilteredIssues = new FilterList<>(userFilteredIssues, textMatcherEditor);
 
       // create the issues table
-      AdvancedTableModel<Issue> tableModel = eventTableModelWithThreadProxyList(sortedIssues, new IssueTableFormat());
+      AdvancedTableModel<Issue> tableModel = eventTableModelWithThreadProxyList(
+          textFilteredIssues, new IssueTableFormat());
       JTable issuesJTable = new JTable(tableModel);
       TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
       JScrollPane issuesTableScrollPane = new JScrollPane(issuesJTable);
@@ -107,7 +108,7 @@ public class IssuesBrowser6 {
 
     // Schedule a job for the event-dispatching thread:
     // creating and showing this application's GUI.
-    SwingUtilities.invokeLater(new Runnable() {
+    SwingUtilities.invokeLater(new Runnable() { // <2>
       @Override
       public void run() {
         browser.display();

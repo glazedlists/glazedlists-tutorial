@@ -67,19 +67,20 @@ public class IssuesBrowser7 {
     try {
       UsersSelect usersSelect = new UsersSelect(issuesEventList);
       userSelectList = usersSelect.getJList();
-      FilterList<Issue> userFilteredIssues = new FilterList<Issue>(issuesEventList, usersSelect);
+      FilterList<Issue> userFilteredIssues = new FilterList<>(issuesEventList, usersSelect);
       filterEdit = new JTextField(10);
       IssueTextFilterator filterator = new IssueTextFilterator();
-      MatcherEditor<Issue> textMatcherEditor = new TextComponentMatcherEditor<Issue>(filterEdit, filterator);
-      FilterList<Issue> textFilteredIssues = new FilterList<Issue>(userFilteredIssues, textMatcherEditor);
+      MatcherEditor<Issue> textMatcherEditor = new TextComponentMatcherEditor<>(filterEdit, filterator);
+      FilterList<Issue> textFilteredIssues = new FilterList<>(userFilteredIssues, textMatcherEditor);
 
       IssuePriorityThresholdEvaluator evaluator = new IssuePriorityThresholdEvaluator();
-      priorityFilteredIssues = new ThresholdList<Issue>(textFilteredIssues, evaluator);
+      priorityFilteredIssues = new ThresholdList<>(textFilteredIssues, evaluator);
 
-      SortedList<Issue> sortedIssues = new SortedList<Issue>(priorityFilteredIssues, new IssueComparator());
+      SortedList<Issue> sortedIssues = new SortedList<>(priorityFilteredIssues, new IssueComparator());
 
       // create the issues table
-      AdvancedTableModel<Issue> tableModel = eventTableModelWithThreadProxyList(sortedIssues, new IssueTableFormat());
+      AdvancedTableModel<Issue> tableModel = eventTableModelWithThreadProxyList(
+          sortedIssues, new IssueTableFormat());
       JTable issuesJTable = new JTable(tableModel);
       TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
       issuesTableScrollPane = new JScrollPane(issuesJTable);

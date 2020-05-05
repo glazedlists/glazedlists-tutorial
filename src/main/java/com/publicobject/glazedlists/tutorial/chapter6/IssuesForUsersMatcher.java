@@ -16,7 +16,7 @@ import ca.odell.issuezilla.Issue;
 public class IssuesForUsersMatcher implements Matcher<Issue> {
 
   /** the users to match */
-  private Set<String> users = new HashSet<String>();
+  private Set<String> users = new HashSet<>();
 
   /**
    * Create a new {@link IssuesForUsersMatcher} that matches only {@link Issue}s that have one or
