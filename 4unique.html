@@ -495,13 +495,10 @@ There will be a simple one-to-one relationship between the issues list and the u
 By overriding the <code>get()</code> method to return an issue&#8217;s user rather than the issue itself, you make the issues list look like a users list!</p>
 </div>
 <div class="paragraph">
-<p>We&#8217;re required to write some boilerplate code to complete our users list transformation.</p>
+<p>We&#8217;re required to write some boilerplate code to complete our users list transformation:</p>
 </div>
 <div class="ulist">
 <ul>
-<li>
-<p>First, we must observe the source issues list by registering a listener: <code>source.addListEventListener(this)</code>.</p>
-</li>
 <li>
 <p>Second, when the source <code>EventList</code> changes, we forward an equivalent event to our listeners as well.
 This is taken care of by calling <code>updates.forwardEvent()</code> within the <code>listChanged()</code> method.</p>
@@ -523,20 +520,20 @@ This is taken care of by calling <code>updates.forwardEvent()</code> within the 
  *
  * @author &lt;a href=&quot;mailto:jesse@swank.ca&quot;&gt;Jesse Wilson&lt;/a&gt;
  */</span>
-<span class="directive">public</span> <span class="type">class</span> <span class="class">IssueToUserList</span> <span class="directive">extends</span> TransformedList&lt;Issue, <span class="predefined-type">String</span>&gt; {
+<span class="directive">public</span> <span class="type">class</span> <span class="class">IssueToUserList</span> <span class="directive">extends</span> TransformedList&lt;Issue, <span class="predefined-type">String</span>&gt; { <i class="conum" data-value="1"></i><b>(1)</b>
 
   <span class="comment">/**
    * Construct an IssuesToUserList from an EventList that contains only Issue objects.
    */</span>
   <span class="directive">public</span> IssueToUserList(EventList&lt;Issue&gt; source) {
     <span class="local-variable">super</span>(source);
-    source.addListEventListener(<span class="local-variable">this</span>);
+    source.addListEventListener(<span class="local-variable">this</span>); <i class="conum" data-value="2"></i><b>(2)</b>
   }
 
   <span class="comment">/**
    * Gets the user at the specified index.
    */</span>
-  <span class="directive">public</span> <span class="predefined-type">String</span> get(<span class="type">int</span> index) {
+  <span class="directive">public</span> <span class="predefined-type">String</span> get(<span class="type">int</span> index) { <i class="conum" data-value="3"></i><b>(3)</b>
     Issue issue = source.get(index);
     <span class="keyword">return</span> issue.getReporter();
   }
@@ -545,15 +542,39 @@ This is taken care of by calling <code>updates.forwardEvent()</code> within the 
    * When the source issues list changes, propogate the exact same changes for the users list.
    */</span>
   <span class="directive">public</span> <span class="type">void</span> listChanged(ListEvent&lt;Issue&gt; listChanges) {
-    updates.forwardEvent(listChanges);
+    updates.forwardEvent(listChanges); <i class="conum" data-value="4"></i><b>(4)</b>
   }
 
   <span class="comment">/** {@inheritDoc} */</span>
-  <span class="directive">protected</span> <span class="type">boolean</span> isWritable() {
+  <span class="directive">protected</span> <span class="type">boolean</span> isWritable() { <i class="conum" data-value="5"></i><b>(5)</b>
     <span class="keyword">return</span> <span class="predefined-constant">false</span>;
   }
 }</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>extend <code>TransformedList</code> to implement a custom list transformation</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>observe the source issues list by registering an event listener</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>apply the transformation from issue to user</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>when the source <code>EventList</code> changes, we forward an equivalent event to our listeners as well</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>this <code>TransformedList</code> is not modifiable</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -568,7 +589,7 @@ Duplicate removal is solved quickly and easily by <code>UniqueList</code>.</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// derive the users list from the issues list</span>
 EventList&lt;<span class="predefined-type">String</span>&gt; usersNonUnique = <span class="keyword">new</span> IssueToUserList(issuesEventList);
-UniqueList&lt;<span class="predefined-type">String</span>&gt; usersEventList = <span class="keyword">new</span> UniqueList&lt;<span class="predefined-type">String</span>&gt;(usersNonUnique);</code></pre>
+UniqueList&lt;<span class="predefined-type">String</span>&gt; usersEventList = <span class="keyword">new</span> UniqueList&lt;&gt;(usersNonUnique);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -582,18 +603,19 @@ In the next chapter, we&#8217;ll use that <code>JList</code> in a filter for our
  * Display a frame for browsing issues.
  */</span>
 <span class="directive">public</span> <span class="type">void</span> display() {
-  SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
+  SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
   <span class="predefined-type">JTextField</span> filterEdit = <span class="keyword">new</span> <span class="predefined-type">JTextField</span>(<span class="integer">10</span>);
   IssueTextFilterator filterator = <span class="keyword">new</span> IssueTextFilterator();
-  MatcherEditor&lt;Issue&gt; textMatcherEditor = <span class="keyword">new</span> TextComponentMatcherEditor&lt;Issue&gt;(filterEdit, filterator);
-  FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(sortedIssues, textMatcherEditor);
+  MatcherEditor&lt;Issue&gt; textMatcherEditor = <span class="keyword">new</span> TextComponentMatcherEditor&lt;&gt;(filterEdit, filterator);
+  FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;&gt;(sortedIssues, textMatcherEditor);
 
   <span class="comment">// derive the users list from the issues list</span>
   EventList&lt;<span class="predefined-type">String</span>&gt; usersNonUnique = <span class="keyword">new</span> IssueToUserList(issuesEventList);
-  UniqueList&lt;<span class="predefined-type">String</span>&gt; usersEventList = <span class="keyword">new</span> UniqueList&lt;<span class="predefined-type">String</span>&gt;(usersNonUnique);
+  UniqueList&lt;<span class="predefined-type">String</span>&gt; usersEventList = <span class="keyword">new</span> UniqueList&lt;&gt;(usersNonUnique);
 
   <span class="comment">// create the issues table</span>
-  AdvancedTableModel&lt;Issue&gt; tableModel = eventTableModelWithThreadProxyList(sortedIssues, <span class="keyword">new</span> IssueTableFormat());
+  AdvancedTableModel&lt;Issue&gt; tableModel = eventTableModelWithThreadProxyList(
+      textFilteredIssues, <span class="keyword">new</span> IssueTableFormat());
   <span class="predefined-type">JTable</span> issuesJTable = <span class="keyword">new</span> <span class="predefined-type">JTable</span>(tableModel);
   TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
   <span class="predefined-type">JScrollPane</span> issuesTableScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJTable);
@@ -640,7 +662,7 @@ In the next chapter, we&#8217;ll use that <code>JList</code> in a filter for our
 <div id="footer">
 <div id="footer-text">
 Version 1.11.0<br>
-Last updated 2020-05-04 20:40:02 UTC
+Last updated 2020-05-05 22:53:16 UTC
 </div>
 </div>
 <style>

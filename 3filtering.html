@@ -574,17 +574,18 @@ It accepts any <code>JTextComponent</code> for editing the filter text - in most
  * Display a frame for browsing issues.
  */</span>
 <span class="directive">public</span> <span class="type">void</span> display() {
-  SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
+  SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
   <span class="predefined-type">JTextField</span> filterEdit = <span class="keyword">new</span> <span class="predefined-type">JTextField</span>(<span class="integer">10</span>);
-  IssueTextFilterator filterator = <span class="keyword">new</span> IssueTextFilterator();
-  MatcherEditor&lt;Issue&gt; textMatcherEditor = <span class="keyword">new</span> TextComponentMatcherEditor&lt;Issue&gt;(filterEdit, filterator);
-  FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(sortedIssues, textMatcherEditor);
+  IssueTextFilterator filterator = <span class="keyword">new</span> IssueTextFilterator(); <i class="conum" data-value="1"></i><b>(1)</b>
+  MatcherEditor&lt;Issue&gt; matcherEditor = <span class="keyword">new</span> TextComponentMatcherEditor&lt;&gt;(filterEdit, filterator); <i class="conum" data-value="2"></i><b>(2)</b>
+  FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;&gt;(sortedIssues, matcherEditor); <i class="conum" data-value="3"></i><b>(3)</b>
 
   <span class="comment">// create a panel with a table</span>
   <span class="predefined-type">JPanel</span> panel = <span class="keyword">new</span> <span class="predefined-type">JPanel</span>(<span class="keyword">new</span> <span class="predefined-type">GridBagLayout</span>());
-  AdvancedTableModel&lt;Issue&gt; tableModel = eventTableModelWithThreadProxyList(sortedIssues, <span class="keyword">new</span> IssueTableFormat());
+  AdvancedTableModel&lt;Issue&gt; tableModel = eventTableModelWithThreadProxyList(
+      textFilteredIssues, <span class="keyword">new</span> IssueTableFormat()); <i class="conum" data-value="4"></i><b>(4)</b>
   <span class="predefined-type">JTable</span> issuesJTable = <span class="keyword">new</span> <span class="predefined-type">JTable</span>(tableModel);
-  TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
+  TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE); <i class="conum" data-value="5"></i><b>(5)</b>
   <span class="predefined-type">JScrollPane</span> issuesTableScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJTable);
   panel.add(<span class="keyword">new</span> <span class="predefined-type">JLabel</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Filter: </span><span class="delimiter">&quot;</span></span>), <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">0.0</span>, <span class="float">0.0</span>,
       <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
@@ -604,6 +605,30 @@ It accepts any <code>JTextComponent</code> for editing the filter text - in most
 }</code></pre>
 </div>
 </div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>create the <code>TextFilterator</code> for the issues</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>provide it and the text field to the <code>MatcherEditor</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>stack the <code>FilterList</code> on top of the <code>SortedList</code> providing the filter criteria</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>use the filterable (and sortable) list as source for the table model</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>install the <code>TableComparatorChooser</code> with a reference to the SortedList</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect2">
 <h3 id="so-what">So What?</h3>
@@ -622,7 +647,7 @@ It accepts any <code>JTextComponent</code> for editing the filter text - in most
 <div id="footer">
 <div id="footer-text">
 Version 1.11.0<br>
-Last updated 2020-05-04 20:40:02 UTC
+Last updated 2020-05-05 22:53:16 UTC
 </div>
 </div>
 <style>

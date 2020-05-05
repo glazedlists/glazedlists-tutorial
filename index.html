@@ -643,13 +643,13 @@ You&#8217;ll create a <code>BasicEventList</code> and populate it with issues.</
 <span class="directive">public</span> <span class="type">class</span> <span class="class">IssuesBrowser1</span> {
 
   <span class="comment">/** event list that hosts the issues */</span>
-  <span class="directive">private</span> EventList&lt;Issue&gt; issuesEventList = <span class="keyword">new</span> BasicEventList&lt;Issue&gt;();
+  <span class="directive">private</span> EventList&lt;Issue&gt; issuesEventList = <span class="keyword">new</span> BasicEventList&lt;&gt;(); <i class="conum" data-value="1"></i><b>(1)</b>
 
   <span class="comment">/**
    * Create an IssueBrowser for the specified issues.
    */</span>
   <span class="directive">public</span> IssuesBrowser1(<span class="predefined-type">Collection</span>&lt;Issue&gt; issues) {
-    issuesEventList.addAll(issues);
+    issuesEventList.addAll(issues); <i class="conum" data-value="2"></i><b>(2)</b>
   }
 
   <span class="comment">/**
@@ -657,8 +657,8 @@ You&#8217;ll create a <code>BasicEventList</code> and populate it with issues.</
    */</span>
   <span class="directive">public</span> <span class="type">void</span> display() {
     <span class="predefined-type">JPanel</span> panel = <span class="keyword">new</span> <span class="predefined-type">JPanel</span>(<span class="keyword">new</span> <span class="predefined-type">GridBagLayout</span>());
-    DefaultEventListModel&lt;Issue&gt; listModel = eventListModelWithThreadProxyList(issuesEventList);
-    <span class="predefined-type">JList</span>&lt;Issue&gt; issuesJList = <span class="keyword">new</span> <span class="predefined-type">JList</span>&lt;&gt;(listModel);
+    DefaultEventListModel&lt;Issue&gt; listModel = eventListModelWithThreadProxyList(issuesEventList);<i class="conum" data-value="3"></i><b>(3)</b>
+    <span class="predefined-type">JList</span>&lt;Issue&gt; issuesJList = <span class="keyword">new</span> <span class="predefined-type">JList</span>&lt;&gt;(listModel); <i class="conum" data-value="4"></i><b>(4)</b>
     <span class="predefined-type">JScrollPane</span> issuesListScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJList);
     panel.add(issuesListScrollPane, <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">1.0</span>, <span class="float">1.0</span>,
         <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
@@ -698,6 +698,26 @@ You&#8217;ll create a <code>BasicEventList</code> and populate it with issues.</
   }
 }</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>use a <code>BasicEventList</code> as source for issues</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>loaded issues are added to the <code>BasicEventList</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>create the <code>DefaultEventListModel</code> with <code>GlazedListsSwing</code>-factory method</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>construct <code>JList</code> with the new <code>ListModel</code></td>
+</tr>
+</table>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -818,7 +838,7 @@ It keeps the issues sorted dynamically as the source EventList changes.</p>
 <div class="listingblock">
 <div class="title">Create SortedList with comparator</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());</code></pre>
 </div>
 </div>
 </div>
@@ -926,13 +946,14 @@ For this, Glazed Lists provides <code>TableComparatorChooser</code>, which adds 
  * Display a frame for browsing issues.
  */</span>
 <span class="directive">public</span> <span class="type">void</span> display() {
-  SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
+  SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());<i class="conum" data-value="1"></i><b>(1)</b>
 
   <span class="comment">// create a panel with a table</span>
   <span class="predefined-type">JPanel</span> panel = <span class="keyword">new</span> <span class="predefined-type">JPanel</span>(<span class="keyword">new</span> <span class="predefined-type">GridBagLayout</span>());
-  AdvancedTableModel&lt;Issue&gt; tableModel = eventTableModelWithThreadProxyList(sortedIssues, <span class="keyword">new</span> IssueTableFormat());
-  <span class="predefined-type">JTable</span> issuesJTable = <span class="keyword">new</span> <span class="predefined-type">JTable</span>(tableModel);
-  TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
+  AdvancedTableModel&lt;Issue&gt; tableModel = eventTableModelWithThreadProxyList(
+      sortedIssues, <span class="keyword">new</span> IssueTableFormat()); <i class="conum" data-value="2"></i><b>(2)</b>
+  <span class="predefined-type">JTable</span> issuesJTable = <span class="keyword">new</span> <span class="predefined-type">JTable</span>(tableModel); <i class="conum" data-value="3"></i><b>(3)</b>
+  TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE); <i class="conum" data-value="4"></i><b>(4)</b>
   <span class="predefined-type">JScrollPane</span> issuesTableScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJTable);
   panel.add(issuesTableScrollPane, <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">1.0</span>, <span class="float">1.0</span>,
       <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
@@ -945,6 +966,26 @@ For this, Glazed Lists provides <code>TableComparatorChooser</code>, which adds 
   frame.setVisible(<span class="predefined-constant">true</span>);
 }</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>decorate the source list with a <code>SortedList</code> providing the issue <code>Comparator</code> as the sort criteria</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>create the <code>TableModel</code> with a <code>GlazedListsSwing</code>-factory method</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>create a <code>JTable</code> with the new table model</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>install a <code>TableComparatorChooser</code> with multi-column sorting</td>
+</tr>
+</table>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1118,17 +1159,18 @@ It accepts any <code>JTextComponent</code> for editing the filter text - in most
  * Display a frame for browsing issues.
  */</span>
 <span class="directive">public</span> <span class="type">void</span> display() {
-  SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
+  SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
   <span class="predefined-type">JTextField</span> filterEdit = <span class="keyword">new</span> <span class="predefined-type">JTextField</span>(<span class="integer">10</span>);
-  IssueTextFilterator filterator = <span class="keyword">new</span> IssueTextFilterator();
-  MatcherEditor&lt;Issue&gt; textMatcherEditor = <span class="keyword">new</span> TextComponentMatcherEditor&lt;Issue&gt;(filterEdit, filterator);
-  FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(sortedIssues, textMatcherEditor);
+  IssueTextFilterator filterator = <span class="keyword">new</span> IssueTextFilterator(); <i class="conum" data-value="1"></i><b>(1)</b>
+  MatcherEditor&lt;Issue&gt; matcherEditor = <span class="keyword">new</span> TextComponentMatcherEditor&lt;&gt;(filterEdit, filterator); <i class="conum" data-value="2"></i><b>(2)</b>
+  FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;&gt;(sortedIssues, matcherEditor); <i class="conum" data-value="3"></i><b>(3)</b>
 
   <span class="comment">// create a panel with a table</span>
   <span class="predefined-type">JPanel</span> panel = <span class="keyword">new</span> <span class="predefined-type">JPanel</span>(<span class="keyword">new</span> <span class="predefined-type">GridBagLayout</span>());
-  AdvancedTableModel&lt;Issue&gt; tableModel = eventTableModelWithThreadProxyList(sortedIssues, <span class="keyword">new</span> IssueTableFormat());
+  AdvancedTableModel&lt;Issue&gt; tableModel = eventTableModelWithThreadProxyList(
+      textFilteredIssues, <span class="keyword">new</span> IssueTableFormat()); <i class="conum" data-value="4"></i><b>(4)</b>
   <span class="predefined-type">JTable</span> issuesJTable = <span class="keyword">new</span> <span class="predefined-type">JTable</span>(tableModel);
-  TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
+  TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE); <i class="conum" data-value="5"></i><b>(5)</b>
   <span class="predefined-type">JScrollPane</span> issuesTableScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJTable);
   panel.add(<span class="keyword">new</span> <span class="predefined-type">JLabel</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Filter: </span><span class="delimiter">&quot;</span></span>), <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">0.0</span>, <span class="float">0.0</span>,
       <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
@@ -1147,6 +1189,30 @@ It accepts any <code>JTextComponent</code> for editing the filter text - in most
   frame.setVisible(<span class="predefined-constant">true</span>);
 }</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>create the <code>TextFilterator</code> for the issues</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>provide it and the text field to the <code>MatcherEditor</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>stack the <code>FilterList</code> on top of the <code>SortedList</code> providing the filter criteria</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>use the filterable (and sortable) list as source for the table model</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>install the <code>TableComparatorChooser</code> with a reference to the SortedList</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -1202,13 +1268,10 @@ There will be a simple one-to-one relationship between the issues list and the u
 By overriding the <code>get()</code> method to return an issue&#8217;s user rather than the issue itself, you make the issues list look like a users list!</p>
 </div>
 <div class="paragraph">
-<p>We&#8217;re required to write some boilerplate code to complete our users list transformation.</p>
+<p>We&#8217;re required to write some boilerplate code to complete our users list transformation:</p>
 </div>
 <div class="ulist">
 <ul>
-<li>
-<p>First, we must observe the source issues list by registering a listener: <code>source.addListEventListener(this)</code>.</p>
-</li>
 <li>
 <p>Second, when the source <code>EventList</code> changes, we forward an equivalent event to our listeners as well.
 This is taken care of by calling <code>updates.forwardEvent()</code> within the <code>listChanged()</code> method.</p>
@@ -1230,20 +1293,20 @@ This is taken care of by calling <code>updates.forwardEvent()</code> within the 
  *
  * @author &lt;a href=&quot;mailto:jesse@swank.ca&quot;&gt;Jesse Wilson&lt;/a&gt;
  */</span>
-<span class="directive">public</span> <span class="type">class</span> <span class="class">IssueToUserList</span> <span class="directive">extends</span> TransformedList&lt;Issue, <span class="predefined-type">String</span>&gt; {
+<span class="directive">public</span> <span class="type">class</span> <span class="class">IssueToUserList</span> <span class="directive">extends</span> TransformedList&lt;Issue, <span class="predefined-type">String</span>&gt; { <i class="conum" data-value="1"></i><b>(1)</b>
 
   <span class="comment">/**
    * Construct an IssuesToUserList from an EventList that contains only Issue objects.
    */</span>
   <span class="directive">public</span> IssueToUserList(EventList&lt;Issue&gt; source) {
     <span class="local-variable">super</span>(source);
-    source.addListEventListener(<span class="local-variable">this</span>);
+    source.addListEventListener(<span class="local-variable">this</span>); <i class="conum" data-value="2"></i><b>(2)</b>
   }
 
   <span class="comment">/**
    * Gets the user at the specified index.
    */</span>
-  <span class="directive">public</span> <span class="predefined-type">String</span> get(<span class="type">int</span> index) {
+  <span class="directive">public</span> <span class="predefined-type">String</span> get(<span class="type">int</span> index) { <i class="conum" data-value="3"></i><b>(3)</b>
     Issue issue = source.get(index);
     <span class="keyword">return</span> issue.getReporter();
   }
@@ -1252,15 +1315,39 @@ This is taken care of by calling <code>updates.forwardEvent()</code> within the 
    * When the source issues list changes, propogate the exact same changes for the users list.
    */</span>
   <span class="directive">public</span> <span class="type">void</span> listChanged(ListEvent&lt;Issue&gt; listChanges) {
-    updates.forwardEvent(listChanges);
+    updates.forwardEvent(listChanges); <i class="conum" data-value="4"></i><b>(4)</b>
   }
 
   <span class="comment">/** {@inheritDoc} */</span>
-  <span class="directive">protected</span> <span class="type">boolean</span> isWritable() {
+  <span class="directive">protected</span> <span class="type">boolean</span> isWritable() { <i class="conum" data-value="5"></i><b>(5)</b>
     <span class="keyword">return</span> <span class="predefined-constant">false</span>;
   }
 }</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>extend <code>TransformedList</code> to implement a custom list transformation</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>observe the source issues list by registering an event listener</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>apply the transformation from issue to user</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>when the source <code>EventList</code> changes, we forward an equivalent event to our listeners as well</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>this <code>TransformedList</code> is not modifiable</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -1275,7 +1362,7 @@ Duplicate removal is solved quickly and easily by <code>UniqueList</code>.</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// derive the users list from the issues list</span>
 EventList&lt;<span class="predefined-type">String</span>&gt; usersNonUnique = <span class="keyword">new</span> IssueToUserList(issuesEventList);
-UniqueList&lt;<span class="predefined-type">String</span>&gt; usersEventList = <span class="keyword">new</span> UniqueList&lt;<span class="predefined-type">String</span>&gt;(usersNonUnique);</code></pre>
+UniqueList&lt;<span class="predefined-type">String</span>&gt; usersEventList = <span class="keyword">new</span> UniqueList&lt;&gt;(usersNonUnique);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1289,18 +1376,19 @@ In the next chapter, we&#8217;ll use that <code>JList</code> in a filter for our
  * Display a frame for browsing issues.
  */</span>
 <span class="directive">public</span> <span class="type">void</span> display() {
-  SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
+  SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
   <span class="predefined-type">JTextField</span> filterEdit = <span class="keyword">new</span> <span class="predefined-type">JTextField</span>(<span class="integer">10</span>);
   IssueTextFilterator filterator = <span class="keyword">new</span> IssueTextFilterator();
-  MatcherEditor&lt;Issue&gt; textMatcherEditor = <span class="keyword">new</span> TextComponentMatcherEditor&lt;Issue&gt;(filterEdit, filterator);
-  FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(sortedIssues, textMatcherEditor);
+  MatcherEditor&lt;Issue&gt; textMatcherEditor = <span class="keyword">new</span> TextComponentMatcherEditor&lt;&gt;(filterEdit, filterator);
+  FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;&gt;(sortedIssues, textMatcherEditor);
 
   <span class="comment">// derive the users list from the issues list</span>
   EventList&lt;<span class="predefined-type">String</span>&gt; usersNonUnique = <span class="keyword">new</span> IssueToUserList(issuesEventList);
-  UniqueList&lt;<span class="predefined-type">String</span>&gt; usersEventList = <span class="keyword">new</span> UniqueList&lt;<span class="predefined-type">String</span>&gt;(usersNonUnique);
+  UniqueList&lt;<span class="predefined-type">String</span>&gt; usersEventList = <span class="keyword">new</span> UniqueList&lt;&gt;(usersNonUnique);
 
   <span class="comment">// create the issues table</span>
-  AdvancedTableModel&lt;Issue&gt; tableModel = eventTableModelWithThreadProxyList(sortedIssues, <span class="keyword">new</span> IssueTableFormat());
+  AdvancedTableModel&lt;Issue&gt; tableModel = eventTableModelWithThreadProxyList(
+      textFilteredIssues, <span class="keyword">new</span> IssueTableFormat());
   <span class="predefined-type">JTable</span> issuesJTable = <span class="keyword">new</span> <span class="predefined-type">JTable</span>(tableModel);
   TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
   <span class="predefined-type">JScrollPane</span> issuesTableScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJTable);
@@ -1475,7 +1563,7 @@ Naming is very important to us at Glazed Lists!
 <span class="predefined-type">Matcher</span>&lt;Issue&gt; usersMatcher = <span class="keyword">new</span> IssuesForUsersMatcher(users);
 
 EventList&lt;Issue&gt; issues = ...
-FilterList&lt;Issue&gt; issuesForUsers = <span class="keyword">new</span> FilterList&lt;Issue&gt;(issues, usersMatcher);</code></pre>
+FilterList&lt;Issue&gt; issuesForUsers = <span class="keyword">new</span> FilterList&lt;&gt;(issues, usersMatcher);</code></pre>
 </div>
 </div>
 <div class="admonitionblock tip">
@@ -1534,7 +1622,7 @@ Then notify all your MatcherEditor&#8217;s listeners using the method <code>fire
  *
  * @author &lt;a href=&quot;mailto:jesse@swank.ca&quot;&gt;Jesse Wilson&lt;/a&gt;
  */</span>
-<span class="directive">public</span> <span class="type">class</span> <span class="class">UsersSelect</span> <span class="directive">extends</span> AbstractMatcherEditor&lt;Issue&gt; <span class="directive">implements</span> <span class="predefined-type">ListSelectionListener</span> {
+<span class="directive">public</span> <span class="type">class</span> <span class="class">UsersSelect</span> <span class="directive">extends</span> AbstractMatcherEditor&lt;Issue&gt; <span class="directive">implements</span> <span class="predefined-type">ListSelectionListener</span> { <i class="conum" data-value="1"></i><b>(1)</b>
 
   <span class="comment">/** a list of users */</span>
   <span class="directive">private</span> EventList&lt;<span class="predefined-type">String</span>&gt; usersEventList;
@@ -1550,7 +1638,7 @@ Then notify all your MatcherEditor&#8217;s listeners using the method <code>fire
   <span class="directive">public</span> UsersSelect(EventList&lt;Issue&gt; source) {
     <span class="comment">// derive the users list from the issues list</span>
     EventList&lt;<span class="predefined-type">String</span>&gt; usersNonUnique = <span class="keyword">new</span> IssueToUserList(source);
-    usersEventList = <span class="keyword">new</span> UniqueList&lt;<span class="predefined-type">String</span>&gt;(usersNonUnique);
+    usersEventList = <span class="keyword">new</span> UniqueList&lt;&gt;(usersNonUnique);
 
     <span class="comment">// create a JList that contains users</span>
     DefaultEventListModel&lt;<span class="predefined-type">String</span>&gt; usersListModel = eventListModelWithThreadProxyList(usersEventList);
@@ -1562,7 +1650,7 @@ Then notify all your MatcherEditor&#8217;s listeners using the method <code>fire
     usersSelectedList = userSelectionModel.getSelected();
 
     <span class="comment">// handle changes to the list's selection</span>
-    usersJList.addListSelectionListener(<span class="local-variable">this</span>);
+    usersJList.addListSelectionListener(<span class="local-variable">this</span>); <i class="conum" data-value="2"></i><b>(2)</b>
   }
 
   <span class="comment">/**
@@ -1577,11 +1665,31 @@ Then notify all your MatcherEditor&#8217;s listeners using the method <code>fire
    */</span>
   <span class="annotation">@Override</span>
   <span class="directive">public</span> <span class="type">void</span> valueChanged(<span class="predefined-type">ListSelectionEvent</span> e) {
-    <span class="predefined-type">Matcher</span>&lt;Issue&gt; newMatcher = <span class="keyword">new</span> IssuesForUsersMatcher(usersSelectedList);
-    fireChanged(newMatcher);
+    <span class="predefined-type">Matcher</span>&lt;Issue&gt; newMatcher = <span class="keyword">new</span> IssuesForUsersMatcher(usersSelectedList); <i class="conum" data-value="3"></i><b>(3)</b>
+    fireChanged(newMatcher); <i class="conum" data-value="4"></i><b>(4)</b>
   }
 }</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>exend <code>AbstractMatcherEditor</code> to simplify implementation</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>observe changes to the selection in the user list</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>on selection change create new <code>IssuesForUsersMatcher</code> with the currently selected user names</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>fire an change event to all listening MatcherEditorListeners, e.g. the <code>FilterList</code></td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Configure the new <code>MatcherEditor</code> to be used by your <code>FilterList</code>:</p>
@@ -1590,7 +1698,7 @@ Then notify all your MatcherEditor&#8217;s listeners using the method <code>fire
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">EventList&lt;Issue&gt; issues = ...
 UsersSelect usersSelect = <span class="keyword">new</span> UsersSelect(issues);
-FilterList&lt;Issue&gt; userFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(issues, usersSelect);</code></pre>
+FilterList&lt;Issue&gt; userFilteredIssues = <span class="keyword">new</span> FilterList&lt;&gt;(issues, usersSelect);</code></pre>
 </div>
 </div>
 <div class="admonitionblock tip">
@@ -1774,7 +1882,7 @@ The provided issue XML parser provides a callback <code>issueLoaded()</code> whi
 <span class="directive">public</span> <span class="type">class</span> <span class="class">IssuesLoader</span> <span class="directive">implements</span> <span class="predefined-type">Runnable</span>, IssuezillaXMLParserHandler {
 
   <span class="comment">/** the issues list */</span>
-  <span class="directive">private</span> EventList&lt;Issue&gt; issues = <span class="keyword">new</span> BasicEventList&lt;Issue&gt;();
+  <span class="directive">private</span> EventList&lt;Issue&gt; issues = <span class="keyword">new</span> BasicEventList&lt;&gt;();
 
   <span class="comment">/**
    * Get the list that issues are being loaded into.
@@ -1788,7 +1896,7 @@ The provided issue XML parser provides a callback <code>issueLoaded()</code> whi
    */</span>
   <span class="directive">public</span> <span class="type">void</span> load() {
     <span class="comment">// start a background thread</span>
-    <span class="predefined-type">Thread</span> backgroundThread = <span class="keyword">new</span> <span class="predefined-type">Thread</span>(<span class="local-variable">this</span>);
+    <span class="predefined-type">Thread</span> backgroundThread = <span class="keyword">new</span> <span class="predefined-type">Thread</span>(<span class="local-variable">this</span>); <i class="conum" data-value="1"></i><b>(1)</b>
     backgroundThread.setName(<span class="string"><span class="delimiter">&quot;</span><span class="content">Issues from resource</span><span class="delimiter">&quot;</span></span>);
     backgroundThread.setDaemon(<span class="predefined-constant">true</span>);
     backgroundThread.start();
@@ -1798,7 +1906,7 @@ The provided issue XML parser provides a callback <code>issueLoaded()</code> whi
    * When run, this fetches the issues from the issues URL and refreshes the issues list.
    */</span>
   <span class="annotation">@Override</span>
-  <span class="directive">public</span> <span class="type">void</span> run() {
+  <span class="directive">public</span> <span class="type">void</span> run() { <i class="conum" data-value="2"></i><b>(2)</b>
     <span class="comment">// load some issues</span>
     IssuezillaXMLParser parser = <span class="keyword">new</span> IssuezillaXMLParser();
     <span class="keyword">try</span> (<span class="predefined-type">InputStream</span> inputStream = IssuesLoader.class.getResourceAsStream(<span class="string"><span class="delimiter">&quot;</span><span class="content">/issues.xml</span><span class="delimiter">&quot;</span></span>)) {
@@ -1813,10 +1921,10 @@ The provided issue XML parser provides a callback <code>issueLoaded()</code> whi
    * Handles a loaded issue.
    */</span>
   <span class="annotation">@Override</span>
-  <span class="directive">public</span> <span class="type">void</span> issueLoaded(Issue issue) {
+  <span class="directive">public</span> <span class="type">void</span> issueLoaded(Issue issue) { <i class="conum" data-value="3"></i><b>(3)</b>
     issues.getReadWriteLock().writeLock().lock();
     <span class="keyword">try</span> {
-      issues.add(issue);
+      issues.add(issue); <i class="conum" data-value="4"></i><b>(4)</b>
     } <span class="keyword">finally</span> {
       issues.getReadWriteLock().writeLock().unlock();
     }
@@ -1824,19 +1932,28 @@ The provided issue XML parser provides a callback <code>issueLoaded()</code> whi
 }</code></pre>
 </div>
 </div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>when the laoding is triggered a dedicated <code>Thread</code> is started</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>the background thread will execute the <code>run()</code>-method which delegates to the <code>IssuezillaXMLParser</code> for issue loading</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>the parser invokes the <code>issueLoaded</code>-callback method for each loaded issue</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>the issue is added to the issues <code>EventList</code> while holding a write lock</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>You&#8217;ll also need to make <code>IssuesBrowser</code> threadsafe:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>The Swing components should be constructed on the event dispatch thread.
-Using <code>SwingUtilities.invokeLater()</code> can accomplish this.</p>
-</li>
-<li>
-<p>The constructors for <code>SortedList</code> and our FilterLists require that we have acquired the source EventList&#8217;s read lock.</p>
-</li>
-</ul>
 </div>
 <div class="listingblock">
 <div class="title">IssuesBrowser</div>
@@ -1896,19 +2013,20 @@ Using <code>SwingUtilities.invokeLater()</code> can accomplish this.</p>
    * thread.
    */</span>
   <span class="directive">public</span> <span class="type">void</span> display() {
-    issuesEventList.getReadWriteLock().readLock().lock();
+    issuesEventList.getReadWriteLock().readLock().lock(); <i class="conum" data-value="1"></i><b>(1)</b>
     <span class="keyword">try</span> {
       <span class="comment">// create the transformed models</span>
-      SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
+      SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
       UsersSelect usersSelect = <span class="keyword">new</span> UsersSelect(sortedIssues);
-      FilterList&lt;Issue&gt; userFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(sortedIssues, usersSelect);
+      FilterList&lt;Issue&gt; userFilteredIssues = <span class="keyword">new</span> FilterList&lt;&gt;(sortedIssues, usersSelect);
       <span class="predefined-type">JTextField</span> filterEdit = <span class="keyword">new</span> <span class="predefined-type">JTextField</span>(<span class="integer">10</span>);
       IssueTextFilterator filterator = <span class="keyword">new</span> IssueTextFilterator();
-      MatcherEditor&lt;Issue&gt; textMatcherEditor = <span class="keyword">new</span> TextComponentMatcherEditor&lt;Issue&gt;(filterEdit, filterator);
-      FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(userFilteredIssues, textMatcherEditor);
+      MatcherEditor&lt;Issue&gt; textMatcherEditor = <span class="keyword">new</span> TextComponentMatcherEditor&lt;&gt;(filterEdit, filterator);
+      FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;&gt;(userFilteredIssues, textMatcherEditor);
 
       <span class="comment">// create the issues table</span>
-      AdvancedTableModel&lt;Issue&gt; tableModel = eventTableModelWithThreadProxyList(sortedIssues, <span class="keyword">new</span> IssueTableFormat());
+      AdvancedTableModel&lt;Issue&gt; tableModel = eventTableModelWithThreadProxyList(
+          textFilteredIssues, <span class="keyword">new</span> IssueTableFormat());
       <span class="predefined-type">JTable</span> issuesJTable = <span class="keyword">new</span> <span class="predefined-type">JTable</span>(tableModel);
       TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
       <span class="predefined-type">JScrollPane</span> issuesTableScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJTable);
@@ -1950,7 +2068,7 @@ Using <code>SwingUtilities.invokeLater()</code> can accomplish this.</p>
 
     <span class="comment">// Schedule a job for the event-dispatching thread:</span>
     <span class="comment">// creating and showing this application's GUI.</span>
-    <span class="predefined-type">SwingUtilities</span>.invokeLater(<span class="keyword">new</span> <span class="predefined-type">Runnable</span>() {
+    <span class="predefined-type">SwingUtilities</span>.invokeLater(<span class="keyword">new</span> <span class="predefined-type">Runnable</span>() { <i class="conum" data-value="2"></i><b>(2)</b>
       <span class="annotation">@Override</span>
       <span class="directive">public</span> <span class="type">void</span> run() {
         browser.display();
@@ -1960,6 +2078,18 @@ Using <code>SwingUtilities.invokeLater()</code> can accomplish this.</p>
   }
 }</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The constructors for <code>SortedList</code> and our FilterLists require that we have acquired the source EventList&#8217;s read lock</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>the Swing components should be constructed on the event dispatch thread</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -2046,15 +2176,15 @@ The issue priorities are P1 (most important) to P5 (least important), but this i
  * event dispatch thread.
  */</span>
 <span class="directive">public</span> <span class="type">void</span> display() {
-    ...
-    UsersSelect usersSelect = <span class="keyword">new</span> UsersSelect(issuesEventList);
-    FilterList&lt;Issue&gt; userFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(issuesEventList, usersSelect);
-    IssueTextFilterator filterator = <span class="keyword">new</span> IssueTextFilterator();
-    MatcherEditor&lt;Issue&gt; textMatcherEditor = <span class="keyword">new</span> TextComponentMatcherEditor&lt;Issue&gt;(filterEdit, filterator);
-    FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(userFilteredIssues, textMatcherEditor);
-    IssuePriorityThresholdEvaluator evaluator = <span class="keyword">new</span> IssuePriorityThresholdEvaluator();
-    priorityFilteredIssues = <span class="keyword">new</span> ThresholdList&lt;Issue&gt;(textFilteredIssues, evaluator);
-    SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(priorityFilteredIssues, <span class="keyword">new</span> IssueComparator());
+  ...
+  UsersSelect usersSelect = <span class="keyword">new</span> UsersSelect(issuesEventList);
+  FilterList&lt;Issue&gt; userFilteredIssues = <span class="keyword">new</span> FilterList&lt;&gt;(issuesEventList, usersSelect);
+  IssueTextFilterator filterator = <span class="keyword">new</span> IssueTextFilterator();
+  MatcherEditor&lt;Issue&gt; matcherEditor = <span class="keyword">new</span> TextComponentMatcherEditor&lt;&gt;(filterEdit, filterator);
+  FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;&gt;(userFilteredIssues, matcherEditor);
+  IssuePriorityThresholdEvaluator evaluator = <span class="keyword">new</span> IssuePriorityThresholdEvaluator();
+  priorityFilteredIssues = <span class="keyword">new</span> ThresholdList&lt;&gt;(textFilteredIssues, evaluator);
+  SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;&gt;(priorityFilteredIssues, <span class="keyword">new</span> IssueComparator());
     ...
 }</code></pre>
 </div>
@@ -2155,7 +2285,7 @@ priorityFilterSlider.setPaintTicks(<span class="predefined-constant">true</span>
 <div id="footer">
 <div id="footer-text">
 Version 1.11.0<br>
-Last updated 2020-05-04 20:40:02 UTC
+Last updated 2020-05-05 22:53:16 UTC
 </div>
 </div>
 <style>

@@ -542,7 +542,7 @@ It keeps the issues sorted dynamically as the source EventList changes.</p>
 <div class="listingblock">
 <div class="title">Create SortedList with comparator</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());</code></pre>
 </div>
 </div>
 </div>
@@ -650,13 +650,14 @@ For this, Glazed Lists provides <code>TableComparatorChooser</code>, which adds 
  * Display a frame for browsing issues.
  */</span>
 <span class="directive">public</span> <span class="type">void</span> display() {
-  SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
+  SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());<i class="conum" data-value="1"></i><b>(1)</b>
 
   <span class="comment">// create a panel with a table</span>
   <span class="predefined-type">JPanel</span> panel = <span class="keyword">new</span> <span class="predefined-type">JPanel</span>(<span class="keyword">new</span> <span class="predefined-type">GridBagLayout</span>());
-  AdvancedTableModel&lt;Issue&gt; tableModel = eventTableModelWithThreadProxyList(sortedIssues, <span class="keyword">new</span> IssueTableFormat());
-  <span class="predefined-type">JTable</span> issuesJTable = <span class="keyword">new</span> <span class="predefined-type">JTable</span>(tableModel);
-  TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
+  AdvancedTableModel&lt;Issue&gt; tableModel = eventTableModelWithThreadProxyList(
+      sortedIssues, <span class="keyword">new</span> IssueTableFormat()); <i class="conum" data-value="2"></i><b>(2)</b>
+  <span class="predefined-type">JTable</span> issuesJTable = <span class="keyword">new</span> <span class="predefined-type">JTable</span>(tableModel); <i class="conum" data-value="3"></i><b>(3)</b>
+  TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE); <i class="conum" data-value="4"></i><b>(4)</b>
   <span class="predefined-type">JScrollPane</span> issuesTableScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJTable);
   panel.add(issuesTableScrollPane, <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">1.0</span>, <span class="float">1.0</span>,
       <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
@@ -669,6 +670,26 @@ For this, Glazed Lists provides <code>TableComparatorChooser</code>, which adds 
   frame.setVisible(<span class="predefined-constant">true</span>);
 }</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>decorate the source list with a <code>SortedList</code> providing the issue <code>Comparator</code> as the sort criteria</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>create the <code>TableModel</code> with a <code>GlazedListsSwing</code>-factory method</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>create a <code>JTable</code> with the new table model</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>install a <code>TableComparatorChooser</code> with multi-column sorting</td>
+</tr>
+</table>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -727,7 +748,7 @@ If your column&#8217;s values are not <code>Comparable</code>, you&#8217;ll have
 <div id="footer">
 <div id="footer-text">
 Version 1.11.0<br>
-Last updated 2020-05-04 20:40:02 UTC
+Last updated 2020-05-05 22:53:16 UTC
 </div>
 </div>
 <style>

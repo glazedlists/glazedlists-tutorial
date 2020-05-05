@@ -569,13 +569,13 @@ You&#8217;ll create a <code>BasicEventList</code> and populate it with issues.</
 <span class="directive">public</span> <span class="type">class</span> <span class="class">IssuesBrowser1</span> {
 
   <span class="comment">/** event list that hosts the issues */</span>
-  <span class="directive">private</span> EventList&lt;Issue&gt; issuesEventList = <span class="keyword">new</span> BasicEventList&lt;Issue&gt;();
+  <span class="directive">private</span> EventList&lt;Issue&gt; issuesEventList = <span class="keyword">new</span> BasicEventList&lt;&gt;(); <i class="conum" data-value="1"></i><b>(1)</b>
 
   <span class="comment">/**
    * Create an IssueBrowser for the specified issues.
    */</span>
   <span class="directive">public</span> IssuesBrowser1(<span class="predefined-type">Collection</span>&lt;Issue&gt; issues) {
-    issuesEventList.addAll(issues);
+    issuesEventList.addAll(issues); <i class="conum" data-value="2"></i><b>(2)</b>
   }
 
   <span class="comment">/**
@@ -583,8 +583,8 @@ You&#8217;ll create a <code>BasicEventList</code> and populate it with issues.</
    */</span>
   <span class="directive">public</span> <span class="type">void</span> display() {
     <span class="predefined-type">JPanel</span> panel = <span class="keyword">new</span> <span class="predefined-type">JPanel</span>(<span class="keyword">new</span> <span class="predefined-type">GridBagLayout</span>());
-    DefaultEventListModel&lt;Issue&gt; listModel = eventListModelWithThreadProxyList(issuesEventList);
-    <span class="predefined-type">JList</span>&lt;Issue&gt; issuesJList = <span class="keyword">new</span> <span class="predefined-type">JList</span>&lt;&gt;(listModel);
+    DefaultEventListModel&lt;Issue&gt; listModel = eventListModelWithThreadProxyList(issuesEventList);<i class="conum" data-value="3"></i><b>(3)</b>
+    <span class="predefined-type">JList</span>&lt;Issue&gt; issuesJList = <span class="keyword">new</span> <span class="predefined-type">JList</span>&lt;&gt;(listModel); <i class="conum" data-value="4"></i><b>(4)</b>
     <span class="predefined-type">JScrollPane</span> issuesListScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJList);
     panel.add(issuesListScrollPane, <span class="keyword">new</span> <span class="predefined-type">GridBagConstraints</span>(<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="float">1.0</span>, <span class="float">1.0</span>,
         <span class="predefined-type">GridBagConstraints</span>.CENTER, <span class="predefined-type">GridBagConstraints</span>.BOTH, <span class="keyword">new</span> <span class="predefined-type">Insets</span>(<span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>, <span class="integer">5</span>), <span class="integer">0</span>, <span class="integer">0</span>));
@@ -625,6 +625,26 @@ You&#8217;ll create a <code>BasicEventList</code> and populate it with issues.</
 }</code></pre>
 </div>
 </div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>use a <code>BasicEventList</code> as source for issues</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>loaded issues are added to the <code>BasicEventList</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>create the <code>DefaultEventListModel</code> with <code>GlazedListsSwing</code>-factory method</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>construct <code>JList</code> with the new <code>ListModel</code></td>
+</tr>
+</table>
+</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -662,7 +682,7 @@ Without Glazed Lists, such a change would have you throw out your ListModel code
 <div id="footer">
 <div id="footer-text">
 Version 1.11.0<br>
-Last updated 2020-05-04 20:40:02 UTC
+Last updated 2020-05-05 22:53:16 UTC
 </div>
 </div>
 <style>

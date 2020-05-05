@@ -527,15 +527,15 @@ The issue priorities are P1 (most important) to P5 (least important), but this i
  * event dispatch thread.
  */</span>
 <span class="directive">public</span> <span class="type">void</span> display() {
-    ...
-    UsersSelect usersSelect = <span class="keyword">new</span> UsersSelect(issuesEventList);
-    FilterList&lt;Issue&gt; userFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(issuesEventList, usersSelect);
-    IssueTextFilterator filterator = <span class="keyword">new</span> IssueTextFilterator();
-    MatcherEditor&lt;Issue&gt; textMatcherEditor = <span class="keyword">new</span> TextComponentMatcherEditor&lt;Issue&gt;(filterEdit, filterator);
-    FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(userFilteredIssues, textMatcherEditor);
-    IssuePriorityThresholdEvaluator evaluator = <span class="keyword">new</span> IssuePriorityThresholdEvaluator();
-    priorityFilteredIssues = <span class="keyword">new</span> ThresholdList&lt;Issue&gt;(textFilteredIssues, evaluator);
-    SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(priorityFilteredIssues, <span class="keyword">new</span> IssueComparator());
+  ...
+  UsersSelect usersSelect = <span class="keyword">new</span> UsersSelect(issuesEventList);
+  FilterList&lt;Issue&gt; userFilteredIssues = <span class="keyword">new</span> FilterList&lt;&gt;(issuesEventList, usersSelect);
+  IssueTextFilterator filterator = <span class="keyword">new</span> IssueTextFilterator();
+  MatcherEditor&lt;Issue&gt; matcherEditor = <span class="keyword">new</span> TextComponentMatcherEditor&lt;&gt;(filterEdit, filterator);
+  FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;&gt;(userFilteredIssues, matcherEditor);
+  IssuePriorityThresholdEvaluator evaluator = <span class="keyword">new</span> IssuePriorityThresholdEvaluator();
+  priorityFilteredIssues = <span class="keyword">new</span> ThresholdList&lt;&gt;(textFilteredIssues, evaluator);
+  SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;&gt;(priorityFilteredIssues, <span class="keyword">new</span> IssueComparator());
     ...
 }</code></pre>
 </div>
@@ -616,7 +616,7 @@ priorityFilterSlider.setPaintTicks(<span class="predefined-constant">true</span>
 <div id="footer">
 <div id="footer-text">
 Version 1.11.0<br>
-Last updated 2020-05-04 20:40:02 UTC
+Last updated 2020-05-05 22:53:16 UTC
 </div>
 </div>
 <style>

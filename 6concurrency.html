@@ -609,7 +609,7 @@ The provided issue XML parser provides a callback <code>issueLoaded()</code> whi
 <span class="directive">public</span> <span class="type">class</span> <span class="class">IssuesLoader</span> <span class="directive">implements</span> <span class="predefined-type">Runnable</span>, IssuezillaXMLParserHandler {
 
   <span class="comment">/** the issues list */</span>
-  <span class="directive">private</span> EventList&lt;Issue&gt; issues = <span class="keyword">new</span> BasicEventList&lt;Issue&gt;();
+  <span class="directive">private</span> EventList&lt;Issue&gt; issues = <span class="keyword">new</span> BasicEventList&lt;&gt;();
 
   <span class="comment">/**
    * Get the list that issues are being loaded into.
@@ -623,7 +623,7 @@ The provided issue XML parser provides a callback <code>issueLoaded()</code> whi
    */</span>
   <span class="directive">public</span> <span class="type">void</span> load() {
     <span class="comment">// start a background thread</span>
-    <span class="predefined-type">Thread</span> backgroundThread = <span class="keyword">new</span> <span class="predefined-type">Thread</span>(<span class="local-variable">this</span>);
+    <span class="predefined-type">Thread</span> backgroundThread = <span class="keyword">new</span> <span class="predefined-type">Thread</span>(<span class="local-variable">this</span>); <i class="conum" data-value="1"></i><b>(1)</b>
     backgroundThread.setName(<span class="string"><span class="delimiter">&quot;</span><span class="content">Issues from resource</span><span class="delimiter">&quot;</span></span>);
     backgroundThread.setDaemon(<span class="predefined-constant">true</span>);
     backgroundThread.start();
@@ -633,7 +633,7 @@ The provided issue XML parser provides a callback <code>issueLoaded()</code> whi
    * When run, this fetches the issues from the issues URL and refreshes the issues list.
    */</span>
   <span class="annotation">@Override</span>
-  <span class="directive">public</span> <span class="type">void</span> run() {
+  <span class="directive">public</span> <span class="type">void</span> run() { <i class="conum" data-value="2"></i><b>(2)</b>
     <span class="comment">// load some issues</span>
     IssuezillaXMLParser parser = <span class="keyword">new</span> IssuezillaXMLParser();
     <span class="keyword">try</span> (<span class="predefined-type">InputStream</span> inputStream = IssuesLoader.class.getResourceAsStream(<span class="string"><span class="delimiter">&quot;</span><span class="content">/issues.xml</span><span class="delimiter">&quot;</span></span>)) {
@@ -648,10 +648,10 @@ The provided issue XML parser provides a callback <code>issueLoaded()</code> whi
    * Handles a loaded issue.
    */</span>
   <span class="annotation">@Override</span>
-  <span class="directive">public</span> <span class="type">void</span> issueLoaded(Issue issue) {
+  <span class="directive">public</span> <span class="type">void</span> issueLoaded(Issue issue) { <i class="conum" data-value="3"></i><b>(3)</b>
     issues.getReadWriteLock().writeLock().lock();
     <span class="keyword">try</span> {
-      issues.add(issue);
+      issues.add(issue); <i class="conum" data-value="4"></i><b>(4)</b>
     } <span class="keyword">finally</span> {
       issues.getReadWriteLock().writeLock().unlock();
     }
@@ -659,19 +659,28 @@ The provided issue XML parser provides a callback <code>issueLoaded()</code> whi
 }</code></pre>
 </div>
 </div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>when the laoding is triggered a dedicated <code>Thread</code> is started</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>the background thread will execute the <code>run()</code>-method which delegates to the <code>IssuezillaXMLParser</code> for issue loading</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>the parser invokes the <code>issueLoaded</code>-callback method for each loaded issue</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>the issue is added to the issues <code>EventList</code> while holding a write lock</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>You&#8217;ll also need to make <code>IssuesBrowser</code> threadsafe:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>The Swing components should be constructed on the event dispatch thread.
-Using <code>SwingUtilities.invokeLater()</code> can accomplish this.</p>
-</li>
-<li>
-<p>The constructors for <code>SortedList</code> and our FilterLists require that we have acquired the source EventList&#8217;s read lock.</p>
-</li>
-</ul>
 </div>
 <div class="listingblock">
 <div class="title">IssuesBrowser</div>
@@ -731,19 +740,20 @@ Using <code>SwingUtilities.invokeLater()</code> can accomplish this.</p>
    * thread.
    */</span>
   <span class="directive">public</span> <span class="type">void</span> display() {
-    issuesEventList.getReadWriteLock().readLock().lock();
+    issuesEventList.getReadWriteLock().readLock().lock(); <i class="conum" data-value="1"></i><b>(1)</b>
     <span class="keyword">try</span> {
       <span class="comment">// create the transformed models</span>
-      SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;Issue&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
+      SortedList&lt;Issue&gt; sortedIssues = <span class="keyword">new</span> SortedList&lt;&gt;(issuesEventList, <span class="keyword">new</span> IssueComparator());
       UsersSelect usersSelect = <span class="keyword">new</span> UsersSelect(sortedIssues);
-      FilterList&lt;Issue&gt; userFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(sortedIssues, usersSelect);
+      FilterList&lt;Issue&gt; userFilteredIssues = <span class="keyword">new</span> FilterList&lt;&gt;(sortedIssues, usersSelect);
       <span class="predefined-type">JTextField</span> filterEdit = <span class="keyword">new</span> <span class="predefined-type">JTextField</span>(<span class="integer">10</span>);
       IssueTextFilterator filterator = <span class="keyword">new</span> IssueTextFilterator();
-      MatcherEditor&lt;Issue&gt; textMatcherEditor = <span class="keyword">new</span> TextComponentMatcherEditor&lt;Issue&gt;(filterEdit, filterator);
-      FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(userFilteredIssues, textMatcherEditor);
+      MatcherEditor&lt;Issue&gt; textMatcherEditor = <span class="keyword">new</span> TextComponentMatcherEditor&lt;&gt;(filterEdit, filterator);
+      FilterList&lt;Issue&gt; textFilteredIssues = <span class="keyword">new</span> FilterList&lt;&gt;(userFilteredIssues, textMatcherEditor);
 
       <span class="comment">// create the issues table</span>
-      AdvancedTableModel&lt;Issue&gt; tableModel = eventTableModelWithThreadProxyList(sortedIssues, <span class="keyword">new</span> IssueTableFormat());
+      AdvancedTableModel&lt;Issue&gt; tableModel = eventTableModelWithThreadProxyList(
+          textFilteredIssues, <span class="keyword">new</span> IssueTableFormat());
       <span class="predefined-type">JTable</span> issuesJTable = <span class="keyword">new</span> <span class="predefined-type">JTable</span>(tableModel);
       TableComparatorChooser.install(issuesJTable, sortedIssues, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
       <span class="predefined-type">JScrollPane</span> issuesTableScrollPane = <span class="keyword">new</span> <span class="predefined-type">JScrollPane</span>(issuesJTable);
@@ -785,7 +795,7 @@ Using <code>SwingUtilities.invokeLater()</code> can accomplish this.</p>
 
     <span class="comment">// Schedule a job for the event-dispatching thread:</span>
     <span class="comment">// creating and showing this application's GUI.</span>
-    <span class="predefined-type">SwingUtilities</span>.invokeLater(<span class="keyword">new</span> <span class="predefined-type">Runnable</span>() {
+    <span class="predefined-type">SwingUtilities</span>.invokeLater(<span class="keyword">new</span> <span class="predefined-type">Runnable</span>() { <i class="conum" data-value="2"></i><b>(2)</b>
       <span class="annotation">@Override</span>
       <span class="directive">public</span> <span class="type">void</span> run() {
         browser.display();
@@ -795,6 +805,18 @@ Using <code>SwingUtilities.invokeLater()</code> can accomplish this.</p>
   }
 }</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The constructors for <code>SortedList</code> and our FilterLists require that we have acquired the source EventList&#8217;s read lock</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>the Swing components should be constructed on the event dispatch thread</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -814,7 +836,7 @@ Using <code>SwingUtilities.invokeLater()</code> can accomplish this.</p>
 <div id="footer">
 <div id="footer-text">
 Version 1.11.0<br>
-Last updated 2020-05-04 20:40:02 UTC
+Last updated 2020-05-05 22:53:16 UTC
 </div>
 </div>
 <style>

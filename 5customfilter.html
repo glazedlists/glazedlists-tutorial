@@ -587,7 +587,7 @@ Naming is very important to us at Glazed Lists!
 <span class="predefined-type">Matcher</span>&lt;Issue&gt; usersMatcher = <span class="keyword">new</span> IssuesForUsersMatcher(users);
 
 EventList&lt;Issue&gt; issues = ...
-FilterList&lt;Issue&gt; issuesForUsers = <span class="keyword">new</span> FilterList&lt;Issue&gt;(issues, usersMatcher);</code></pre>
+FilterList&lt;Issue&gt; issuesForUsers = <span class="keyword">new</span> FilterList&lt;&gt;(issues, usersMatcher);</code></pre>
 </div>
 </div>
 <div class="admonitionblock tip">
@@ -646,7 +646,7 @@ Then notify all your MatcherEditor&#8217;s listeners using the method <code>fire
  *
  * @author &lt;a href=&quot;mailto:jesse@swank.ca&quot;&gt;Jesse Wilson&lt;/a&gt;
  */</span>
-<span class="directive">public</span> <span class="type">class</span> <span class="class">UsersSelect</span> <span class="directive">extends</span> AbstractMatcherEditor&lt;Issue&gt; <span class="directive">implements</span> <span class="predefined-type">ListSelectionListener</span> {
+<span class="directive">public</span> <span class="type">class</span> <span class="class">UsersSelect</span> <span class="directive">extends</span> AbstractMatcherEditor&lt;Issue&gt; <span class="directive">implements</span> <span class="predefined-type">ListSelectionListener</span> { <i class="conum" data-value="1"></i><b>(1)</b>
 
   <span class="comment">/** a list of users */</span>
   <span class="directive">private</span> EventList&lt;<span class="predefined-type">String</span>&gt; usersEventList;
@@ -662,7 +662,7 @@ Then notify all your MatcherEditor&#8217;s listeners using the method <code>fire
   <span class="directive">public</span> UsersSelect(EventList&lt;Issue&gt; source) {
     <span class="comment">// derive the users list from the issues list</span>
     EventList&lt;<span class="predefined-type">String</span>&gt; usersNonUnique = <span class="keyword">new</span> IssueToUserList(source);
-    usersEventList = <span class="keyword">new</span> UniqueList&lt;<span class="predefined-type">String</span>&gt;(usersNonUnique);
+    usersEventList = <span class="keyword">new</span> UniqueList&lt;&gt;(usersNonUnique);
 
     <span class="comment">// create a JList that contains users</span>
     DefaultEventListModel&lt;<span class="predefined-type">String</span>&gt; usersListModel = eventListModelWithThreadProxyList(usersEventList);
@@ -674,7 +674,7 @@ Then notify all your MatcherEditor&#8217;s listeners using the method <code>fire
     usersSelectedList = userSelectionModel.getSelected();
 
     <span class="comment">// handle changes to the list's selection</span>
-    usersJList.addListSelectionListener(<span class="local-variable">this</span>);
+    usersJList.addListSelectionListener(<span class="local-variable">this</span>); <i class="conum" data-value="2"></i><b>(2)</b>
   }
 
   <span class="comment">/**
@@ -689,11 +689,31 @@ Then notify all your MatcherEditor&#8217;s listeners using the method <code>fire
    */</span>
   <span class="annotation">@Override</span>
   <span class="directive">public</span> <span class="type">void</span> valueChanged(<span class="predefined-type">ListSelectionEvent</span> e) {
-    <span class="predefined-type">Matcher</span>&lt;Issue&gt; newMatcher = <span class="keyword">new</span> IssuesForUsersMatcher(usersSelectedList);
-    fireChanged(newMatcher);
+    <span class="predefined-type">Matcher</span>&lt;Issue&gt; newMatcher = <span class="keyword">new</span> IssuesForUsersMatcher(usersSelectedList); <i class="conum" data-value="3"></i><b>(3)</b>
+    fireChanged(newMatcher); <i class="conum" data-value="4"></i><b>(4)</b>
   }
 }</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>exend <code>AbstractMatcherEditor</code> to simplify implementation</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>observe changes to the selection in the user list</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>on selection change create new <code>IssuesForUsersMatcher</code> with the currently selected user names</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>fire an change event to all listening MatcherEditorListeners, e.g. the <code>FilterList</code></td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Configure the new <code>MatcherEditor</code> to be used by your <code>FilterList</code>:</p>
@@ -702,7 +722,7 @@ Then notify all your MatcherEditor&#8217;s listeners using the method <code>fire
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">EventList&lt;Issue&gt; issues = ...
 UsersSelect usersSelect = <span class="keyword">new</span> UsersSelect(issues);
-FilterList&lt;Issue&gt; userFilteredIssues = <span class="keyword">new</span> FilterList&lt;Issue&gt;(issues, usersSelect);</code></pre>
+FilterList&lt;Issue&gt; userFilteredIssues = <span class="keyword">new</span> FilterList&lt;&gt;(issues, usersSelect);</code></pre>
 </div>
 </div>
 <div class="admonitionblock tip">
@@ -737,7 +757,7 @@ First with <em>static filtering</em> using a <code>Matcher</code>, then <em>dyna
 <div id="footer">
 <div id="footer-text">
 Version 1.11.0<br>
-Last updated 2020-05-04 20:40:02 UTC
+Last updated 2020-05-05 22:53:16 UTC
 </div>
 </div>
 <style>
