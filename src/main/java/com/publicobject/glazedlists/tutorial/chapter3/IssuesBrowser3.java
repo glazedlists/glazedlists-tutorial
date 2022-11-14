@@ -32,6 +32,8 @@ import java.util.Collection;
 import ca.odell.issuezilla.Issue;
 import ca.odell.issuezilla.IssuezillaXMLParser;
 
+import com.raelity.lib.ui.Screens;
+
 /**
  * An IssueBrowser is a program for finding and viewing issues.
  *
@@ -81,6 +83,7 @@ public class IssuesBrowser3 {
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.setSize(540, 380);
     frame.getContentPane().add(panel);
+    Screens.translateToPrefScreen(frame);
     frame.setVisible(true);
   }
   // end::Display[]

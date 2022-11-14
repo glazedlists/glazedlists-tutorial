@@ -1,10 +1,21 @@
 plugins {
     id 'org.asciidoctor.jvm.convert' version '3.1.0'
+    id 'application'
 }
 
-apply plugin: 'java'
+// See: https://glazedlists.github.io/glazedlists-tutorial/
+// Run: ./gradlew run  ##### runs chapter 7 demo by default
+// Run: ./gradlew run -Pchapter=<chapter>  ##### chapter is 1..7
 
-version = '1.11.0'
+def chap = '7'
+if(project.hasProperty("chapter"))
+    chap = project.chapter
+
+def main_class = "com.publicobject.glazedlists.tutorial.chapter${chap}.IssuesBrowser${chap}"
+
+application {  
+    mainClass = main_class
+}  
 
 
 repositories {
@@ -18,6 +29,7 @@ dependencies {
     implementation "com.glazedlists:glazedlists:1.11.0"
     testImplementation "junit:junit:4.12"
 	implementation files('lib/issuezilla.jar')
+    implementation 'com.raelity:raelity-lib:1.2.0'
 }
 
 asciidoctor {
